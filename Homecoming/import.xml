@@ -1,0 +1,11 @@
+<server>
+	<!-- Submodules -->
+		<import src="Submodules/bi18n/meta.xml" />
+		<import src="Submodules/bpackets/meta.xml" />
+		<import src="Submodules/gui-framework/gui.xml" />
+		<import src="Submodules/BASSWrapper/import.xml" />
+	
+	<!-- Gamemode -->
+		<import src="Scripts/homecoming.xml" />
+</server>
+

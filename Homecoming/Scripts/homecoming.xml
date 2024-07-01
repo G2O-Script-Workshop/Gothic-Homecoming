@@ -1,0 +1,38 @@
+<server>
+	<!-- Shared -->
+		<script src="Shared/Constants.nut" type="shared" />
+		<script src="Shared/Config.nut" type="shared" />
+		<!-- Utility -->
+			<script src="Shared/Utility/Convert.nut" type="shared" />
+		<!-- Localization -->
+			<script src="Shared/String/Animations.nut" type="shared" />
+		<!-- Tables -->
+			<script src="Shared/Tables/Creator.nut" type="shared" />
+			<script src="Shared/Tables/Animations.nut" type="shared" />
+			<script src="Shared/Tables/Classes.nut" type="shared" />
+
+	<!-- Default -->
+		<!-- Server-Side -->
+			
+		<!-- Client-Side -->
+			<script src="Default/Client-Side/Chat.nut" type="client" />
+			<script src="Default/Client-Side/Net.nut" type="client" />
+			<script src="Default/Client-Side/Playerlist.nut" type="client" />
+
+	<!-- Server-Side -->
+		<!-- Hero -->
+			<!-- Class -->
+				<script src="Server-Side/Hero/Class/Prototype.nut" type="server" />
+				<script src="Server-Side/Hero/Class/Player.nut" type="server" />
+				<script src="Server-Side/Hero/Class/NPC.nut" type="server" />
+		<!-- Chat -->
+			<script src="Server-Side/Chat.nut" type="server" />
+		<!-- Init -->
+			<script src="Server-Side/Init.nut" type="server" />
+
+	<!-- Client-Side -->
+		<!-- Menu -->
+			<script src="Client-Side/Menu/MainMenu.nut" type="client" />
+		<!-- Init -->
+			<script src="Client-Side/Init.nut" type="client" />
+</server>

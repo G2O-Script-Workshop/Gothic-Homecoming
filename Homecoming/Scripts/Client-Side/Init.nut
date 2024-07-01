@@ -1,0 +1,3 @@
+addEventHandler("onInit", function(){
+	clearMultiplayerMessages();
+});
