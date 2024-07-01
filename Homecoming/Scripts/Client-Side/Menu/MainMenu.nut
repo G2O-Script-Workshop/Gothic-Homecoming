@@ -49,7 +49,7 @@ local menuGUI = {
 		positionPx = {x = 0, y = 0}
 		text = "v0.2b Build 3336"
 		font = "FONT_DEFAULT.TGA"
-		color = {r = 255, g = 255, b = 255, a = 255}
+		//color = {r = 255, g = 255, b = 255, a = 255}
 		collection = menuCollection
 	})
 }
@@ -73,7 +73,7 @@ addEventHandler("onInit", function(){
 	setHudMode(HUD_ALL, HUD_MODE_HIDDEN);
 
 	local versionDrawSize = menuGUI.version.getSizePx();
-	menuGUI.version.setPositionPx(8192 - versionDrawSize.width, 8192 - versionDrawSize.height);
+	menuGUI.version.setPositionPx(nax(8192 - anx(versionDrawSize.height + versionDrawSize.width)), nay(8192 - versionDrawSize.width));
 
 	setDayLength(10000);
 });
