@@ -10,4 +10,10 @@ SelectClassMessage.bind(function(pid, message){
 	foreach(Player in Players){
 		updateClassPacket.send(Player.id, RELIABLE_ORDERED);
 	}
+
+	local synchronizeTimePacket = SynchronizeTimeMessage(pid,
+		getTime().hour,
+		getTime().min
+		).serialize();
+	synchronizeTimePacket.send(pid, RELIABLE_ORDERED);
 });
