@@ -48,15 +48,15 @@ function updateClassInfo(class_id){
 		setPlayerPosition(heroId, info.spawn[0], info.spawn[1], info.spawn[2]);
 		setPlayerAngle(heroId, info.spawn[3]);
 
-		info.funcSel(heroId);
+		info._func(heroId);
 
 	local playerPos = getPlayerPosition(heroId);
 		/* Camera.setPosition(playerPos.x - 78, playerPos.y + 50, playerPos.z - 119);
 		Camera.setRotation(0, 30, 0); */
 		local x = info.spawn[0] + 200.0 * sin((3.14 / 180) * info.spawn[3]);
 		local z = info.spawn[2] + 200.0 * cos((3.14 / 180) * info.spawn[3]);
-		Camera.setPosition(x, info.spawn[1] + 20, z);
-		Camera.setRotation(0, info.spawn[3] + 180, 0);
+		Camera.setPosition(x, info.spawn[1] + 80, z);
+		Camera.setRotation(20, info.spawn[3] + 180, 0);
 }
 
 addEventHandler("onKeyDown", function(key){
