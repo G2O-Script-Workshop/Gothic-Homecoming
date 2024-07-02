@@ -9,6 +9,7 @@ class Player extends PrototypeHero {
 	ip = "";
 
 	authority = -1;
+	class_id = -1;
 
 	logged = -1;
 	afk = -1;
@@ -81,4 +82,43 @@ class Player extends PrototypeHero {
 	function getInvisible(){
 		return this.invisible;
 	}
+
+	function respawn(){
+		spawnPlayer(this.id);
+
+		this.setVisual(this.visual.bm, this.visual.bt, this.visual.hm, this.visual.ht);
+
+		local class_pos = classes[this.class_id].spawn;
+		this.setPosition(class_pos.x, class_pos.y, class_pos.z, class_pos.a);
+	}
+
+	function spawn(){
+		spawnPlayer(this.id);
+
+		local visual = this.getVisual();
+		this.setVisual(this.visual.bm, this.visual.bt, this.visual.hm, this.visual.ht);
+	}
+
+	function unspawn(){
+		unspawnPlayer(this.id);
+	}
 }
+
+
+addEventHandler("onPlayerDisconnect", function(pid, reason){
+	if(isNpc(pid)) return;
+
+	Players.rawdelete(pid);
+});
+
+addEventHandler("onPlayerDead", function(pid, kid){
+	if(isNpc(pid)) return;
+
+	Players[pid].unspawn();
+});
+
+addEventHandler("onPlayerRespawn", function(pid){
+	if(isNpc(pid)) return;
+
+	Players[pid].respawn();
+});

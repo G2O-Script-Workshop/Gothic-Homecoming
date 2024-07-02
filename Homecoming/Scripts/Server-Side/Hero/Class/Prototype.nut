@@ -1,3 +1,6 @@
+local _giveItem = giveItem;
+local _equipItem = equipItem;
+
 class PrototypeHero {
 	id = -1;
 
@@ -484,6 +487,16 @@ class PrototypeHero {
 	}
 
 
+	function giveItem(instance, amount){
+		_giveItem(this.id, instance, amount);
+	}
+
+	function equipItem(instance){
+		_giveItem(this.id, instance, 1);
+		_equipItem(this.id, instance);
+	}
+
+
 
 	function init(id, params){
 		this.id = id;
@@ -534,11 +547,11 @@ class PrototypeHero {
 
 		this.setWorld("world" in params ? params.world : "NEWWORLD\\NEWWORLD.ZEN");
 		this.setVirtualWorld(0);
-		this.setPosition(
+		/* this.setPosition(
 			"pos" in params ? params.pos[0] : 0.0,
 			"pos" in params ? params.pos[1] : 0.0,
 			"pos" in params ? params.pos[2] : 0.0,
 			"pos" in params ? params.pos[3] : 0.0
-		);
+		); */
 	}
 }

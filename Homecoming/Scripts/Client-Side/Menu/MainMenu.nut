@@ -132,7 +132,7 @@ addEventHandler("GUI.onClick", function(self){
 					).serialize();
 				playPacket.send(RELIABLE_ORDERED);
 				stopMenuScene();
-				showSelectClass(true);
+				showSelectClass();
 			break;
 			case menuGUI.character:
 				menuCollection.setVisible(false);
@@ -149,7 +149,6 @@ function stopMenuScene(){
 	launchMenuScene(false);
 	menuGUI.logo.setVisible(false);
 
-	setHudMode(HUD_ALL, HUD_MODE_DEFAULT);
 	setDayLength(6000 * 1000);
 
 	setCursorVisible(false);

@@ -29,10 +29,10 @@ local selectClassGUI = {
 	})
 }
 
-local selectedClass = -1;
+selectedClass <- 0;
 
-function showSelectClass(toggle){
-	selectClassCollection.setVisible(toggle);
+function showSelectClass(){
+	selectClassCollection.setVisible(true);
 
 	updateClassInfo(0);
 }
@@ -47,6 +47,8 @@ function updateClassInfo(class_id){
 
 		setPlayerPosition(heroId, info.spawn[0], info.spawn[1], info.spawn[2]);
 		setPlayerAngle(heroId, info.spawn[3]);
+
+		info.funcSel(heroId);
 
 	local playerPos = getPlayerPosition(heroId);
 		/* Camera.setPosition(playerPos.x - 78, playerPos.y + 50, playerPos.z - 119);
@@ -72,12 +74,15 @@ addEventHandler("onKeyDown", function(key){
 			break;
 
 			case KEY_RETURN:
+				clearInventory();
+
 				local selectClassPacket = SelectClassMessage(heroId,
 					selectedClass
 				).serialize();
 				selectClassPacket.send(RELIABLE_ORDERED);
 
 				selectClassCollection.setVisible(false);
+				setHudMode(HUD_ALL, HUD_MODE_DEFAULT);
 
 				timeCollection.setVisible(true);
 

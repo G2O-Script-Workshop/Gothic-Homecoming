@@ -20,10 +20,16 @@ classes <- [
 
 			Players[id].setSneakTalent(true);
 
-		equipItem(id, "ITAR_MIL_L");
-		equipItem(id, "ITMW_1H_VLK_SWORD");
-		equipItem(id, "ITRW_CROSSBOW_L_01");
-			giveItem(id, "ITRW_BOLT", 50);
+			Players[id].equipItem("ITAR_MIL_L");
+			Players[id].giveItem("ITRW_BOLT", 50);
+		},
+		funcSel = function(id){
+			giveItem(id, "ITAR_MIL_L", 1);
+			giveItem(id, "ITMW_1H_VLK_SWORD", 1);
+			giveItem(id, "ITRW_CROSSBOW_L_01",1 );
+			equipItem(id, "ITAR_MIL_L");
+			equipItem(id, "ITMW_1H_VLK_SWORD");
+			equipItem(id, "ITRW_CROSSBOW_L_01");
 		}
 	},
 	{
@@ -47,10 +53,16 @@ classes <- [
 
 			Players[id].setSneakTalent(true);
 
-		equipItem(id, "ITAR_MIL_L");
-		equipItem(id, "ITMW_1H_VLK_SWORD");
-		equipItem(id, "ITRW_CROSSBOW_L_01");
-			giveItem(id, "ITRW_BOLT", 50);
+			Players[id].equipItem("ITAR_MIL_L");
+			Players[id].giveItem("ITRW_BOLT", 50);
+		},
+		funcSel = function(id){
+			giveItem(id, "ITAR_MIL_L", 1);
+			giveItem(id, "ITMW_1H_VLK_SWORD", 1);
+			giveItem(id, "ITRW_CROSSBOW_L_01",1 );
+			equipItem(id, "ITAR_MIL_L");
+			equipItem(id, "ITMW_1H_VLK_SWORD");
+			equipItem(id, "ITRW_CROSSBOW_L_01");
 		}
 	},
 	{
@@ -74,10 +86,16 @@ classes <- [
 
 			Players[id].setSneakTalent(true);
 
-		equipItem(id, "ITAR_MIL_L");
-		equipItem(id, "ITMW_1H_VLK_SWORD");
-		equipItem(id, "ITRW_CROSSBOW_L_01");
-			giveItem(id, "ITRW_BOLT", 50);
+				Players[id].equipItem("ITAR_MIL_L");
+				Players[id].giveItem("ITRW_BOLT", 50);
+		},
+		funcSel = function(id){
+			giveItem(id, "ITAR_MIL_L", 1);
+			giveItem(id, "ITMW_1H_VLK_SWORD", 1);
+			giveItem(id, "ITRW_CROSSBOW_L_01",1 );
+			equipItem(id, "ITAR_MIL_L");
+			equipItem(id, "ITMW_1H_VLK_SWORD");
+			equipItem(id, "ITRW_CROSSBOW_L_01");
 		}
 	}
 ]

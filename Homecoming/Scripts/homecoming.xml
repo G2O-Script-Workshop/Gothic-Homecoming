@@ -47,6 +47,7 @@
 		<!-- Game -->
 			<script src="Client-Side/Game/HUD.nut" type="client" />
 			<script src="Client-Side/Game/SelectClass.nut" type="client" />
+			<script src="Client-Side/Game/Anims.nut" type="client" />
 		<!-- Utility -->
 			<script src="Client-Side/Check.nut" type="client" />
 		<!-- Init -->
