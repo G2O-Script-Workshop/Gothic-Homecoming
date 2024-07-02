@@ -82,7 +82,7 @@ addEventHandler("onKeyDown", function(key)
 	switch (key)
 	{
 		case KEY_F6:
-			if (!chatInputIsOpen())
+			if (!chatInputIsOpen() && !isGUIOpened())
 				NetStats.setVisible(!NetStats.visible)
 			break
 	}
