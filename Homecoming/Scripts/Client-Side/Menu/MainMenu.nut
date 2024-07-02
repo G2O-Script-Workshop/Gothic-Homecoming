@@ -28,12 +28,14 @@ local menuGUI = {
 		positionPx = {x = nax(200), y = nay(4000)}
 		text = "Settings"
 		font = "FONT_OLD_20_WHITE.TGA"
+		color = {r = 180, g = 128, b = 128, a = 64}
 		collection = menuCollection
 	}),
 	options = GUI.Draw({
 		positionPx = {x = nax(200), y = nay(4400)}
 		text = "Options"
 		font = "FONT_OLD_20_WHITE.TGA"
+		color = {r = 180, g = 128, b = 128, a = 64}
 		collection = menuCollection
 	}),
 	exit = GUI.Draw({
@@ -56,6 +58,9 @@ function launchMenuScene(toggle){
 	Camera.setRotation(0, -150, 0);
 
 	menuCollection.setVisible(toggle);
+
+	menuGUI.settings.setDisabled(true);
+	menuGUI.options.setDisabled(true);
 
 	if(toggle){
 		Sword.addToWorld();
