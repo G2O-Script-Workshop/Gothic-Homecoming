@@ -100,6 +100,7 @@ class PrototypeHero {
 
 	function setName(name){
 		this.name = convert(name, "string");
+		setPlayerName(this.id, this.name);
 	}
 
 	function getName(){
@@ -512,12 +513,12 @@ class PrototypeHero {
 		this.setExperience(250 * pow(this.getLevel(), 2))
 		this.setLearnPoints(10 * this.getLevel());
 
-		this.setHealth(999);
-		this.setMaxHealth(999);
-		this.setMana(999);
-		this.setMaxMana(999);
-		this.setStrength(999);
-		this.setDexterity(999);
+		this.setHealth(9999);
+		this.setMaxHealth(9999);
+		this.setMana(9999);
+		this.setMaxMana(9999);
+		this.setStrength(9999);
+		this.setDexterity(9999);
 
 		/* this.setOneHandSkill(10);
 		this.setTwoHandSkill(10);
