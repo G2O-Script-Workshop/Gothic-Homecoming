@@ -1,9 +1,11 @@
 const defaultlang = "en"
 
-enum creator {
+enum creator_gender {
 	MALE,
-	FEMALE,
+	FEMALE
+}
 
+enum creator_race {
 	PALE,
 	WHITE,
 	LATINO,
