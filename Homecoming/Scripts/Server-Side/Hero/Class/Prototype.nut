@@ -512,14 +512,14 @@ class PrototypeHero {
 		this.setExperience(250 * pow(this.getLevel(), 2))
 		this.setLearnPoints(10 * this.getLevel());
 
-		/* this.setHealth(40);
-		this.setMaxHealth(40);
-		this.setMana(10);
-		this.setMaxMana(10);
-		this.setStrength(10);
-		this.setDexterity(10);
+		this.setHealth(999);
+		this.setMaxHealth(999);
+		this.setMana(999);
+		this.setMaxMana(999);
+		this.setStrength(999);
+		this.setDexterity(999);
 
-		this.setOneHandSkill(10);
+		/* this.setOneHandSkill(10);
 		this.setTwoHandSkill(10);
 		this.setBowSkill(10);
 		this.setCrossbowSkill(10);
