@@ -13,6 +13,7 @@
 		<!-- Packet Messages -->
 			<script src="Shared/PacketMessages/Menu.nut" type="shared" />
 			<script src="Shared/PacketMessages/Play.nut" type="shared" />
+			<script src="Shared/PacketMessages/SelectClass.nut" type="shared" />
 
 	<!-- Default -->
 		<!-- Server-Side -->
@@ -32,6 +33,8 @@
 				<script src="Server-Side/Hero/Connect.nut" type="server" />
 			<!-- Menu -->
 				<script src="Server-Side/Hero/Menu/Play.nut" type="server" />
+		<!-- Game -->
+			<script src="Server-Side/Game/SelectClass.nut" type="server" />
 		<!-- Chat -->
 			<script src="Server-Side/Chat.nut" type="server" />
 		<!-- Init -->
@@ -41,6 +44,11 @@
 		<!-- Menu -->
 			<script src="Client-Side/Menu/Character.nut" type="client" />
 			<script src="Client-Side/Menu/MainMenu.nut" type="client" />
+		<!-- Game -->
+			<script src="Client-Side/Game/HUD.nut" type="client" />
+			<script src="Client-Side/Game/SelectClass.nut" type="client" />
+		<!-- Utility -->
+			<script src="Client-Side/Check.nut" type="client" />
 		<!-- Init -->
 			<script src="Client-Side/Init.nut" type="client" />
 </server>

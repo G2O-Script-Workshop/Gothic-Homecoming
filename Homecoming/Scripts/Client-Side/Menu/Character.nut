@@ -1,4 +1,4 @@
-local creatorCollection = GUI.Collection({
+creatorCollection <- GUI.Collection({
 	positionPx = {x = 0, y = 0}
 });
 local creatorGUI = {

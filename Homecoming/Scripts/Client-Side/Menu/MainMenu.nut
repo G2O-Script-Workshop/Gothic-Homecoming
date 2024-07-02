@@ -1,7 +1,7 @@
 local Music = Sound("GMPMENU.wav");
 local Sword = Vob("ItMw_030_1h_PAL_sword_bastard_RAW_01.3DS");
 
-local menuCollection = GUI.Collection({
+menuCollection <- GUI.Collection({
 	position = {x = 0, y = 0}
 });
 local menuGUI = {
@@ -10,7 +10,6 @@ local menuGUI = {
 		sizePx = {width = nax(5500), height = nay(2000)}
 		file = "GMP_LOGO_MENU.TGA"
 		scaling = true
-		collection = menuCollection
 	}),
 
 	play = GUI.Draw({
@@ -74,19 +73,20 @@ function launchMenuScene(toggle){
 	} else {
 		Sword.removeFromWorld();
 	}
-
-	setCursorVisible(toggle);
-	setCursorPosition(4096, 4096);
 }
 
 addEventHandler("onInit", function(){
 	setHudMode(HUD_ALL, HUD_MODE_HIDDEN);
 	setDayLength(10000);
+
+	setCursorVisible(true);
+	setCursorPosition(4096, 4096);
 });
 
 JoinMenuMessage.bind(function(message){
 	launchMenuScene(true);
 
+	menuGUI.logo.setVisible(true);
 	menuGUI.version.setText(message.versionDraw);
 
 	local versionDrawSize = menuGUI.version.getSizePx();
@@ -96,7 +96,7 @@ JoinMenuMessage.bind(function(message){
 	Camera.movementEnabled = false;
 	disableControls(true);
 
-	setMusicVolume(0);
+	disableMusicSystem(true);
 
 	Music.play();
 	//Music.setVolume(100);
@@ -132,6 +132,7 @@ addEventHandler("GUI.onClick", function(self){
 					).serialize();
 				playPacket.send(RELIABLE_ORDERED);
 				stopMenuScene();
+				showSelectClass(true);
 			break;
 			case menuGUI.character:
 				menuCollection.setVisible(false);
@@ -146,15 +147,16 @@ addEventHandler("GUI.onClick", function(self){
 
 function stopMenuScene(){
 	launchMenuScene(false);
-
-	Camera.movementEnabled = true;
-	disableControls(false);
-
-	setMusicVolume(100);
-	Music.stop();
+	menuGUI.logo.setVisible(false);
 
 	setHudMode(HUD_ALL, HUD_MODE_DEFAULT);
-	setDayLength(300000);
+	setDayLength(6000 * 1000);
+
+	setCursorVisible(false);
+	setCursorPosition(4096, 4096);
+
+	disableMusicSystem(false);
+	Music.stop();
 }
 
 addEventHandler("GUI.onMouseIn", function(self){
