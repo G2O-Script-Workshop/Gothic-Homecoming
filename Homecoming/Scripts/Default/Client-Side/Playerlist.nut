@@ -328,7 +328,7 @@ addEventHandler("onPlayerChangeNickname", function(pid, name)
 	local dataRow = PlayerList.playerDataRows[pid]
 	local dataRowIdx = PlayerList.dataRows.find(dataRow)
 
-	dataRow.columns[PlayerList.COLUMN_NICKNAME] = name
+	dataRow.columns[PlayerList.COLUMN_NICKNAME] = format("%s - %s", name, "Logging In...")
 
 	if (PlayerList.isInView(dataRowIdx))
 		PlayerList.visibleRows[dataRowIdx - PlayerList.begin].columns[PlayerList.COLUMN_NICKNAME].setText(format("%s - %s", name, "Logging In..."));
@@ -342,7 +342,7 @@ UpdateClassMessage.bind(function(message){
 	local dataRow = PlayerList.playerDataRows[pid]
 	local dataRowIdx = PlayerList.dataRows.find(dataRow)
 
-	dataRow.columns[PlayerList.COLUMN_NICKNAME] = name
+	dataRow.columns[PlayerList.COLUMN_NICKNAME] = format("%s - %s", name, classes[classId].name)
 
 	if (PlayerList.isInView(dataRowIdx))
 		PlayerList.visibleRows[dataRowIdx - PlayerList.begin].columns[PlayerList.COLUMN_NICKNAME].setText(format("%s - %s", name, classes[classId].name));
