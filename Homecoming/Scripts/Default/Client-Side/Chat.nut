@@ -420,14 +420,14 @@ addEventHandler("onKeyDown", function(key)
 		switch (key)
 		{
 		case KEY_T:
-				if (!isConsoleOpen() && Chat.visible)
+				if (!isConsoleOpen() && Chat.visible && !isGUIOpened())
 				{
 					chatInputOpen()
 					disableControls(true)
 				}
 			break
 		case KEY_SLASH:
-				if (!isConsoleOpen() && Chat.visible)
+				if (!isConsoleOpen() && Chat.visible && !isGUIOpened())
 				{
 					chatInputOpen()
 					chatInputSetText("/");
