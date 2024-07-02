@@ -1,6 +1,8 @@
 cache/*
 waypoints/*
 
+Addon/*
+
 bans.xml
 config.xml
 mds.xml
