@@ -1,10 +1,10 @@
-local MALE = creator.MALE;
-local FEMALE = creator.FEMALE;
+local MALE = creator_gender.MALE;
+local FEMALE = creator_gender.FEMALE;
 
-local PALE = creator.PALE;
-local WHITE = creator.WHITE;
-local LATINO = creator.LATINO;
-local BLACK = creator.BLACK;
+local PALE = creator_race.PALE;
+local WHITE = creator_race.WHITE;
+local LATINO = creator_race.LATINO;
+local BLACK = creator_race.BLACK;
 
 walking <- [
 	{
