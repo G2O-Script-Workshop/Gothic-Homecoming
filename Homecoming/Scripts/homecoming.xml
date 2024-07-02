@@ -10,6 +10,9 @@
 			<script src="Shared/Tables/Creator.nut" type="shared" />
 			<script src="Shared/Tables/Animations.nut" type="shared" />
 			<script src="Shared/Tables/Classes.nut" type="shared" />
+		<!-- Packet Messages -->
+			<script src="Shared/PacketMessages/Menu.nut" type="shared" />
+			<script src="Shared/PacketMessages/Play.nut" type="shared" />
 
 	<!-- Default -->
 		<!-- Server-Side -->

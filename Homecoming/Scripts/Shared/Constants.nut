@@ -1,5 +1,7 @@
 const defaultlang = "en"
 
+const buildVersion = "v0.2b Build 3336"
+
 enum creator_gender {
 	MALE,
 	FEMALE

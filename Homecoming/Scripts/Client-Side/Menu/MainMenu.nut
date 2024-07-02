@@ -62,11 +62,7 @@ function launchMenuScene(toggle){
 		Sword.addToWorld();
 		Sword.setPosition(13346.502930, 2006.0, -1240.678467);
 
-		local versionDrawSize = menuGUI.version.getSizePx();
-		menuGUI.version.setPositionPx(nax(8192 - anx(versionDrawSize.height + versionDrawSize.width)), nay(8192 - versionDrawSize.width));
-		menuGUI.version.setDisabled(true);
-
-		if(LocalStorage.len() == null){
+		if(LocalStorage.len() <= 0){
 			menuGUI.play.setDisabled(true);
 			menuGUI.play.setFont("FONT_OLD_20_WHITE_HI.TGA");
 			menuGUI.play.setColor({r = 180, g = 128, b = 128, a = 128});
@@ -84,8 +80,21 @@ function launchMenuScene(toggle){
 }
 
 addEventHandler("onInit", function(){
-	Camera.movementEnabled = false;
+	setHudMode(HUD_ALL, HUD_MODE_HIDDEN);
+	setDayLength(10000);
+});
+
+JoinMenuMessage.bind(function(message){
 	launchMenuScene(true);
+
+	menuGUI.version.setText(message.versionDraw);
+
+	local versionDrawSize = menuGUI.version.getSizePx();
+	menuGUI.version.setPositionPx(nax(8192 - anx(versionDrawSize.height + versionDrawSize.width)), nay(8192 - versionDrawSize.width));
+	menuGUI.version.setDisabled(true);
+
+	Camera.movementEnabled = false;
+	disableControls(true);
 
 	setMusicVolume(0);
 
@@ -93,12 +102,6 @@ addEventHandler("onInit", function(){
 	//Music.setVolume(100);
 	Music.volume = 100;
 	Music.looping = true;
-
-	setHudMode(HUD_ALL, HUD_MODE_HIDDEN);
-
-	disableControls(true);
-
-	setDayLength(10000);
 });
 
 local vob_rotation_per_second = 60;
@@ -114,8 +117,11 @@ addEventHandler("onRender", function(){
 addEventHandler("GUI.onClick", function(self){
 	if(!isCursorVisible()) return;
 
-	if(self instanceof GUI.Draw && menuCollection.getVisible()){
+	if(self instanceof GUI.Draw && menuCollection.getVisible() && !self.getDisabled()){
 		switch(self){
+			case menuGUI.play:
+
+			break;
 			case menuGUI.character:
 				menuCollection.setVisible(false);
 				toggleCreator(true);
