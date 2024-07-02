@@ -77,7 +77,7 @@ addEventHandler("onInit", function()
 	NetStats.init()
 })
 
-addEventHandler("onKey", function(key)
+addEventHandler("onKeyDown", function(key)
 {
 	switch (key)
 	{
