@@ -120,7 +120,18 @@ addEventHandler("GUI.onClick", function(self){
 	if(self instanceof GUI.Draw && menuCollection.getVisible() && !self.getDisabled()){
 		switch(self){
 			case menuGUI.play:
-
+				local playPacket = PlayButtonMessage(heroId,
+						LocalStorage.getItem("characterName"),
+						LocalStorage.getItem("bodyModel"),
+						LocalStorage.getItem("bodyTexture"),
+						LocalStorage.getItem("headModel"),
+						LocalStorage.getItem("headTexture"),
+						LocalStorage.getItem("walkstyle"),
+						LocalStorage.getItem("height"),
+						LocalStorage.getItem("fatness")
+					).serialize();
+				playPacket.send(RELIABLE_ORDERED);
+				stopMenuScene();
 			break;
 			case menuGUI.character:
 				menuCollection.setVisible(false);
@@ -131,7 +142,20 @@ addEventHandler("GUI.onClick", function(self){
 			break;
 		}
 	}
-})
+});
+
+function stopMenuScene(){
+	launchMenuScene(false);
+
+	Camera.movementEnabled = true;
+	disableControls(false);
+
+	setMusicVolume(100);
+	Music.stop();
+
+	setHudMode(HUD_ALL, HUD_MODE_DEFAULT);
+	setDayLength(300000);
+}
 
 addEventHandler("GUI.onMouseIn", function(self){
 	if(!isCursorVisible()) return;

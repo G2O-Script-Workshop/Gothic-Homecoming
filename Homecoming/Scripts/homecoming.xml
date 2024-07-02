@@ -30,6 +30,8 @@
 				<script src="Server-Side/Hero/Class/NPC.nut" type="server" />
 			<!-- Connect -->
 				<script src="Server-Side/Hero/Connect.nut" type="server" />
+			<!-- Menu -->
+				<script src="Server-Side/Hero/Menu/Play.nut" type="server" />
 		<!-- Chat -->
 			<script src="Server-Side/Chat.nut" type="server" />
 		<!-- Init -->
