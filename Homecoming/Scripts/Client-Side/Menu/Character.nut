@@ -418,26 +418,34 @@ addEventHandler("GUI.onChange", function(object){
 		local height = heightScroll.getValue();
 		local walk = walkScroll.getValue();
 
+		//visValue[sex][race] = [bodyval, headval, faceval];
+
 		switch(object){
 			case facesScroll:
 				updateCreatorTextures(sex, race, faceval, 0);
+				visValue[sex][race][2] = faceval;
 			break;
 			case bodiesScroll:
 				vis[2] = heads[sex][headval];
 
 				updateCreatorTextures(sex, race, bodyval, 1);
+				visValue[sex][race][0] = bodyval;
 			break;
 			case bodyTScroll:
 				updateCreatorTextures(sex, race, bodyval, 2);
+				visValue[sex][race][1] = bodyval;
 			break;
 			case headMScroll:
-				setPlayerVisual(heroId, vis[0], vis[1], heads[sex][headval], vis[3]);
 				vis[2] = heads[sex][headval];
+				setPlayerVisual(heroId, vis[0], vis[1], vis[2], vis[3]);
+
+				visValue[sex][race][1] = headval;
 			break;
 			case bodyMScroll:
 				vis[0] = body[sex];
 
 				updateCreatorTextures(sex, race, bodyval, 2);
+				visValue[sex][race][1] = bodyval;
 			break;
 			case fatScroll:
 				setPlayerFatness(heroId, fatness);
@@ -450,8 +458,7 @@ addEventHandler("GUI.onChange", function(object){
 				walkvs = walking[walk].style;
 			break;
 		}
-
-		visValue[sex][race] = [bodyval, headval, faceval];
+		print(format("[visValue] \n sex: %d \n race: %d \n bodyval: %d \n headval: %d \n faceval: %d \n %s \n", sex, race, bodyval, headval, faceval, heads[sex][headval]));
 	}
 });
 
