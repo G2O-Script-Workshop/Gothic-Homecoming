@@ -160,11 +160,18 @@ local creatorGUI = {
 		positionPx = {x = nax(5290), y = nay(5615)}
 		sizePx = {width = nax(2200), height = nay(265)}
 		file = "INV_SLOT_FOCUS.TGA"
-		draw = {text = "Finish Character"}
+		draw = {text = "Save Character"}
+		collection = creatorCollection
+	}),
+	btnBack = GUI.Button({
+		positionPx = {x = nax(5290), y = nay(5880)}
+		sizePx = {width = nax(2200), height = nay(265)}
+		file = "INV_SLOT_FOCUS.TGA"
+		draw = {text = "Main Menu"}
 		collection = creatorCollection
 	}),
 	fail = GUI.Draw({
-		positionPx = {x = nax(5450), y = nay(6145)}
+		positionPx = {x = nax(5450), y = nay(6245)}
 		text = "Character Name can't be empty!"
 		font = "FONT_OLD_10_WHITE.TGA"
 		collection = creatorCollection
@@ -202,7 +209,7 @@ function toggleCreator(toggle){
 
 			local initialCameraPos = Vec3(
 				playerPos.x + (forwardVector.x * 180),
-				playerPos.y,
+				xardasWaypoint.y,
 				playerPos.z + (forwardVector.z * 180)
 			);
 
@@ -212,15 +219,23 @@ function toggleCreator(toggle){
 				initialCameraPos.z + zOffset * rightVector.z
 			);
 
-			Camera.setRotation(0, playerAngle - 165, 0);
-			Camera.setPosition(targetCameraPos.x, targetCameraPos.y + 20, targetCameraPos.z);
+			Camera.setRotation(0, playerAngle - 155, 0);
+			Camera.setPosition(targetCameraPos.x, targetCameraPos.y + 80, targetCameraPos.z);
 
 			setPlayerAngle(heroId, xardasWaypoint.a + 30);
 
-				if(LocalStorage.len() == null){
+				if(LocalStorage.len() <= 0){
 					updateCreatorTextures(0, 0, 0, 2);
 				} else {
-					updateCreatorTextures(0, 0, 0, 2); //will have to somehow remember the settings instead of going for default
+					local localVisVal = LocalStorage.getItem("visValue"); //[sex, race, bodyval, headval, faceval]
+					if(localVisVal != null){
+						updateCreatorTextures(localVisVal[0], localVisVal[1], 0, 2);
+
+						creatorGUI.bodiesScroll.range.setValue(localVisVal[2]);
+						creatorGUI.headMScroll.range.setValue(localVisVal[3]);
+						creatorGUI.facesScroll.range.setValue(localVisVal[4]);
+					}
+
 					setPlayerVisual(heroId,
 						LocalStorage.getItem("bodyModel"),
 						LocalStorage.getItem("bodyTexture"),
@@ -428,10 +443,7 @@ addEventHandler("GUI.onChange", function(object){
 				setPlayerFatness(heroId, fatness);
 			break;
 			case heightScroll:
-				/* local heightPacket = PlayerHeightMessage(heroId,
-					height
-					).serialize();
-				heightPacket.send(RELIABLE_ORDERED); */
+				setPlayerScale(heroId, height, height, height);
 			break;
 			case walkScroll:
 				creatorGUI.walk.setText(format("Walking Style: %s", walking[walk].name));
@@ -448,6 +460,7 @@ addEventHandler("GUI.onClick", function(self){
 		local sex = bodyMScroll.getValue().tointeger();
 		local race = bodyTScroll.getValue().tointeger();
 		local vis = visSetting[sex][race];
+		local _vis = visValue[sex][race];
 
 		local index = 999;
 		local findHead = "HUM_HEAD_V";
@@ -483,6 +496,10 @@ addEventHandler("GUI.onClick", function(self){
 		}
 
 		switch(self){
+			case creatorGUI.btnBack:
+				toggleCreator(false);
+				launchMenuScene(true);
+			break;
 			case creatorGUI.btnFinish:
 				if(creatorGUI.charaName.getText() != ""){
 					/* local creatorFinish = PlayerCreatorMessage(heroId,
@@ -504,6 +521,7 @@ addEventHandler("GUI.onClick", function(self){
 						LocalStorage.setItem("walkstyle", walkvs);
 						LocalStorage.setItem("height", heightScroll.getValue());
 						LocalStorage.setItem("fatness", fatScroll.getValue());
+						LocalStorage.setItem("visValue", [sex, race, _vis[0], _vis[1], _vis[2]]);
 					toggleCreator(false);
 					launchMenuScene(true);
 				} else {
