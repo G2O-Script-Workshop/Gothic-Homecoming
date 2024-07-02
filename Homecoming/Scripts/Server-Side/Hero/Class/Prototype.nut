@@ -499,7 +499,7 @@ class PrototypeHero {
 		this.setExperience(250 * pow(this.getLevel(), 2))
 		this.setLearnPoints(10 * this.getLevel());
 
-		this.setHealth(40);
+		/* this.setHealth(40);
 		this.setMaxHealth(40);
 		this.setMana(10);
 		this.setMaxMana(10);
@@ -520,7 +520,7 @@ class PrototypeHero {
 		this.setAlchemyTalent(true);
 		this.setSmithingTalent(true);
 		this.setTrophiesTalent(true);
-		this.setAcrobaticTalent(true);
+		this.setAcrobaticTalent(true); */
 
 		this.setVisual(
 			"visual" in params ? params.visual[0] : "HUM_BODY_NAKED0",
