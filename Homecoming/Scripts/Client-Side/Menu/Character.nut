@@ -458,7 +458,7 @@ addEventHandler("GUI.onChange", function(object){
 				walkvs = walking[walk].style;
 			break;
 		}
-		print(format("[visValue] \n sex: %d \n race: %d \n bodyval: %d \n headval: %d \n faceval: %d \n %s \n", sex, race, bodyval, headval, faceval, heads[sex][headval]));
+		//print(format("[visValue] \n sex: %d \n race: %d \n bodyval: %d \n headval: %d \n faceval: %d \n %s \n", sex, race, bodyval, headval, faceval, heads[sex][headval]));
 	}
 });
 
