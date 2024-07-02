@@ -17,7 +17,6 @@ local menuGUI = {
 		positionPx = {x = nax(200), y = nay(3200)}
 		text = "Play"
 		font = "FONT_OLD_20_WHITE.TGA"
-		color = {r = 128, g = 180, b = 128, a = 255}
 		collection = menuCollection
 	}),
 	character = GUI.Draw({
@@ -49,47 +48,103 @@ local menuGUI = {
 		positionPx = {x = 0, y = 0}
 		text = "v0.2b Build 3336"
 		font = "FONT_DEFAULT.TGA"
-		//color = {r = 255, g = 255, b = 255, a = 255}
 		collection = menuCollection
 	})
 }
 
-addEventHandler("onInit", function(){
-	Camera.movementEnabled = false;
+function launchMenuScene(toggle){
 	Camera.setPosition(13354.502930, 2040.0, -1141.678467);
 	Camera.setRotation(0, -150, 0);
 
-	Sword.addToWorld();
-	Sword.setPosition(13346.502930, 2006.0, -1240.678467);
+	menuCollection.setVisible(toggle);
+
+	if(toggle){
+		Sword.addToWorld();
+		Sword.setPosition(13346.502930, 2006.0, -1240.678467);
+
+		local versionDrawSize = menuGUI.version.getSizePx();
+		menuGUI.version.setPositionPx(nax(8192 - anx(versionDrawSize.height + versionDrawSize.width)), nay(8192 - versionDrawSize.width));
+		menuGUI.version.setDisabled(true);
+
+		if(LocalStorage.len() == null){
+			menuGUI.play.setDisabled(true);
+			menuGUI.play.setFont("FONT_OLD_20_WHITE_HI.TGA");
+			menuGUI.play.setColor({r = 180, g = 128, b = 128, a = 128});
+		} else {
+			menuGUI.play.setDisabled(false);
+			menuGUI.play.setFont("FONT_OLD_20_WHITE.TGA");
+			menuGUI.play.setColor({r = 255, g = 255, b = 255, a = 255});
+		}
+	} else {
+		Sword.removeFromWorld();
+	}
+
+	setCursorVisible(toggle);
+	setCursorPosition(4096, 4096);
+}
+
+addEventHandler("onInit", function(){
+	Camera.movementEnabled = false;
+	launchMenuScene(true);
+
+	setMusicVolume(0);
 
 	Music.play();
 	//Music.setVolume(100);
 	Music.volume = 100;
 	Music.looping = true;
 
-	setMusicVolume(0);
-
-	menuCollection.setVisible(true);
 	setHudMode(HUD_ALL, HUD_MODE_HIDDEN);
 
-	local versionDrawSize = menuGUI.version.getSizePx();
-	menuGUI.version.setPositionPx(nax(8192 - anx(versionDrawSize.height + versionDrawSize.width)), nay(8192 - versionDrawSize.width));
+	disableControls(true);
 
 	setDayLength(10000);
 });
 
 local vob_rotation_per_second = 60;
 addEventHandler("onRender", function(){
-	local dt = WorldTimer.frameTimeSecs;
+	if(Sword){
+		local dt = WorldTimer.frameTimeSecs;
 
-	local rotation = Sword.getRotation()
-	Sword.setRotation(rotation.x + (vob_rotation_per_second * dt), rotation.y, rotation.z);
+		local rotation = Sword.getRotation()
+		Sword.setRotation(rotation.x + (vob_rotation_per_second * dt), rotation.y, rotation.z);
+	}
 });
 
-addEventHandler("onCommand", function(cmd, params){
-	switch(cmd){
-		case "miecz":
-			vob_rotation_per_second = params.tofloat();
-		break;
+addEventHandler("GUI.onClick", function(self){
+	if(!isCursorVisible()) return;
+
+	if(self instanceof GUI.Draw && menuCollection.getVisible()){
+		switch(self){
+			case menuGUI.character:
+				menuCollection.setVisible(false);
+				toggleCreator(true);
+			break;
+			case menuGUI.exit:
+				exitGame();
+			break;
+		}
 	}
 })
+
+addEventHandler("GUI.onMouseIn", function(self){
+	if(!isCursorVisible()) return;
+
+	if(self instanceof GUI.Draw && menuCollection.getVisible()){
+		if(!self.getDisabled()){
+			self.setFont("FONT_OLD_20_WHITE_HI.TGA");
+			self.setColor({r = 128, g = 180, b = 128, a = 255});
+		}
+	}
+});
+
+addEventHandler("GUI.onMouseOut", function(self){
+	if(!isCursorVisible()) return;
+
+	if(self instanceof GUI.Draw && menuCollection.getVisible()){
+		if(!self.getDisabled()){
+			self.setFont("FONT_OLD_20_WHITE.TGA");
+			self.setColor({r = 255, g = 255, b = 255, a = 255});
+		}
+	}
+});
