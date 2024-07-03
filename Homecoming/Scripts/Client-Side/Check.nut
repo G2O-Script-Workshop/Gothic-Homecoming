@@ -1,3 +1,3 @@
 function isGUIOpened(){
-	return menuCollection.getVisible() || creatorCollection.getVisible() || selectClassCollection.getVisible() || animCollection.getVisible()
+	return menuCollection.getVisible() || creatorCollection.getVisible() || selectClassCollection.getVisible()/*  || animCollection.getVisible() */
 }
