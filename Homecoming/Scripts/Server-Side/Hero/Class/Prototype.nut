@@ -493,7 +493,7 @@ class PrototypeHero {
 		this.setVisual(this.visual.bm, this.visual.bt, this.visual.hm, this.visual.ht);
 
 		local class_pos = classes[this.class_id].spawn;
-		this.setPosition(class_pos.x, class_pos.y, class_pos.z, class_pos.a);
+		this.setPosition(class_pos[0], class_pos[1], class_pos[2], class_pos[3]);
 	}
 
 	function spawn(){
