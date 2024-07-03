@@ -43,7 +43,7 @@ function refreshGrid(column){
 			local row = animGUI.grid.addRow(
 				{text = anims[column][i].name}
 			);
-			row.cells[aniColumnName].setDrawColor(145, 175, 205)
+			row.cells[aniColumnName].setDrawColor({r = 145, g = 175, b = 205})
 		}
 	}
 
@@ -52,26 +52,20 @@ function refreshGrid(column){
 }
 
 function toggleAnim(toggle){
-	if(!chatInputIsOpen() || !isGUIOpened()){
-		animCollection.setVisible(toggle);
+	animCollection.setVisible(toggle);
 
-		setCursorVisible(toggle);
-		setCursorPosition(4096, 4096);
-		disableControls(toggle);
+	setCursorVisible(toggle);
+	setCursorPosition(4096, 4096);
+	disableControls(toggle);
 
-		if(toggle == true){
-			refreshGrid(0);
-		}
-	}
+	refreshGrid(0);
 }
 
 addEventHandler("GUI.onClick", function(self){
-	if(!isGUIOpened()){
+	if(animCollection.getVisible()){
 		if(self instanceof GUI.GridListVisibleCell){
-			if(anims[animGUI.column][self.parent.id].condition(heroId)){
-				stopAni(heroId);
-				playAni(heroId, anims[animGUI.column][self.parent.id].instance);
-			}
+			stopAni(heroId);
+			playAni(heroId, anims[animGUI.column][self.parent.id].instance);
 		}
 		if(self instanceof GUI.Button){
 			switch(self){
@@ -86,7 +80,37 @@ addEventHandler("GUI.onClick", function(self){
 addEventHandler("onKeyDown", function(key){
 	switch(key){
 		case KEY_F10:
-			toggleAnim(!animCollection.getVisible());
+			if(!chatInputIsOpen() || !isGUIOpened()){
+				toggleAnim(!animCollection.getVisible());
+			}
 		break;
+	}
+});
+
+addEventHandler("GUI.onMouseIn", function(self){
+	if(!isCursorVisible() && !animCollection.getVisible()) return;
+
+	if(self instanceof GUI.Button){
+		self.setColor({r = 255, g = 0, b = 0});
+		setCursorTxt("L.TGA");
+	}
+
+	if(self instanceof GUI.GridListVisibleCell){
+		self.setColor({r = 132, g = 0, b = 255});
+		self.setFile("Menu_Choice_Back.TGA");
+	}
+});
+
+addEventHandler("GUI.onMouseOut", function(self){
+	if(!isCursorVisible() && !animCollection.getVisible()) return;
+
+	if(self instanceof GUI.Button){
+		self.setColor({r = 255, g = 255, b = 255});
+		setCursorTxt("LO.TGA");
+	}
+
+	if(self instanceof GUI.GridListVisibleCell){
+		self.setColor({r = 255, g = 255, b = 255});
+		self.setFile("");
 	}
 });
