@@ -50,10 +50,10 @@ function updateClassInfo(class_id){
 
 		setPlayerOnFloor(heroId);
 
-		setPlayerHealth(id, 9999);
-		setPlayerMaxHealth(id, 9999);
-		setPlayerStrength(id, 999);
-		setPlayerDexterity(id, 999);
+		setPlayerHealth(heroId, 9999);
+		setPlayerMaxHealth(heroId, 9999);
+		setPlayerStrength(heroId, 999);
+		setPlayerDexterity(heroId, 999);
 
 		clearInventory();
 		info._func(heroId);
