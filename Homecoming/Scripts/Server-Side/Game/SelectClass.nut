@@ -9,6 +9,11 @@ SelectClassMessage.bind(function(pid, message){
 		).serialize();
 	foreach(Player in Players){
 		updateClassPacket.send(Player.id, RELIABLE_ORDERED);
+
+		local updateOtherClassPacket = UpdateClassMessage(Player.id,
+			Player.class_id
+		).serialize();
+		updateOtherClassPacket.send(pid, RELIABLE_ORDERED);
 	}
 
 	local synchronizeTimePacket = SynchronizeTimeMessage(pid,
