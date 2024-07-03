@@ -107,14 +107,6 @@ anims <- {
 		{
 			instance = "T_DANCE_09",
 			name = "Dance"
-		},
-		{
-			instance = "",
-			name = "Dance"
-		},
-		{
-			instance = "",
-			name = "Dance"
 		}
 	],
 
@@ -226,22 +218,6 @@ anims <- {
 			name = "Sit"
 		},
 		{
-			instance = "S_CASUALSIT",
-			name = "Sit (Casual)"
-		},
-		{
-			instance = "S_TURKISHSIT",
-			name = "Sit (Turkish)"
-		},
-		{
-			instance = "S_TIREDSIT",
-			name = "Sit (Tired)"
-		},
-		{
-			instance = "S_DEPRESSIONSIT",
-			name = "Sit (Depressed)"
-		},
-		{
 			instance = "T_STAND_2_LGUARD",
 			name = "Guard (arms on hips)"
 		},
@@ -256,43 +232,11 @@ anims <- {
 		{
 			instance = "T_BED_BACK_S0_2_S1",
 			name = "Sleep in bed"
-		},
-		{
-			instance = "S_BEGGER_S1",
-			name = "Beggar"
-		},
+		}
 		{
 			instance = "T_CHESTSMALL_STAND_2_S0",
 			name = "Kneel down"
-		},
-		{
-			instance = "S_FIREPLACE",
-			name = "Warm yourself"
-		},
-		{
-			instance = "",
-			name = "Wait"
-		},
-		{
-			instance = "",
-			name = "Think"
-		},
-		{
-			instance = "",
-			name = "Squat"
-		},
-		{
-			instance = "T_STAND_2_LEAN",
-			name = "Lean"
-		},
-		{
-			instance = "S_TABLEBOOK_S1",
-			name = "Look at table"
-		},
-		{
-			instance = "",
-			name = "Lean on table"
-		},
+		}
 		{
 			instance = "T_STAND_2_WOUNDED",
 			name = "Lie wounded"
