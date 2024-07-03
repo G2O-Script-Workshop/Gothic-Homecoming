@@ -107,7 +107,7 @@ local creatorGUI = {
 		decreaseButton = {file = ""}
 		collection = creatorCollection
 	}),
-	height = GUI.Draw({
+	/* height = GUI.Draw({
 		positionPx = {x = nax(2350), y = nay(4325)}
 		text = "Height"
 		font = "FONT_OLD_10_WHITE.TGA"
@@ -124,7 +124,7 @@ local creatorGUI = {
 		increaseButton = {file = ""}
 		decreaseButton = {file = ""}
 		collection = creatorCollection
-	}),
+	}), */
 	walk = GUI.Draw({
 		positionPx = {x = nax(1960), y = nay(4700)}
 		text = "Walking Style: Default"
@@ -247,8 +247,8 @@ function toggleCreator(toggle){
 					setPlayerFatness(heroId, _fatness);
 					creatorGUI.fatScroll.range.setValue(_fatness);
 
-						local _height = LocalStorage.getItem("height");
-					setPlayerScale(heroId, _height, _height, _height);
+					/* 	local _height = LocalStorage.getItem("height");
+					setPlayerScale(heroId, _height, _height, _height); */
 
 					creatorGUI.charaName.setText(LocalStorage.getItem("characterName"));
 				}
@@ -306,11 +306,11 @@ fatScroll.setMaximum(2.00);
 fatScroll.setValue(1.00);
 fatScroll.setStep(0.10);
 
-local heightScroll = creatorGUI.heightScroll.range;
+/* local heightScroll = creatorGUI.heightScroll.range;
 heightScroll.setMinimum(0.75);
 heightScroll.setMaximum(1.15);
 heightScroll.setValue(1.00);
-heightScroll.setStep(0.01);
+heightScroll.setStep(0.01); */
 
 local walkScroll = creatorGUI.walkScroll.range;
 walkScroll.setMinimum(0);
@@ -415,7 +415,7 @@ addEventHandler("GUI.onChange", function(object){
 		local bodyval = bodiesScroll.getValue();
 		local headval = headMScroll.getValue();
 		local fatness = fatScroll.getValue();
-		local height = heightScroll.getValue();
+		/* local height = heightScroll.getValue(); */
 		local walk = walkScroll.getValue();
 
 		//visValue[sex][race] = [bodyval, headval, faceval];
@@ -450,9 +450,9 @@ addEventHandler("GUI.onChange", function(object){
 			case fatScroll:
 				setPlayerFatness(heroId, fatness);
 			break;
-			case heightScroll:
+			/* case heightScroll:
 				setPlayerScale(heroId, height, height, height);
-			break;
+			break; */
 			case walkScroll:
 				creatorGUI.walk.setText(format("Walking Style: %s", walking[walk].name));
 				walkvs = walking[walk].style;
@@ -526,7 +526,7 @@ addEventHandler("GUI.onClick", function(self){
 						LocalStorage.setItem("headModel", vis[2]);
 						LocalStorage.setItem("headTexture", vis[3]);
 						LocalStorage.setItem("walkstyle", walkvs);
-						LocalStorage.setItem("height", heightScroll.getValue());
+						/* LocalStorage.setItem("height", heightScroll.getValue()); */
 						LocalStorage.setItem("fatness", fatScroll.getValue());
 						LocalStorage.setItem("visValue", [sex, race, _vis[0], _vis[1], _vis[2]]);
 					toggleCreator(false);
