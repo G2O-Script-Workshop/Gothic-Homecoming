@@ -132,7 +132,7 @@ addEventHandler("GUI.onClick", function(self){
 						LocalStorage.getItem("headModel"),
 						LocalStorage.getItem("headTexture"),
 						LocalStorage.getItem("walkstyle"),
-						LocalStorage.getItem("height"),
+						/* LocalStorage.getItem("height"), */
 						LocalStorage.getItem("fatness")
 					).serialize();
 				playPacket.send(RELIABLE_ORDERED);
