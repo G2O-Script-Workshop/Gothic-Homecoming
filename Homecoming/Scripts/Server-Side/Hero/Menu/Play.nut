@@ -8,7 +8,7 @@ PlayButtonMessage.bind(function(pid, message){
 			message.visHeadT
 		],
 		walk = message.walk,
-		scale = message.height,
+		/* scale = message.height, */
 		fatness = message.fatness
 	});
 });
