@@ -82,26 +82,6 @@ class Player extends PrototypeHero {
 	function getInvisible(){
 		return this.invisible;
 	}
-
-	function respawn(){
-		spawnPlayer(this.id);
-
-		this.setVisual(this.visual.bm, this.visual.bt, this.visual.hm, this.visual.ht);
-
-		local class_pos = classes[this.class_id].spawn;
-		this.setPosition(class_pos.x, class_pos.y, class_pos.z, class_pos.a);
-	}
-
-	function spawn(){
-		spawnPlayer(this.id);
-
-		local visual = this.getVisual();
-		this.setVisual(this.visual.bm, this.visual.bt, this.visual.hm, this.visual.ht);
-	}
-
-	function unspawn(){
-		unspawnPlayer(this.id);
-	}
 }
 
 

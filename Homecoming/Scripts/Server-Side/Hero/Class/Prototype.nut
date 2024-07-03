@@ -487,6 +487,26 @@ class PrototypeHero {
 		return this.pos;
 	}
 
+	function respawn(){
+		spawnPlayer(this.id);
+
+		this.setVisual(this.visual.bm, this.visual.bt, this.visual.hm, this.visual.ht);
+
+		local class_pos = classes[this.class_id].spawn;
+		this.setPosition(class_pos.x, class_pos.y, class_pos.z, class_pos.a);
+	}
+
+	function spawn(){
+		spawnPlayer(this.id);
+
+		local visual = this.getVisual();
+		this.setVisual(this.visual.bm, this.visual.bt, this.visual.hm, this.visual.ht);
+	}
+
+	function unspawn(){
+		unspawnPlayer(this.id);
+	}
+
 
 	function giveItem(instance, amount){
 		_giveItem(this.id, instance, amount);
@@ -513,14 +533,14 @@ class PrototypeHero {
 		this.setExperience(250 * pow(this.getLevel(), 2))
 		this.setLearnPoints(10 * this.getLevel());
 
-		this.setHealth(9999);
+		/* this.setHealth(9999);
 		this.setMaxHealth(9999);
 		this.setMana(9999);
 		this.setMaxMana(9999);
 		this.setStrength(9999);
 		this.setDexterity(9999);
 
-		/* this.setOneHandSkill(10);
+		this.setOneHandSkill(10);
 		this.setTwoHandSkill(10);
 		this.setBowSkill(10);
 		this.setCrossbowSkill(10);
