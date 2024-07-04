@@ -38,29 +38,32 @@ function showSelectClass(){
 }
 
 function updateClassInfo(class_id){
+	if(class_id < 0) class_id = classes.len() - 1;
+	if(class_id > classes.len() - 1) class_id = 0;
+
+	selectedClass = class_id;
+
 	local ui = selectClassGUI;
-	local info = classes[class_id];
+	local info = classes[selectedClass];
 
 		ui.class_name.setText(format("Class Name: %s", info.name));
 		ui.class_desc.setText(format("Description: %s",info.description));
 		ui.class_guild.setText(format("Guild: %s",info.guild));
 
-		setPlayerPosition(heroId, info.spawn[0], info.spawn[1], info.spawn[2]);
-		setPlayerAngle(heroId, info.spawn[3]);
+			setPlayerPosition(heroId, info.spawn[0], info.spawn[1], info.spawn[2]);
+			setPlayerAngle(heroId, info.spawn[3]);
 
-		setPlayerOnFloor(heroId);
+			setPlayerOnFloor(heroId);
 
-		setPlayerHealth(heroId, 9999);
-		setPlayerMaxHealth(heroId, 9999);
-		setPlayerStrength(heroId, 999);
-		setPlayerDexterity(heroId, 999);
+			setPlayerHealth(heroId, 9999);
+			setPlayerMaxHealth(heroId, 9999);
+			setPlayerStrength(heroId, 999);
+			setPlayerDexterity(heroId, 999);
 
 		clearInventory();
 		info._func(heroId);
 
 	local playerPos = getPlayerPosition(heroId);
-		/* Camera.setPosition(playerPos.x - 78, playerPos.y + 50, playerPos.z - 119);
-		Camera.setRotation(0, 30, 0); */
 		local x = info.spawn[0] + 250.0 * sin((3.14 / 180) * info.spawn[3]);
 		local z = info.spawn[2] + 250.0 * cos((3.14 / 180) * info.spawn[3]);
 		Camera.setPosition(x, playerPos.y + 70, z);
@@ -68,17 +71,14 @@ function updateClassInfo(class_id){
 }
 
 addEventHandler("onKeyDown", function(key){
-	if(selectClassCollection.getVisible()){
+	if(!selectClassCollection.getVisible()) return;
+
 		switch(key){
 			case KEY_A:
-				selectedClass -= 1;
-					if(selectedClass < 0) selectedClass = classes.len() - 1;
-				updateClassInfo(selectedClass);
+				updateClassInfo(selectedClass - 1);
 			break;
 			case KEY_D:
-				selectedClass += 1;
-					if(selectedClass > classes.len() - 1) selectedClass = 0;
-				updateClassInfo(selectedClass);
+				updateClassInfo(selectedClass + 1);
 			break;
 
 			case KEY_RETURN:
@@ -92,11 +92,8 @@ addEventHandler("onKeyDown", function(key){
 				selectClassCollection.setVisible(false);
 				setHudMode(HUD_ALL, HUD_MODE_DEFAULT);
 
-				timeCollection.setVisible(true);
-
 				Camera.movementEnabled = true;
 				disableControls(false);
 			break;
 		}
-	}
 });

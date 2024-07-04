@@ -51,6 +51,8 @@ function NetStats::setVisible(visible)
 	_byteToResend.visible = visible
 	_messageSend.visible = visible
 	_byteToSend.visible = visible
+
+	Chat.setVisible(!visible)
 }
 
 function NetStats::update()
@@ -67,23 +69,3 @@ function NetStats::update()
 	_messageSend.text = format("Bytes to resend: %i", stats.bytesInResendBuffer)
 	_byteToSend.text = format("Bytes to send: %i", stats.bytesInSendBuffer)
 }
-
-/////////////////////////////////////////
-///	Events
-/////////////////////////////////////////
-
-addEventHandler("onInit", function()
-{
-	NetStats.init()
-})
-
-addEventHandler("onKeyDown", function(key)
-{
-	switch (key)
-	{
-		case KEY_F6:
-			if (!chatInputIsOpen() && !isGUIOpened())
-				NetStats.setVisible(!NetStats.visible)
-			break
-	}
-})

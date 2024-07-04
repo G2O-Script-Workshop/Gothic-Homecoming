@@ -10,6 +10,7 @@ local menuGUI = {
 		sizePx = {width = nax(5500), height = nay(2000)}
 		file = "GMP_LOGO_MENU.TGA"
 		scaling = true
+		disabled = true
 	}),
 
 	play = GUI.Draw({
@@ -49,6 +50,7 @@ local menuGUI = {
 		positionPx = {x = 0, y = 0}
 		text = "v0.2b Build 3336"
 		font = "FONT_DEFAULT.TGA"
+		disabled = true
 		collection = menuCollection
 	})
 }
@@ -162,25 +164,3 @@ function stopMenuScene(){
 	disableMusicSystem(false);
 	Music.stop();
 }
-
-addEventHandler("GUI.onMouseIn", function(self){
-	if(!isCursorVisible()) return;
-
-	if(self instanceof GUI.Draw && menuCollection.getVisible()){
-		if(!self.getDisabled()){
-			self.setFont("FONT_OLD_20_WHITE_HI.TGA");
-			self.setColor({r = 128, g = 180, b = 128, a = 255});
-		}
-	}
-});
-
-addEventHandler("GUI.onMouseOut", function(self){
-	if(!isCursorVisible()) return;
-
-	if(self instanceof GUI.Draw && menuCollection.getVisible()){
-		if(!self.getDisabled()){
-			self.setFont("FONT_OLD_20_WHITE.TGA");
-			self.setColor({r = 255, g = 255, b = 255, a = 255});
-		}
-	}
-});

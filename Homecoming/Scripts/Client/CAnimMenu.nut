@@ -33,16 +33,21 @@ local aniColumnName = animGUI.grid.addColumn({
 
 local aniColumnTitle = ["Active Animations", "Reaction Animations", "Idle Animations"];
 
-function refreshGrid(column){
+local function refreshGrid(column){
 	if(column < 0) column = 2;
 	if(column > 2) column = 0;
 
 	if(column != animGUI.column){
 		animGUI.grid.clear();
 		for(local i = 0, end = anims[column].len(); i < end; i++){
-			local row = animGUI.grid.addRow(
-				{text = anims[column][i].name}
-			);
+			try {
+				local row = animGUI.grid.addRow(
+					{text = anims[column][i].name}
+				);
+			} catch(e) {
+				toggleAnim(false);
+				toggleAnim(true);
+			}
 			row.cells[aniColumnName].setDrawColor({r = 145, g = 175, b = 205})
 		}
 	}
@@ -58,11 +63,12 @@ function toggleAnim(toggle){
 	setCursorPosition(4096, 4096);
 	disableControls(toggle);
 
-	refreshGrid(0);
+	if(toggle) refreshGrid(0);
 }
 
 addEventHandler("GUI.onClick", function(self){
-	if(animCollection.getVisible()){
+	if(!animCollection.getVisible()) return;
+
 		if(self instanceof GUI.GridListVisibleCell){
 			stopAni(heroId);
 			playAni(heroId, anims[animGUI.column][self.parent.id].instance);
@@ -74,43 +80,4 @@ addEventHandler("GUI.onClick", function(self){
 				break;
 			}
 		}
-	}
-});
-
-addEventHandler("onKeyDown", function(key){
-	switch(key){
-		case KEY_F10:
-			if(!chatInputIsOpen() || !isGUIOpened()){
-				toggleAnim(!animCollection.getVisible());
-			}
-		break;
-	}
-});
-
-addEventHandler("GUI.onMouseIn", function(self){
-	if(!isCursorVisible() && !animCollection.getVisible()) return;
-
-	if(self instanceof GUI.Button){
-		self.setColor({r = 255, g = 0, b = 0});
-		setCursorTxt("L.TGA");
-	}
-
-	if(self instanceof GUI.GridListVisibleCell){
-		self.setColor({r = 132, g = 0, b = 255});
-		self.setFile("Menu_Choice_Back.TGA");
-	}
-});
-
-addEventHandler("GUI.onMouseOut", function(self){
-	if(!isCursorVisible() && !animCollection.getVisible()) return;
-
-	if(self instanceof GUI.Button){
-		self.setColor({r = 255, g = 255, b = 255});
-		setCursorTxt("LO.TGA");
-	}
-
-	if(self instanceof GUI.GridListVisibleCell){
-		self.setColor({r = 255, g = 255, b = 255});
-		self.setFile("");
-	}
 });

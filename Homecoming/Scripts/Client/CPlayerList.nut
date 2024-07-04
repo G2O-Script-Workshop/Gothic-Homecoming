@@ -138,7 +138,7 @@ function PlayerList::init()
 	_hostname.setPositionPx(4096 - this.width / 2, y / 2);
 
 	// Add columns after this line....
-	COLUMN_ID = registerColumn("Id", 100)
+	COLUMN_ID = registerColumn("ID", 100)
 	COLUMN_NICKNAME = registerColumn("Player", 3200)
 
 	// Add textures after this line...
@@ -306,11 +306,6 @@ function PlayerList::_updateVisibleRows()
 ///	Events
 /////////////////////////////////////////
 
-addEventHandler("onInit", function()
-{
-	PlayerList.init()
-})
-
 addEventHandler("onPlayerCreate", function(pid)
 {
 	PlayerList.insert(pid)
@@ -350,30 +345,23 @@ UpdateClassMessage.bind(function(message){
 
 addEventHandler("onKeyDown", function(key)
 {
+	if(!PlayerList.visible) return;
+
 	switch (key)
 	{
-		case KEY_F5:
-			if (!chatInputIsOpen() && !isGUIOpened())
-				PlayerList.setVisible(!PlayerList.visible)
-			break
-
 		case KEY_UP:
-			if (PlayerList.visible)
 				PlayerList.refresh(PlayerList.begin - 1)
 			break
 
 		case KEY_DOWN:
-			if (PlayerList.visible)
 				PlayerList.refresh(PlayerList.begin + 1)
 			break
 
 		case KEY_PRIOR:
-			if (PlayerList.visible)
 				PlayerList.refresh(0)
 			break
 
 		case KEY_NEXT:
-			if (PlayerList.visible)
 				PlayerList.refresh(PlayerList.dataRows.len() - PlayerList.MAX_VISIBLE_ROWS)
 			break
 	}

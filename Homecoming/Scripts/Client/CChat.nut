@@ -346,12 +346,6 @@ function Chat::showLineAnimation(line, now)
 	}
 }
 
-addEventHandler("onInit", function()
-{
-	enableEvent_Render(true)
-	Chat._calcPosition()
-})
-
 addEventHandler("onRender", function()
 {
 	if (Chat.animationInterval <= 0)
@@ -371,6 +365,8 @@ addEventHandler("onRender", function()
 
 addEventHandler("onKeyDown", function(key)
 {
+	if(isConsoleOpen() || !Chat.visible || isGUIOpened()) return;
+
 	if (chatInputIsOpen())
 	{
 		switch (key)
@@ -420,19 +416,13 @@ addEventHandler("onKeyDown", function(key)
 		switch (key)
 		{
 		case KEY_T:
-				if (!isConsoleOpen() && Chat.visible && !isGUIOpened())
-				{
-					chatInputOpen()
-					disableControls(true)
-				}
+				chatInputOpen()
+				disableControls(true)
 			break
 		case KEY_SLASH:
-				if (!isConsoleOpen() && Chat.visible && !isGUIOpened())
-				{
-					chatInputOpen()
-					chatInputSetText("/");
-					disableControls(true)
-				}
+				chatInputOpen()
+				chatInputSetText("/");
+				disableControls(true)
 			break
 
 		case KEY_F7:
