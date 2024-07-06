@@ -14,4 +14,8 @@ server.log
 
 *.dll
 
+*.txt
+
+*.vdf
+
 G2O_Server.x64.exe
