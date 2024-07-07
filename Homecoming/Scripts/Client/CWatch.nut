@@ -31,4 +31,4 @@ local timeGUI = {
 setTimer(function(){
 	timeGUI.gameTimeClock.setText(format("%02d:%02d", getTime().hour, getTime().min));
 	timeGUI.realTimeClock.setText(format("%02d:%02d", date().hour, date().min));
-}, 3000, 0);
+}, 4000, 0);
