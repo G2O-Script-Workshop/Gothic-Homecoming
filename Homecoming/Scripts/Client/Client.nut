@@ -13,9 +13,19 @@ addEventHandler("onInit", function(){
 	disableKey(KEY_F3, true);
 	disableKey(KEY_F4, true);
 
-	NetStats.init()
-	PlayerList.init()
-	Chat._calcPosition()
+	NetStats.init();
+	PlayerList.init();
+	Chat._calcPosition();
+
+	setPlayerName(heroId, LocalStorage.getItem("characterName"));
+	setPlayerVisual(heroId,
+		LocalStorage.getItem("bodyModel"),
+		LocalStorage.getItem("bodyTexture"),
+		LocalStorage.getItem("headModel"),
+		LocalStorage.getItem("headTexture")
+	);
+	/* LocalStorage.getItem("height"), */
+	setPlayerFatness(heroId, LocalStorage.getItem("fatness"));
 });
 
 function isGUIOpened(){
@@ -27,3 +37,11 @@ SynchronizeTimeMessage.bind(function(message){
 
 	setTime(message._hour, message._min);
 });
+
+
+function cameraPatch(){
+	Camera.setPosition(13354.502930, 2040.0, -1141.678467);
+	Camera.setRotation(0, -150, 0);
+}
+
+addEventHandler("onRender", cameraPatch);
