@@ -1,20 +1,32 @@
+local updateClassPacket;
+local updateOtherClassPacket;
+
 SelectClassMessage.bind(function(pid, message){
-	Players[pid].setVirtualWorld(1);
-	Players[pid].class_id = message.classId;
+	Player(pid, {
+		name = message.charaName,
 
-	classes[message.classId].func(pid);
+		visual = [
+			message.visBodyM,
+			message.visBodyT,
+			message.visHeadM,
+			message.visHeadT
+		],
+		walk = message.walk,
+		/* scale = message.height, */
+		fatness = message.fatness,
 
-		local updateClassPacket = UpdateClassMessage(pid,
-			message.classId
-		).serialize();
-	foreach(Player in Players){
-		updateClassPacket.send(Player.id, RELIABLE_ORDERED);
+		vworld = 1
+	});
 
-		local updateOtherClassPacket = UpdateClassMessage(Player.id,
-			Player.class_id
-		).serialize();
-		updateOtherClassPacket.send(pid, RELIABLE_ORDERED);
-	}
+	Players[pid].setClass(message.classId);
+
+			updateClassPacket = UpdateClassMessage(pid, message.classId).serialize();
+		foreach(player in Players){
+			updateClassPacket.send(player.id, RELIABLE_ORDERED);
+
+			updateOtherClassPacket = UpdateClassMessage(player.id, player.getClass()).serialize();
+			updateOtherClassPacket.send(pid, RELIABLE_ORDERED);
+		}
 
 	local synchronizeTimePacket = SynchronizeTimeMessage(pid,
 		getTime().hour,

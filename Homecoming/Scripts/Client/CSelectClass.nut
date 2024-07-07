@@ -31,13 +31,7 @@ local selectClassGUI = {
 
 selectedClass <- 0;
 
-function showSelectClass(){
-	selectClassCollection.setVisible(true);
-
-	updateClassInfo(0);
-}
-
-function updateClassInfo(class_id){
+local function updateClassInfo(class_id){
 	if(class_id < 0) class_id = classes.len() - 1;
 	if(class_id > classes.len() - 1) class_id = 0;
 
@@ -70,6 +64,12 @@ function updateClassInfo(class_id){
 		Camera.setRotation(15, info.spawn[3] + 180, 0);
 }
 
+function showSelectClass(){
+	selectClassCollection.setVisible(true);
+
+	updateClassInfo(0);
+}
+
 addEventHandler("onKeyDown", function(key){
 	if(!selectClassCollection.getVisible()) return;
 
@@ -85,7 +85,15 @@ addEventHandler("onKeyDown", function(key){
 				clearInventory();
 
 				local selectClassPacket = SelectClassMessage(heroId,
-					selectedClass
+					selectedClass,
+					LocalStorage.getItem("characterName"),
+					LocalStorage.getItem("bodyModel"),
+					LocalStorage.getItem("bodyTexture"),
+					LocalStorage.getItem("headModel"),
+					LocalStorage.getItem("headTexture"),
+					LocalStorage.getItem("walkstyle"),
+					/* LocalStorage.getItem("height"), */
+					LocalStorage.getItem("fatness")
 				).serialize();
 				selectClassPacket.send(RELIABLE_ORDERED);
 

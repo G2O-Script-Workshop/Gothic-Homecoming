@@ -1,4 +1,4 @@
-local Music = Sound("GMPMENU.wav");
+local Music = BASSMusic("GMPMENU.wav");
 local Sword = Vob("ItMw_030_1h_PAL_sword_bastard_RAW_01.3DS");
 
 menuCollection <- GUI.Collection({
@@ -56,8 +56,10 @@ local menuGUI = {
 }
 
 function launchMenuScene(toggle){
-	Camera.setPosition(13354.502930, 2040.0, -1141.678467);
+/* 	Camera.setPosition(13354.502930, 2040.0, -1141.678467);
 	Camera.setRotation(0, -150, 0);
+ */
+	removeEventHandler("onRender", cameraPatch);
 
 	menuCollection.setVisible(toggle);
 
@@ -104,10 +106,10 @@ JoinMenuMessage.bind(function(message){
 	disableControls(true);
 
 	disableMusicSystem(true);
+	//setMusicVolume(0.0);
 
 	Music.play();
-	//Music.setVolume(100);
-	Music.volume = 100;
+	Music.setVolume(100);
 	Music.looping = true;
 });
 
@@ -127,17 +129,6 @@ addEventHandler("GUI.onClick", function(self){
 	if(self instanceof GUI.Draw && menuCollection.getVisible() && !self.getDisabled()){
 		switch(self){
 			case menuGUI.play:
-				local playPacket = PlayButtonMessage(heroId,
-						LocalStorage.getItem("characterName"),
-						LocalStorage.getItem("bodyModel"),
-						LocalStorage.getItem("bodyTexture"),
-						LocalStorage.getItem("headModel"),
-						LocalStorage.getItem("headTexture"),
-						LocalStorage.getItem("walkstyle"),
-						/* LocalStorage.getItem("height"), */
-						LocalStorage.getItem("fatness")
-					).serialize();
-				playPacket.send(RELIABLE_ORDERED);
 				stopMenuScene();
 				showSelectClass();
 			break;
