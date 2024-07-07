@@ -12,44 +12,38 @@
 			<script src="Shared/Tables/Classes.nut" type="shared" />
 		<!-- Packet Messages -->
 			<script src="Shared/PacketMessages/Menu.nut" type="shared" />
-			<script src="Shared/PacketMessages/Play.nut" type="shared" />
 			<script src="Shared/PacketMessages/SelectClass.nut" type="shared" />
-
-	<!-- Default -->
-		<!-- Server-Side -->
-			
-		<!-- Client-Side -->
-			<script src="Default/Client-Side/Chat.nut" type="client" />
-			<script src="Default/Client-Side/Net.nut" type="client" />
-			<script src="Default/Client-Side/Playerlist.nut" type="client" />
 
 	<!-- Server-Side -->
 		<!-- Hero -->
 			<!-- Class -->
-				<script src="Server-Side/Hero/Class/Prototype.nut" type="server" />
-				<script src="Server-Side/Hero/Class/Player.nut" type="server" />
-				<script src="Server-Side/Hero/Class/NPC.nut" type="server" />
-			<!-- Connect -->
-				<script src="Server-Side/Hero/Connect.nut" type="server" />
-			<!-- Menu -->
-				<script src="Server-Side/Hero/Menu/Play.nut" type="server" />
+				<script src="Server/HeroClass/Prototype.nut" type="server" />
+				<script src="Server/HeroClass/Player.nut" type="server" />
+				<script src="Server/HeroClass/NPC.nut" type="server" />
 		<!-- Game -->
-			<script src="Server-Side/Game/SelectClass.nut" type="server" />
+			<script src="Server/Server.nut" type="server" />
+			<script src="Server/SSelectClass.nut" type="server" />
 		<!-- Chat -->
-			<script src="Server-Side/Chat.nut" type="server" />
-		<!-- Init -->
-			<script src="Server-Side/Init.nut" type="server" />
+			<script src="Server/SChat.nut" type="server" />
 
 	<!-- Client-Side -->
 		<!-- Menu -->
-			<script src="Client-Side/Menu/Character.nut" type="client" />
-			<script src="Client-Side/Menu/MainMenu.nut" type="client" />
+			<script src="Client/CMainMenu/MainMenu.nut" type="client" />
+			<script src="Client/CMainMenu/Appearance.nut" type="client" />
+			<script src="Client/CMainMenu/Options.nut" type="client" />
+			<script src="Client/CMainMenu/Settings.nut" type="client" />
+			<!-- <script src="Client/CMainMenu.nut" type="client" /> -->
+		<!-- Interface -->
+			<script src="Client/Interface.nut" type="client" />
+			<script src="Client/CAnimMenu.nut" type="client" />
+			<script src="Client/CWatch.nut" type="client" />
+			<script src="Client/CMap.nut" type="client" />
+			<script src="Client/CPlayerList.nut" type="client" />
+			<script src="Client/Net.nut" type="client" />
 		<!-- Game -->
-			<script src="Client-Side/Game/HUD.nut" type="client" />
-			<script src="Client-Side/Game/SelectClass.nut" type="client" />
-			<script src="Client-Side/Game/Anims.nut" type="client" />
-		<!-- Utility -->
-			<script src="Client-Side/Check.nut" type="client" />
+			<!-- <script src="Client/CIngame.nut" type="client" /> -->
+			<script src="Client/CSelectClass.nut" type="client" />
+			<script src="Client/CChat.nut" type="client" />
 		<!-- Init -->
-			<script src="Client-Side/Init.nut" type="client" />
+			<script src="Client/Client.nut" type="client" />
 </server>
