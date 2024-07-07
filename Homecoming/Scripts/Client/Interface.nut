@@ -1,13 +1,15 @@
 addEventHandler("onKeyDown", function(key){
-	if(isConsoleOpen() || chatInputIsOpen() || isGUIOpened()) return;
+	if(isConsoleOpen() || chatInputIsOpen() || isGUIOpened() || isInventoryOpen()) return;
 
 	switch(key){
 		case KEY_F1:
-			PlayerList.setVisible(!PlayerList.visible);
+			if(animCollection.getVisible()) return;
+				PlayerList.setVisible(!PlayerList.visible);
 		break;
 
 		case KEY_F2:
-			// CMap.nut
+			if(animCollection.getVisible()) return;
+				toggleMap(!mapCollection.getVisible());
 		break;
 
 		case KEY_F3:
@@ -15,18 +17,20 @@ addEventHandler("onKeyDown", function(key){
 		break;
 
 		case KEY_F4:
-			NetStats.setVisible(!NetStats.visible)
+			if(animCollection.getVisible()) return;
+				NetStats.setVisible(!NetStats.visible)
 		break;
 
-		case KEY_ESC:
-			// CIngame.nut
+		case KEY_ESCAPE:
+			if(animCollection.getVisible()) return;
+				// CIngame.nut
 		break;
 	}
 });
 
 
 addEventHandler("GUI.onMouseIn", function(self){
-	if(!self.getDisabled()) return;
+	if(self.getDisabled()) return;
 
 	if(self instanceof GUI.Draw){
 		if(menuCollection.getVisible()){
@@ -44,15 +48,15 @@ addEventHandler("GUI.onMouseIn", function(self){
 		return;
 	} */
 
-	if(self instanceof GUI.Button){
-		if(animCollection.getVisible()){
+	if(self instanceof GUI.Button && self.parent != GUI.Button){
+		if(menuCollection.getVisible() || animCollection.getVisible()){
 			self.setColor({r = 255, g = 0, b = 0});
 			setCursorTxt("L.TGA");
 		}
 		return;
 	}
 
-	if(self instanceof GUI.GridListVisibleCell){
+	if(self instanceof GUI.ListVisibleRow){
 		if(animCollection.getVisible()){
 			self.setColor({r = 132, g = 0, b = 255});
 			self.setFile("Menu_Choice_Back.TGA");
@@ -62,7 +66,7 @@ addEventHandler("GUI.onMouseIn", function(self){
 });
 
 addEventHandler("GUI.onMouseOut", function(self){
-	if(!self.getDisabled()) return;
+	if(self.getDisabled()) return;
 
 	if(self instanceof GUI.Draw){
 		if(menuCollection.getVisible()){
@@ -80,15 +84,15 @@ addEventHandler("GUI.onMouseOut", function(self){
 		return;
 	} */
 
-	if(self instanceof GUI.Button){
-		if(animCollection.getVisible()){
+	if(self instanceof GUI.Button && self.parent != GUI.Button){
+		if(menuCollection.getVisible() || animCollection.getVisible()){
 			self.setColor({r = 255, g = 255, b = 255});
 			setCursorTxt("LO.TGA");
 		}
 		return;
 	}
 
-	if(self instanceof GUI.GridListVisibleCell){
+	if(self instanceof GUI.ListVisibleRow){
 		if(animCollection.getVisible()){
 			self.setColor({r = 255, g = 255, b = 255});
 			self.setFile("");
