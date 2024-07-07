@@ -11,6 +11,7 @@ class PrototypeHero {
 	};
 
 	name = "";
+	class_id = -1;
 
 	instance = "PC_HERO";
 	guild = -1;
@@ -518,6 +519,17 @@ class PrototypeHero {
 	}
 
 
+	function setClass(classId){
+		this.class_id = classId;
+
+		classes[classId].func(this.id);
+	}
+
+	function getClass(){
+		return this.class_id;
+	}
+
+
 
 	function init(id, params){
 		this.id = id;
@@ -567,7 +579,7 @@ class PrototypeHero {
 		this.setScale(scale, scale, scale, "fatness" in params ? params.fatness : 1.0);
 
 		this.setWorld("world" in params ? params.world : "NEWWORLD\\NEWWORLD.ZEN");
-		this.setVirtualWorld(0);
+		this.setVirtualWorld("vworld" in params ? params.vworld : 0);
 		/* this.setPosition(
 			"pos" in params ? params.pos[0] : 0.0,
 			"pos" in params ? params.pos[1] : 0.0,

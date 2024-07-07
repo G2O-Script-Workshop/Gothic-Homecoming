@@ -9,7 +9,6 @@ class Player extends PrototypeHero {
 	ip = "";
 
 	authority = -1;
-	class_id = -1;
 
 	logged = -1;
 	afk = -1;
