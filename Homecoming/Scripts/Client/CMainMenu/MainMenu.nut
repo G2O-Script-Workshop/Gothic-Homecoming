@@ -1,4 +1,4 @@
-local Music = BASSMusic("GMPMENU.wav");
+local Music = BASSMusic("GMPMenu.mp3");
 local Sword = Vob("ItMw_030_1h_PAL_sword_bastard_RAW_01.3DS");
 
 menuCollection <- GUI.Collection({
@@ -55,10 +55,22 @@ local menuGUI = {
 	})
 }
 
+local vob_rotation_per_second = 60;
+local function menuSwordScene(){
+	if(Sword){
+		local dt = WorldTimer.frameTimeSecs;
+
+		local rotation = Sword.getRotation()
+		Sword.setRotation(rotation.x + (vob_rotation_per_second * dt), rotation.y, rotation.z);
+	}
+}
+
 function launchMenuScene(toggle){
 /* 	Camera.setPosition(13354.502930, 2040.0, -1141.678467);
 	Camera.setRotation(0, -150, 0);
  */
+	setCursorVisible(true);
+	setCursorPosition(4096, 4096);
 	removeEventHandler("onRender", cameraPatch);
 
 	menuCollection.setVisible(toggle);
@@ -69,6 +81,7 @@ function launchMenuScene(toggle){
 	if(toggle){
 		Sword.addToWorld();
 		Sword.setPosition(13346.502930, 2006.0, -1240.678467);
+		addEventHandler("onRender", menuSwordScene);
 
 		if(LocalStorage.len() <= 0){
 			menuGUI.play.setDisabled(true);
@@ -80,17 +93,10 @@ function launchMenuScene(toggle){
 			menuGUI.play.setColor({r = 255, g = 255, b = 255, a = 255});
 		}
 	} else {
+		removeEventHandler("onRender", menuSwordScene);
 		Sword.removeFromWorld();
 	}
 }
-
-addEventHandler("onInit", function(){
-	setHudMode(HUD_ALL, HUD_MODE_HIDDEN);
-	setDayLength(10000);
-
-	setCursorVisible(true);
-	setCursorPosition(4096, 4096);
-});
 
 JoinMenuMessage.bind(function(message){
 	launchMenuScene(true);
@@ -106,21 +112,10 @@ JoinMenuMessage.bind(function(message){
 	disableControls(true);
 
 	disableMusicSystem(true);
-	//setMusicVolume(0.0);
 
 	Music.play();
 	Music.setVolume(100);
 	Music.looping = true;
-});
-
-local vob_rotation_per_second = 60;
-addEventHandler("onRender", function(){
-	if(Sword){
-		local dt = WorldTimer.frameTimeSecs;
-
-		local rotation = Sword.getRotation()
-		Sword.setRotation(rotation.x + (vob_rotation_per_second * dt), rotation.y, rotation.z);
-	}
 });
 
 addEventHandler("GUI.onClick", function(self){
