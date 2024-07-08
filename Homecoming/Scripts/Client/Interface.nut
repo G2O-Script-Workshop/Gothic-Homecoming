@@ -40,26 +40,18 @@ addEventHandler("GUI.onMouseIn", function(self){
 		return;
 	}
 
-	/* if(self instanceof GUI.Texture){
-		if(animCollection.getVisible()){
-			self.setColor({r = 255, g = 0, b = 0});
-			setCursorTxt("L.TGA");
-		}
-		return;
-	} */
-
-	if(self instanceof GUI.Button && self.parent != GUI.Button){
-		if(menuCollection.getVisible() || animCollection.getVisible()){
-			self.setColor({r = 255, g = 0, b = 0});
-			setCursorTxt("L.TGA");
-		}
-		return;
-	}
-
 	if(self instanceof GUI.ListVisibleRow){
 		if(animCollection.getVisible()){
 			self.setColor({r = 132, g = 0, b = 255});
 			self.setFile("Menu_Choice_Back.TGA");
+		}
+		return;
+	}
+
+	if(self instanceof GUI.Button){
+		if(menuCollection.getVisible() || animCollection.getVisible()){
+			self.setColor({r = 255, g = 0, b = 0});
+			setCursorTxt("L.TGA");
 		}
 		return;
 	}
@@ -76,26 +68,18 @@ addEventHandler("GUI.onMouseOut", function(self){
 		return;
 	}
 
-	/* if(self instanceof GUI.Texture){
-		if(animCollection.getVisible()){
-			self.setColor({r = 255, g = 0, b = 0});
-			setCursorTxt("L.TGA");
-		}
-		return;
-	} */
-
-	if(self instanceof GUI.Button && self.parent != GUI.Button){
-		if(menuCollection.getVisible() || animCollection.getVisible()){
-			self.setColor({r = 255, g = 255, b = 255});
-			setCursorTxt("LO.TGA");
-		}
-		return;
-	}
-
 	if(self instanceof GUI.ListVisibleRow){
 		if(animCollection.getVisible()){
 			self.setColor({r = 255, g = 255, b = 255});
 			self.setFile("");
+		}
+		return;
+	}
+
+	if(self instanceof GUI.Button){
+		if(menuCollection.getVisible() || animCollection.getVisible()){
+			self.setColor({r = 255, g = 255, b = 255});
+			setCursorTxt("LO.TGA");
 		}
 		return;
 	}
