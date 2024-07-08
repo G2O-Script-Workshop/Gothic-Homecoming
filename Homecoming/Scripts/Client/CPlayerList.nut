@@ -123,23 +123,22 @@ PlayerList <- {
 	MAX_VISIBLE_ROWS = 30,
 
 	COLUMN_ID = -1,
-	COLUMN_NICKNAME = -1,
-	COLUMN_PING = -1,
+	COLUMN_NICKNAME = -1
 }
 
 function PlayerList::init()
 {
 	// Create server name header
 	_hostname = GUI.Draw({
-		position = {x = 0, y = 0},
+		positionPx = {x = 0, y = 0},
 		text = getHostname(),
 		font = "FONT_OLD_20_WHITE_HI.TGA"
 	})
-	_hostname.setPositionPx(4096 - this.width / 2, y / 2);
+	_hostname.setPositionPx(nax(4096 - this.width / 2), nay(y / 2));
 
 	// Add columns after this line....
-	COLUMN_ID = registerColumn("ID", 100)
-	COLUMN_NICKNAME = registerColumn("Player", 3200)
+	COLUMN_ID = registerColumn("ID", 120)
+	COLUMN_NICKNAME = registerColumn("Player", 3000)
 
 	// Add textures after this line...
 	registerTexture("MENU_INGAME.TGA", function()
@@ -201,6 +200,8 @@ function PlayerList::setVisible(visible)
 	this.visible = visible
 	_hostname.setVisible(visible)
 
+	Chat.setVisible(!Chat.visible);
+
 	foreach (bg in _backgrounds)
 		bg.tex.setVisible(visible)
 
@@ -217,9 +218,11 @@ function PlayerList::refresh(value)
 	_updateVisibleRows()
 }
 
-function PlayerList::insert(pid)
+function PlayerList::insert(pid, classId)
 {
-	local dataRow = PlayerListDataRow(pid, format("%s - %s", getPlayerName(pid), "Logging In..."))
+	if(dataRows.find(playerDataRows[pid]) != null) return;
+
+	local dataRow = PlayerListDataRow(pid, format("%s (%s)", getPlayerName(pid), classes[classId].name))
 
 	local playerColor = heroId != pid ? getPlayerColor(pid) : {r = 255, g = 150, b = 0}
 	dataRow.setColor(playerColor.r, playerColor.g, playerColor.b)
@@ -306,19 +309,17 @@ function PlayerList::_updateVisibleRows()
 ///	Events
 /////////////////////////////////////////
 
-addEventHandler("onPlayerCreate", function(pid)
+/* addEventHandler("onPlayerCreate", function(pid)
 {
 	PlayerList.insert(pid)
-})
+}) */
 
 addEventHandler("onPlayerDestroy", function(pid)
 {
 	PlayerList.remove(pid)
 })
 
-local className = null;
-
-addEventHandler("onPlayerChangeNickname", function(pid, name)
+/* addEventHandler("onPlayerChangeNickname", function(pid, name)
 {
 	local dataRow = PlayerList.playerDataRows[pid]
 	local dataRowIdx = PlayerList.dataRows.find(dataRow)
@@ -327,20 +328,10 @@ addEventHandler("onPlayerChangeNickname", function(pid, name)
 
 	if (PlayerList.isInView(dataRowIdx))
 		PlayerList.visibleRows[dataRowIdx - PlayerList.begin].columns[PlayerList.COLUMN_NICKNAME].setText(format("%s - %s", name, "Logging In..."));
-})
+}) */
 
 UpdateClassMessage.bind(function(message){
-	local pid = message.playerId;
-	local classId = message.classId;
-	local name = getPlayerName(pid);
-
-	local dataRow = PlayerList.playerDataRows[pid]
-	local dataRowIdx = PlayerList.dataRows.find(dataRow)
-
-	dataRow.columns[PlayerList.COLUMN_NICKNAME] = format("%s - %s", name, classes[classId].name)
-
-	if (PlayerList.isInView(dataRowIdx))
-		PlayerList.visibleRows[dataRowIdx - PlayerList.begin].columns[PlayerList.COLUMN_NICKNAME].setText(format("%s - %s", name, classes[classId].name));
+	PlayerList.insert(message.playerId, message.classId);
 });
 
 addEventHandler("onKeyDown", function(key)

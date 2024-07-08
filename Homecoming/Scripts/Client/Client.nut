@@ -13,10 +13,6 @@ addEventHandler("onInit", function(){
 	disableKey(KEY_F3, true);
 	disableKey(KEY_F4, true);
 
-	NetStats.init();
-	PlayerList.init();
-	Chat._calcPosition();
-
 	setPlayerName(heroId, LocalStorage.getItem("characterName"));
 	setPlayerVisual(heroId,
 		LocalStorage.getItem("bodyModel"),
@@ -26,6 +22,12 @@ addEventHandler("onInit", function(){
 	);
 	/* LocalStorage.getItem("height"), */
 	setPlayerFatness(heroId, LocalStorage.getItem("fatness"));
+
+	NetStats.init();
+	PlayerList.init();
+	Chat._calcPosition();
+
+	initDiscordActivity();
 });
 
 function isGUIOpened(){

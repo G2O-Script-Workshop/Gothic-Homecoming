@@ -1,6 +1,3 @@
-local updateClassPacket;
-local updateOtherClassPacket;
-
 SelectClassMessage.bind(function(pid, message){
 	Player(pid, {
 		name = message.charaName,
@@ -20,17 +17,20 @@ SelectClassMessage.bind(function(pid, message){
 
 	Players[pid].setClass(message.classId);
 
-			updateClassPacket = UpdateClassMessage(pid, message.classId).serialize();
+		local updateClassPacket = UpdateClassMessage(pid, message.classId).serialize();
 		foreach(player in Players){
-			updateClassPacket.send(player.id, RELIABLE_ORDERED);
+			updateClassPacket.send(player.id, RELIABLE);
 
-			updateOtherClassPacket = UpdateClassMessage(player.id, player.getClass()).serialize();
-			updateOtherClassPacket.send(pid, RELIABLE_ORDERED);
+			local updateOtherClassPacket = UpdateClassMessage(player.id, player.getClass()).serialize();
+			updateOtherClassPacket.send(pid, RELIABLE);
 		}
 
 	local synchronizeTimePacket = SynchronizeTimeMessage(pid,
 		getTime().hour,
 		getTime().min
 		).serialize();
-	synchronizeTimePacket.send(pid, RELIABLE_ORDERED);
+	synchronizeTimePacket.send(pid, RELIABLE);
+
+	sendMessageToPlayer(pid, 140, 140, 120, "Gothic Multiplayer #SKEJT23 COMPILATION#");
+	sendMessageToAll(0, 255, 0, format("%s joined to the game.", message.charaName));
 });
