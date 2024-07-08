@@ -19,12 +19,3 @@ addEventHandler("onPlayerJoin", function(pid){
 		log.write(format("(%s) %s %s %s %s", datas, getPlayerName(pid), getPlayerSerial(pid), getPlayerIP(pid), getPlayerMacAddr(pid)) + "\n");
 		log.close();
 })
-
-function doesFileExist(filename, mode){
-	try {
-		return file(filename, mode);
-	} catch(e) {
-		print("Error opening file: " + e);
-		return null;
-	}
-}
