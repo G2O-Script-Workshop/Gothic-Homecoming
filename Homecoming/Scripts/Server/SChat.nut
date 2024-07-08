@@ -1,5 +1,18 @@
 addEventHandler("onPlayerMessage", function(pid, message){
-	sendMessageToAll(255, 255, 255, format("%s: %s", Players[pid].getName(), message));
+	if(message.slice(0, 1) == "!"){
+		sendMessageToAll(255, 222, 222, format("%s: %s", Players[pid].getName(), message));
+	} else {
+		local nearPlayers = findNearbyPlayers(
+			getPlayerPosition(pid),
+			2000,
+			Players[pid].getWorld(),
+			Players[pid].getVirtualWorld()
+			);
+		foreach(player in nearPlayers){
+			sendMessageToPlayer(player.id, 255, 255, 255, format("%s: %s", Players[pid].getName(), message));
+		}
+	}
+
 	print(format("%s: %s", Players[pid].getName(), message));
 
 	local log = file("log_chat.txt", "ab+")
