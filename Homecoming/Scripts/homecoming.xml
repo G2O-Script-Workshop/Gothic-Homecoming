@@ -4,6 +4,7 @@
 		<script src="Shared/Config.nut" type="shared" />
 		<!-- Utility -->
 			<script src="Shared/Utility/Convert.nut" type="shared" />
+			<script src="Shared/Utility/FileCheck.nut" type="server" />
 		<!-- Localization -->
 			<script src="Shared/String/Animations.nut" type="shared" />
 		<!-- Tables -->
@@ -44,6 +45,7 @@
 			<!-- <script src="Client/CIngame.nut" type="client" /> -->
 			<script src="Client/CSelectClass.nut" type="client" />
 			<script src="Client/CChat.nut" type="client" />
+			<script src="Client/DiscordActivity.nut" type="client" />
 		<!-- Init -->
 			<script src="Client/Client.nut" type="client" />
 </server>
