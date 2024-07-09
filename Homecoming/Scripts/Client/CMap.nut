@@ -2,86 +2,145 @@ mapCollection <- GUI.Collection({
 	position = {x = 0, y = 0}
 });
 local mapGUI = {
-	map = GUI.Texture({
-		positionPx = {x = nax(500), y = nay(400)}
-		sizePx = {width = nax(7400), height = nay(7000)}
+	texture = GUI.Texture({
+		positionPx = {x = nax(0), y = nay(0)}
+		sizePx = {width = nax(8192), height = nay(8192)}
 		file = "GMP_LOGO_MENU.TGA"
 		scaling = true
 		disabled = true
 		collection = mapCollection
-	}),
-	playerNames = array(getMaxSlots())
+	})
+
+	world = ""
+
+	coordinates = {
+		x = -1,
+		y = -1,
+		width = -1,
+		height = -1
+	}
+
+	playerMarker = array(getMaxSlots())
 }
 
-local _map = mapGUI.map;
-local _pnames = mapGUI.playerNames
+local _texture = mapGUI.texture;
+local _world = mapGUI.world;
+local _coordinates = mapGUI.coordinates;
+local _playerMarker = mapGUI.playerMarker;
 
-local function checkMap(){
-	for(local i = 0, end = _pnames.len() - 1; i < end; i++){
-		if(!isPlayerCreated(i)) continue;
-		//if(isPlayerDead(i)) continue;
 
-		_pnames.push(GUI.Draw({
-			positionPx = {x = nax(4096), y = nay(4096)},
-			text = format("+ %s", getPlayerName(i)),
-			font = "FONT_DEFAULT.TGA"
-		}))
-		_pnames[i].setVisible(true);
+	function setLevelCoords(world, x, y, width, height){
+		_world = world
 
-		local mapPos = ""
-		local playPos = getPlayerPosition(i);
+		_coordinates.x = x
+		_coordinates.y = y
+		_coordinates.width = width
+		_coordinates.height = height
+	}
 
-		switch(_map.file){
-			case "MAP_NEWWORLD.TGA":
-				_pnames[i].setPositionPx(
-					nax((playPos.x / 15) + 1850),
-					nay(4415 - (playPos.z / 12))
-				);
-			break;
-			case "MAP_OLDWORLD.TGA":
-				_pnames[i].setPositionPx(
-					nax((playPos.x / 16) + 4830),
-					nay(3855 - (playPos.z / 12))
-				);
-			break;
-			case "MAP_ADDONWORLD.TGA":
-				_pnames[i].setPositionPx(
-					nax((playPos.x / 11) + 4290),
-					nay(4420 - (playPos.z / 10))
-				);
-			break;
-			case "MAP_COLONY.TGA":
-				_pnames[i].setPositionPx(
-					nax((playPos.x / 24) + 4045),
-					nay(4105 - (playPos.z / 16))
-				);
-			break;
+	function isPlayerAt(pid){
+		if (!isPlayerCreated(pid))
+			return false
+
+		/* if (getPlayerWorld(pid) != _world)
+			return false */
+
+		return true
+	}
+
+	function toggleMarkers(value){
+		for (local pid = 0; pid < getMaxSlots(); ++pid) {
+
+			if(!isPlayerAt(pid)) continue;
+
+			_playerMarker[pid].setVisible(value)
 		}
+	}
+
+	function updatePlayerMarkers(){
+		for (local pid = 0; pid < getMaxSlots(); ++pid) {
+
+			if (!isPlayerAt(pid)) continue;
+
+				toggleMarkers(isPlayerAt(pid));
+
+			local playerPosition = getPlayerPosition(pid)
+
+			playerPosition.x -= _coordinates.x
+			playerPosition.z -= _coordinates.y
+
+			local maxX = _coordinates.width - _coordinates.x
+			local maxY = _coordinates.height - _coordinates.y
+
+			playerPosition.x = (playerPosition.x / maxX.tofloat()) * 8192
+			playerPosition.z = (playerPosition.z / maxY.tofloat()) * 8192
+
+			_playerMarker[pid].update(playerPosition.x, playerPosition.z)
+		}
+	}
+
+
+class PlayerMarker extends GUI.Draw{
+	pid = -1
+
+	constructor(pid){
+		base.constructor({
+			positionPx = {x = 0, y = 0},
+			text = ""
+		})
+		this.pid = pid
+	}
+
+	function update(x, y){
+		setPosition(x, y);
+
+		setText(format("+ %s", getPlayerName(pid)));
+
+		if (!getVisible())
+			setVisible(true);
 	}
 }
 
 function toggleMap(toggle){
 	mapCollection.setVisible(toggle);
-	_pnames.clear()
+	local world = getWorld();
 
-	switch(getWorld()){
+	switch(world){
 		case "NEWWORLD\\NEWWORLD.ZEN":
-			_map.setFile("MAP_NEWWORLD.TGA");
+			local position = getPlayerPosition(heroId)
+			if (position.x > -6900 && position.x < 21600 && position.z < 11800 && position.z > -9400) {
+				_texture.setFile("MAP_NWCITY.TGA");
+				setLevelCoords(world, -6900, 11800, 21600, -9400);
+			} else {
+				_texture.setFile("MAP_NEWWORLD.TGA");
+				setLevelCoords(world, -28000, 50500, 95500, -42500);
+			}
 		break;
 		case "OLDWORLD\\OLDWORLD.ZEN":
-			_map.setFile("MAP_OLDWORLD.TGA");
+			_texture.setFile("MAP_OLDWORLD.TGA");
+			setLevelCoords(world, -78500, 47500, 54000, -53000);
 		break;
 		case "ADDON\\ADDONWORLD.ZEN":
-			_map.setFile("MAP_ADDONWORLD.TGA");
+			_texture.setFile("MAP_ADDONWORLD.TGA");
+			setLevelCoords(world, -47783, 36300, 43949, -32300);
 		break;
 		case "COLONY.ZEN":
-			_map.setFile("MAP_COLONY.TGA");
+			_texture.setFile("MAP_COLONY.TGA");
+			setLevelCoords(world, -78500, 47500, 54000, -53000);
 		break;
 	}
 
-	if(toggle){
-		addEventHandler("onRender", checkMap);
+	if(toggle) {
+		for (local pid = 0; pid < getMaxSlots(); ++pid)
+		_playerMarker[pid] = PlayerMarker(pid)
+
+		addEventHandler("onRender", updatePlayerMarkers);
 	} else {
-		removeEventHandler("onRender", checkMap);
+		removeEventHandler("onRender", updatePlayerMarkers);
+		toggleMarkers(false);
 	}
 }
+
+addEventHandler("onPlayerDestroy", function(pid){
+	_playerMarker[pid].visible = false;
+})

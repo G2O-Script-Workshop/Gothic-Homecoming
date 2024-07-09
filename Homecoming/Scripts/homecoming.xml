@@ -2,8 +2,6 @@
 	<!-- Shared -->
 		<script src="Shared/Constants.nut" type="shared" />
 		<script src="Shared/Config.nut" type="shared" />
-		<!-- Third-Party -->
-			<script src="Shared/Utility/Screen.nut" type="client" />
 		<!-- Utility -->
 			<script src="Shared/Utility/Convert.nut" type="shared" />
 			<script src="Shared/Utility/FileCheck.nut" type="server" />
