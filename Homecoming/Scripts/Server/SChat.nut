@@ -9,7 +9,7 @@ addEventHandler("onPlayerMessage", function(pid, message){
 			Players[pid].getVirtualWorld()
 			);
 		foreach(player in nearPlayers){
-			sendMessageToPlayer(player.id, 255, 255, 255, format("%s: %s", Players[pid].getName(), message));
+			sendMessageToPlayer(player, 255, 255, 255, format("%s: %s", Players[pid].getName(), message));
 		}
 	}
 
