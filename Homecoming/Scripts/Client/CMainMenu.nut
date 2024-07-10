@@ -125,9 +125,6 @@ function launchMenuScene(toggle){
 
 		setDayLength(6000 * 1000);
 
-		setCursorVisible(false);
-		setCursorPosition(4096, 4096);
-
 		disableMusicSystem(false);
 		Music.stop();
 	}
