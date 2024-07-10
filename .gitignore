@@ -2,6 +2,7 @@ cache/*
 waypoints/*
 
 Addon/*
+Addon_Scripts/*
 
 bans.xml
 config.xml
