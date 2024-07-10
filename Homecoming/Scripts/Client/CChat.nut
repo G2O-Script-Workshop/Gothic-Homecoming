@@ -113,6 +113,12 @@ function Chat::setVisible(visible)
 {
 	this.visible = visible
 
+	if(!visible){
+		removeEventHandler("onRender", render);
+	} else {
+		addEventHandler("onRender", render);
+	}
+
 	foreachVisibleLine(function(line)
 	{
 		line.setVisible(visible)
@@ -346,10 +352,8 @@ function Chat::showLineAnimation(line, now)
 	}
 }
 
-addEventHandler("onRender", function()
-{
-	if (Chat.animationInterval <= 0)
-		return
+function Chat::render(){
+	if (Chat.animationInterval <= 0) return;
 
 	local now = getTickCount()
 	local idx = 0
@@ -361,11 +365,11 @@ addEventHandler("onRender", function()
 
 		++idx
 	})
-})
+}
 
 addEventHandler("onKeyDown", function(key)
 {
-	if(isConsoleOpen() || !Chat.visible || isGUIOpened()) return;
+	if(isConsoleOpen() || !Chat.visible || isMenuOpened()) return;
 
 	if (chatInputIsOpen())
 	{
