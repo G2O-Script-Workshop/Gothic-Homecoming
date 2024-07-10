@@ -49,8 +49,10 @@ local function updateClassInfo(class_id){
 
 			setPlayerOnFloor(heroId);
 
-			setPlayerHealth(heroId, 9999);
-			setPlayerMaxHealth(heroId, 9999);
+			setPlayerHealth(heroId, 999999);
+			setPlayerMaxHealth(heroId, 999999);
+			setPlayerMana(heroId, 999);
+			setPlayerMaxMana(heroId, 999);
 			setPlayerStrength(heroId, 999);
 			setPlayerDexterity(heroId, 999);
 
@@ -85,15 +87,7 @@ addEventHandler("onKeyDown", function(key){
 				clearInventory();
 
 				local selectClassPacket = SelectClassMessage(heroId,
-					selectedClass,
-					LocalStorage.getItem("characterName"),
-					LocalStorage.getItem("bodyModel"),
-					LocalStorage.getItem("bodyTexture"),
-					LocalStorage.getItem("headModel"),
-					LocalStorage.getItem("headTexture"),
-					LocalStorage.getItem("walkstyle"),
-					/* LocalStorage.getItem("height"), */
-					LocalStorage.getItem("fatness")
+					selectedClass
 				).serialize();
 				selectClassPacket.send(RELIABLE_ORDERED);
 
