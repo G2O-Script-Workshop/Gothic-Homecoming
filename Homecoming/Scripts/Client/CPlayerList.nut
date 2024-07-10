@@ -101,7 +101,6 @@ local PlayerListVisibleRow = class
 
 PlayerList <- {
 	// Private
-	_hostname = null,
 	_headers = [],
 	_backgrounds = [],
 	_rowHeightPx = -1,
@@ -128,14 +127,6 @@ PlayerList <- {
 
 function PlayerList::init()
 {
-	// Create server name header
-	_hostname = GUI.Draw({
-		positionPx = {x = 0, y = 0},
-		text = getHostname(),
-		font = "FONT_OLD_20_WHITE_HI.TGA"
-	})
-	_hostname.setPositionPx(nax(4096 - this.width / 2), nay(y / 2));
-
 	// Add columns after this line....
 	COLUMN_ID = registerColumn("ID", 120)
 	COLUMN_NICKNAME = registerColumn("Player", 3000)
@@ -198,7 +189,6 @@ function PlayerList::registerTexture(name, resize)
 function PlayerList::setVisible(visible)
 {
 	this.visible = visible
-	_hostname.setVisible(visible)
 
 	Chat.setVisible(!Chat.visible);
 
@@ -222,7 +212,7 @@ function PlayerList::insert(pid, classId)
 {
 	if(dataRows.find(playerDataRows[pid]) != null) return;
 
-	local dataRow = PlayerListDataRow(pid, format("%s (%s)", getPlayerName(pid), classes[classId].name))
+	local dataRow = PlayerListDataRow(pid, format("%s (%s)", getPlayerName(pid), classes[getWorld()][classId].name))
 
 	local playerColor = heroId != pid ? getPlayerColor(pid) : {r = 255, g = 150, b = 0}
 	dataRow.setColor(playerColor.r, playerColor.g, playerColor.b)
