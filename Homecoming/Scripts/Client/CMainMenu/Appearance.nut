@@ -193,15 +193,15 @@ function toggleCreator(toggle){
 			local playerAngle = getPlayerAngle(heroId);
 
 			local forwardVector = Vec3(
-				sin(playerAngle * 3.14 / 180.0),
+				sin(playerAngle * PI / 180.0),
 				0,
-				cos(playerAngle * 3.14 / 180.0)
+				cos(playerAngle * PI / 180.0)
 			);
 
 			local rightVector = Vec3(
-				cos(playerAngle * 3.14 / 180.0),
+				cos(playerAngle * PI / 180.0),
 				0,
-				-sin(playerAngle * 3.14 / 180.0)
+				-sin(playerAngle * PI / 180.0)
 			);
 
 			local xOffset = 100.0;
@@ -505,7 +505,7 @@ addEventHandler("GUI.onClick", function(self){
 		switch(self){
 			case creatorGUI.btnBack:
 				toggleCreator(false);
-				launchMenuScene(true);
+				menuChangeVisibility(true);
 			break;
 			case creatorGUI.btnFinish:
 				if(creatorGUI.charaName.getText() != ""){
@@ -530,7 +530,7 @@ addEventHandler("GUI.onClick", function(self){
 						LocalStorage.setItem("fatness", fatScroll.getValue());
 						LocalStorage.setItem("visValue", [sex, race, _vis[0], _vis[1], _vis[2]]);
 					toggleCreator(false);
-					launchMenuScene(true);
+					menuChangeVisibility(true);
 				} else {
 					creatorGUI.fail.setVisible(true);
 					setTimer(function(){
