@@ -3,6 +3,8 @@ virtualServers <- {};
 class VirtualServer {
 	id = -1
 
+	_type = ""
+
 	name = ""
 	zen = ""
 
@@ -12,8 +14,10 @@ class VirtualServer {
 	constructor(args){
 		this.id = args.vworld;
 
-		this.name = args.name
-		this.zen = args.zen
+		this._type = args._type;
+
+		this.name = args.name;
+		this.zen = args.zen;
 
 		virtualServers[this.id] <- this;
 	}
@@ -41,10 +45,13 @@ class VirtualServer {
 			Players[pid].setVirtualWorld(this.id);
 		}
 
+		this.players++;
+		local joinServerPacket = ServerJoinMessage(pid).serialize();
+		joinServerPacket.send(pid, RELIABLE);
 	}
 
 	function disconnect(pid){
-
+		this.players--;
 	}
 }
 
@@ -56,6 +63,7 @@ ServerListPingMessage.bind(function(pid, message){
 	foreach(vServer in virtualServers){
 		local sendServersPacket = ServerListMessage(pid,
 			vServer.id,
+			vServer._type,
 			vServer.name,
 			vServer.zen,
 			vServer.players,

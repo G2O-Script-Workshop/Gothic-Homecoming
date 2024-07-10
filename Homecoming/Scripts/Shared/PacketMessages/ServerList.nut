@@ -3,12 +3,20 @@ class ServerListPingMessage extends BPacketMessage {
 	playerId = -1
 }
 
+class ServerJoinMessage extends BPacketMessage {
+	</ type = BPacketInt32 />
+	playerId = -1
+}
+
 class ServerListMessage extends BPacketMessage {
 	</ type = BPacketInt32 />
 	playerId = -1
 
 	</ type = BPacketInt32 />
 	serverId = -1
+
+	</ type = BPacketString />
+	serverType = ""
 
 	</ type = BPacketString />
 	serverName = ""

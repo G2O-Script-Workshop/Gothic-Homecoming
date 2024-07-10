@@ -36,6 +36,12 @@ local serverGUI = {
 	})
 }
 
+local srvType = serverGUI.list.addColumn({
+	widthPx = nax(1000)
+	align = Align.Left
+	file = "INV_BACK_PLUNDER.TGA"
+	draw = {text = "Server Type"}
+})
 local srvName = serverGUI.list.addColumn({
 	widthPx = nax(2500)
 	align = Align.Left
@@ -49,13 +55,13 @@ local srvMap = serverGUI.list.addColumn({
 	draw = {text = "World Map"}
 })
 local srvPlayers = serverGUI.list.addColumn({
-	widthPx = nax(1500)
+	widthPx = nax(1000)
 	align = Align.Left
 	file = "INV_BACK_PLUNDER.TGA"
 	draw = {text = "Online Players"}
 })
 local srvBots = serverGUI.list.addColumn({
-	widthPx = nax(1500)
+	widthPx = nax(1000)
 	align = Align.Left
 	file = "INV_BACK_PLUNDER.TGA"
 	draw = {text = "NPCs"}
@@ -89,6 +95,7 @@ function showServerList(toggle){
 ServerListMessage.bind(function(message){
 	_srvList.insertRow(message.serverId, {});
 
+	_srvList.rows[message.serverId].insertCell(srvType, {text = message.serverType});
 	_srvList.rows[message.serverId].insertCell(srvName, {text = message.serverName});
 	_srvList.rows[message.serverId].insertCell(srvMap, {text = message.serverZen});
 	_srvList.rows[message.serverId].insertCell(srvPlayers, {text = message.serverPlayers});
@@ -96,6 +103,15 @@ ServerListMessage.bind(function(message){
 
 	serverListScroll.setMaximum(_srvListRows);
 });
+
+local curColumn = null;
+local curDirection = 1;
+local sortFunc = function(first, second){
+	local firstValue = first.cells[curColumn].getValue()
+	local secondValue = second.cells[curColumn].getValue()
+
+	return (firstValue <=> secondValue) * curDirection
+}
 
 function srvListMouseClick(self){
 	if(self instanceof GUI.GridListVisibleCell){
@@ -113,8 +129,18 @@ function srvListMouseClick(self){
 
 		launchMenuScene(false);
 		showServerList(false);
-		showSelectClass();
 	}
+
+	//if(self instanceof GUI.GridListColumn){
+		if(self == srvType || self == srvName || self == srvMap || self == srvPlayers || self == srvBots){
+			if(curColumn != self.id){
+				curColumn = self.id
+				curDirection = 1
+			} else curDirection = -curDirection
+
+			_srvList.sort(sortFunc);
+		}
+	//}
 }
 
 function srvListMouseIn(self){
@@ -123,6 +149,11 @@ function srvListMouseIn(self){
 	if(self == serverGUI.button_all || self == serverGUI.button_fav){
 			self.draw.setColor({r = 0, g = 255, b = 0});
 			self.setFile("LOG_PAPER.TGA");
+		return;
+	}
+
+	if(self == srvType || self == srvName || self == srvMap || self == srvPlayers || self == srvBots){
+			self.draw.setColor({r = 255, g = 255, b = 0});
 		return;
 	}
 
@@ -143,6 +174,11 @@ function srvListMouseOut(self){
 	if(self == serverGUI.button_all || self == serverGUI.button_fav){
 			self.draw.setColor({r = 255, g = 255, b = 255});
 			self.setFile("INV_BACK_PLUNDER.TGA");
+		return;
+	}
+
+	if(self == srvType || self == srvName || self == srvMap || self == srvPlayers || self == srvBots){
+		self.draw.setColor({r = 255, g = 255, b = 255});
 		return;
 	}
 
