@@ -8,12 +8,15 @@
 		<!-- Localization -->
 			<script src="Shared/String/Animations.nut" type="shared" />
 		<!-- Tables -->
+			<script src="Shared/Tables/Scenes.nut" type="shared" />
+			<script src="Shared/Tables/VirtualServers.nut" type="shared" />
 			<script src="Shared/Tables/Creator.nut" type="shared" />
 			<script src="Shared/Tables/Animations.nut" type="shared" />
 			<script src="Shared/Tables/Classes.nut" type="shared" />
 		<!-- Packet Messages -->
 			<script src="Shared/PacketMessages/Menu.nut" type="shared" />
 			<script src="Shared/PacketMessages/SelectClass.nut" type="shared" />
+			<script src="Shared/PacketMessages/ServerList.nut" type="shared" />
 
 	<!-- Server-Side -->
 		<!-- Hero -->
@@ -22,6 +25,7 @@
 				<script src="Server/HeroClass/Player.nut" type="server" />
 				<script src="Server/HeroClass/NPC.nut" type="server" />
 		<!-- Game -->
+			<script src="Server/SServerList.nut" type="server" />
 			<script src="Server/Server.nut" type="server" />
 			<script src="Server/SSelectClass.nut" type="server" />
 		<!-- Chat -->
@@ -29,11 +33,12 @@
 
 	<!-- Client-Side -->
 		<!-- Menu -->
-			<script src="Client/CMainMenu/MainMenu.nut" type="client" />
+			<script src="Client/CMainMenu.nut" type="client" />
+			<!-- <script src="Client/CMainMenu/MainMenu.nut" type="client" /> -->
 			<script src="Client/CMainMenu/Appearance.nut" type="client" />
 			<script src="Client/CMainMenu/Options.nut" type="client" />
 			<script src="Client/CMainMenu/Settings.nut" type="client" />
-			<!-- <script src="Client/CMainMenu.nut" type="client" /> -->
+			<script src="Client/CServerList.nut" type="client" />
 		<!-- Interface -->
 			<script src="Client/Interface.nut" type="client" />
 			<script src="Client/CAnimMenu.nut" type="client" />
