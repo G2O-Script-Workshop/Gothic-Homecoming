@@ -32,13 +32,16 @@ local selectClassGUI = {
 selectedClass <- 0;
 
 local function updateClassInfo(class_id){
-	if(class_id < 0) class_id = classes.len() - 1;
-	if(class_id > classes.len() - 1) class_id = 0;
+	local _classWorld = classes[getWorld()];
+	local _classLen = _classWorld.len();
+
+	if(class_id < 0) class_id = _classLen - 1;
+	if(class_id > _classLen - 1) class_id = 0;
 
 	selectedClass = class_id;
 
 	local ui = selectClassGUI;
-	local info = classes[selectedClass];
+	local info = _classWorld[selectedClass];
 
 		ui.class_name.setText(format("Class Name: %s", info.name));
 		ui.class_desc.setText(format("Description: %s",info.description));
@@ -60,42 +63,45 @@ local function updateClassInfo(class_id){
 		info._func(heroId);
 
 	local playerPos = getPlayerPosition(heroId);
-		local x = info.spawn[0] + 250.0 * sin((3.14 / 180) * info.spawn[3]);
-		local z = info.spawn[2] + 250.0 * cos((3.14 / 180) * info.spawn[3]);
+		local x = info.spawn[0] + 250.0 * sin((PI / 180) * info.spawn[3]);
+		local z = info.spawn[2] + 250.0 * cos((PI / 180) * info.spawn[3]);
 		Camera.setPosition(x, playerPos.y + 70, z);
 		Camera.setRotation(15, info.spawn[3] + 180, 0);
 }
 
-function showSelectClass(){
+local function selectClassKeyDown(key){
+	if(!selectClassCollection.getVisible()) return;
+
+	switch(key){
+		case KEY_A:
+			updateClassInfo(selectedClass - 1);
+		break;
+		case KEY_D:
+			updateClassInfo(selectedClass + 1);
+		break;
+
+		case KEY_RETURN:
+			clearInventory();
+
+			local selectClassPacket = SelectClassMessage(heroId,
+				selectedClass
+			).serialize();
+			selectClassPacket.send(RELIABLE_ORDERED);
+
+			selectClassCollection.setVisible(false);
+			setHudMode(HUD_ALL, HUD_MODE_DEFAULT);
+
+			Camera.movementEnabled = true;
+			disableControls(false);
+
+			removeEventHandler("onKeyDown", selectClassKeyDown);
+		break;
+	}
+}
+
+ServerJoinMessage.bind(function(message){
 	selectClassCollection.setVisible(true);
 
 	updateClassInfo(0);
-}
-
-addEventHandler("onKeyDown", function(key){
-	if(!selectClassCollection.getVisible()) return;
-
-		switch(key){
-			case KEY_A:
-				updateClassInfo(selectedClass - 1);
-			break;
-			case KEY_D:
-				updateClassInfo(selectedClass + 1);
-			break;
-
-			case KEY_RETURN:
-				clearInventory();
-
-				local selectClassPacket = SelectClassMessage(heroId,
-					selectedClass
-				).serialize();
-				selectClassPacket.send(RELIABLE_ORDERED);
-
-				selectClassCollection.setVisible(false);
-				setHudMode(HUD_ALL, HUD_MODE_DEFAULT);
-
-				Camera.movementEnabled = true;
-				disableControls(false);
-			break;
-		}
+	addEventHandler("onKeyDown", selectClassKeyDown);
 });

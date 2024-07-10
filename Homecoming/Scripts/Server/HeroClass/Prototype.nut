@@ -524,7 +524,7 @@ class PrototypeHero {
 	function setClass(classId){
 		this.class_id = classId;
 
-		classes[classId].func(this.id);
+		classes[this.world][classId].func(this.id);
 	}
 
 	function getClass(){
