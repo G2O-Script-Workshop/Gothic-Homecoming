@@ -30,8 +30,8 @@ addEventHandler("onInit", function(){
 	initDiscordActivity();
 });
 
-function isGUIOpened(){
-	return menuCollection.getVisible() || creatorCollection.getVisible() || selectClassCollection.getVisible()
+function isMenuOpened(){
+	return menuCollection.getVisible() || creatorCollection.getVisible() || selectClassCollection.getVisible() || serverCollection.getVisible()
 }
 
 SynchronizeTimeMessage.bind(function(message){
@@ -39,11 +39,3 @@ SynchronizeTimeMessage.bind(function(message){
 
 	setTime(message._hour, message._min);
 });
-
-
-function cameraPatch(){
-	Camera.setPosition(13354.502930, 2040.0, -1141.678467);
-	Camera.setRotation(0, -150, 0);
-}
-
-addEventHandler("onRender", cameraPatch);
