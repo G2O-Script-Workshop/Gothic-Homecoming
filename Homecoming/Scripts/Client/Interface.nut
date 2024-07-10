@@ -1,5 +1,5 @@
 addEventHandler("onKeyDown", function(key){
-	if(isConsoleOpen() || chatInputIsOpen() || isGUIOpened() || isInventoryOpen()) return;
+	if(isConsoleOpen() || chatInputIsOpen() || isMenuOpened() || isInventoryOpen()) return;
 
 	switch(key){
 		case KEY_F1:
