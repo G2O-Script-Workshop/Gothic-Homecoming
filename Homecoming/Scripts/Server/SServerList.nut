@@ -19,7 +19,7 @@ class VirtualServer {
 	}
 
 	function connect(pid, message){
-		if(!Players[pid]) {
+		if(!Players.rawget(pid)) {
 			Player(pid, {
 				name = message.charaName,
 
