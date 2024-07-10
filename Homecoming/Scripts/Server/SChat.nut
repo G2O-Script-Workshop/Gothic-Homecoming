@@ -1,6 +1,8 @@
 addEventHandler("onPlayerMessage", function(pid, message){
-	if(message.slice(0, 1) == "!"){
-		sendMessageToAll(255, 222, 222, format("%s: %s", Players[pid].getName(), message));
+	local _prefix = (message.slice(0, 1) == "!");
+	local _msg = message.slice(1);
+	if(_prefix && _msg != ""){
+		sendMessageToAll(255, 222, 222, format("%s: %s", Players[pid].getName(), _msg));
 	} else {
 		local nearPlayers = findNearbyPlayers(
 			getPlayerPosition(pid),
