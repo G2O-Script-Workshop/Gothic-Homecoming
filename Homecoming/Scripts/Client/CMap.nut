@@ -42,8 +42,8 @@ local _playerMarker = mapGUI.playerMarker;
 		if (!isPlayerCreated(pid))
 			return false
 
-		/* if (getPlayerWorld(pid) != _world)
-			return false */
+		if (getWorld() != _world)
+			return false
 
 		return true
 	}
