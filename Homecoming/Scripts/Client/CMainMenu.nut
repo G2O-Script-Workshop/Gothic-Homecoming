@@ -12,6 +12,7 @@ local menuGUI = {
 		/* file = "GMP_LOGO.TGA" */
 		scaling = true
 		disabled = true
+		collection = menuCollection
 	}),
 
 	play = GUI.Draw({
@@ -134,7 +135,6 @@ function launchMenuScene(toggle){
 
 function menuChangeVisibility(toggle){
 	menuCollection.setVisible(toggle);
-	//menuGUI.logo.setVisible(toggle);
 
 	if(toggle) calculateSwordOffset();
 }
@@ -145,7 +145,6 @@ JoinMenuMessage.bind(function(message){
 	menuGUI.settings.setDisabled(true);
 	menuGUI.options.setDisabled(true);
 
-	menuGUI.logo.setVisible(true);
 	menuGUI.version.setText(message.versionDraw);
 
 	local versionDrawSize = menuGUI.version.getSizePx();

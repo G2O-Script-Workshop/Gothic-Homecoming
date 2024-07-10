@@ -2,6 +2,15 @@ creatorCollection <- GUI.Collection({
 	positionPx = {x = 0, y = 0}
 });
 local creatorGUI = {
+	logo = GUI.Texture({
+		positionPx = {x = nax(4000), y = nay(200)}
+		sizePx = {width = nax(5500), height = nay(2000)}
+		file = "GMP_LOGO_MENU.TGA"
+		scaling = true
+		disabled = true
+		collection = creatorCollection
+	}),
+
 	visBG = GUI.Texture({
 		positionPx = {x = nax(300), y = nay(2085)}
 		sizePx = {width = nax(3000), height = nay(4020)}
