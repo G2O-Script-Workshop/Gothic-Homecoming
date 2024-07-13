@@ -17,7 +17,6 @@ server.log
 
 *.txt
 
-*.vdf
 *.vm
 
 G2O_Server.x64.exe
