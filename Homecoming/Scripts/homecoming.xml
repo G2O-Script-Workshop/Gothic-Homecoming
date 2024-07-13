@@ -12,7 +12,12 @@
 			<script src="Shared/Tables/VirtualServers.nut" type="shared" />
 			<script src="Shared/Tables/Creator.nut" type="shared" />
 			<script src="Shared/Tables/Animations.nut" type="shared" />
-			<script src="Shared/Tables/Classes.nut" type="shared" />
+			<!-- Classes -->
+				<script src="Shared/Tables/Classes/NEWWORLD.nut" type="shared" />
+				<script src="Shared/Tables/Classes/OLDWORLD.nut" type="shared" />
+				<script src="Shared/Tables/Classes/ADDONWORLD.nut" type="shared" />
+				<script src="Shared/Tables/Classes/DRAGONISLAND.nut" type="shared" />
+				<script src="Shared/Tables/Classes/COLONY.nut" type="shared" />
 		<!-- Packet Messages -->
 			<script src="Shared/PacketMessages/Menu.nut" type="shared" />
 			<script src="Shared/PacketMessages/SelectClass.nut" type="shared" />
