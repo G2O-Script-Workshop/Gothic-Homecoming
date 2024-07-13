@@ -37,13 +37,13 @@ local serverGUI = {
 }
 
 local srvType = serverGUI.list.addColumn({
-	widthPx = nax(1000)
+	widthPx = nax(900)
 	align = Align.Left
 	file = "INV_BACK_PLUNDER.TGA"
 	draw = {text = "Server Type"}
 })
 local srvName = serverGUI.list.addColumn({
-	widthPx = nax(2500)
+	widthPx = nax(3000)
 	align = Align.Left
 	file = "INV_BACK_PLUNDER.TGA"
 	draw = {text = "Server Name"}
@@ -55,13 +55,13 @@ local srvMap = serverGUI.list.addColumn({
 	draw = {text = "World Map"}
 })
 local srvPlayers = serverGUI.list.addColumn({
-	widthPx = nax(1000)
+	widthPx = nax(800)
 	align = Align.Left
 	file = "INV_BACK_PLUNDER.TGA"
-	draw = {text = "Online Players"}
+	draw = {text = "Players"}
 })
 local srvBots = serverGUI.list.addColumn({
-	widthPx = nax(1000)
+	widthPx = nax(800)
 	align = Align.Left
 	file = "INV_BACK_PLUNDER.TGA"
 	draw = {text = "NPCs"}
@@ -107,8 +107,8 @@ ServerListMessage.bind(function(message){
 local curColumn = null;
 local curDirection = 1;
 local sortFunc = function(first, second){
-	local firstValue = first.cells[curColumn].getValue()
-	local secondValue = second.cells[curColumn].getValue()
+	local firstValue = first.cells[curColumn].getText()
+	local secondValue = second.cells[curColumn].getText()
 
 	return (firstValue <=> secondValue) * curDirection
 }
@@ -131,16 +131,14 @@ function srvListMouseClick(self){
 		showServerList(false);
 	}
 
-	//if(self instanceof GUI.GridListColumn){
-		if(self == srvType || self == srvName || self == srvMap || self == srvPlayers || self == srvBots){
-			if(curColumn != self.id){
-				curColumn = self.id
-				curDirection = 1
-			} else curDirection = -curDirection
+	if(self == srvType || self == srvName || self == srvMap || self == srvPlayers || self == srvBots){
+		if(curColumn != self){
+			curColumn = self
+			curDirection = 1
+		} else curDirection = -curDirection
 
-			_srvList.sort(sortFunc);
-		}
-	//}
+		_srvList.sort(sortFunc);
+	}
 }
 
 function srvListMouseIn(self){
