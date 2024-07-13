@@ -103,7 +103,11 @@ local function calculateSwordOffset(){
 	local rightVector = Vec3.cross(atVector, Vec3(0, 1, 0))
 	local upVector = Vec3.cross(rightVector, atVector)
 
-	local transformedOffset = _offsetVec * rightVector + _offsetVec * upVector + _offsetVec * atVector
+	local transformedOffset = Vec3(
+		_offsetVec.x * rightVector.x + _offsetVec.y * upVector.x + _offsetVec.z * atVector.x,
+		_offsetVec.x * rightVector.y + _offsetVec.y * upVector.y + _offsetVec.z * atVector.y,
+		_offsetVec.x * rightVector.z + _offsetVec.y * upVector.z + _offsetVec.z * atVector.z
+	);
 
 	local _swordPos = Vec3(
 		_scene[0].x + transformedOffset.x,
