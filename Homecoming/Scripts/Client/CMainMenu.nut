@@ -1,6 +1,9 @@
 local Music = BASSMusic("GMPMenu.mp3");
 local Sword = Vob("ItMw_030_1h_PAL_sword_bastard_RAW_01.3DS");
 
+local _Sword = Vob("ItMw_030_1h_sword_long_01.3DS");
+_Sword.addToWorld();
+
 menuCollection <- GUI.Collection({
 	position = {x = 0, y = 0}
 });
@@ -67,11 +70,15 @@ local function menuSwordScene(){
 	}
 }
 
+local _lastScene;
+local _scene;
 local function calculateSwordOffset(){
-	local scene = scenes[rand() % scenes.len()]
+	do {
+		_scene = scenes[rand() % scenes.len()]
+	} while (_scene == _lastScene);
 
-	Camera.setPosition(scene[0].x, scene[0].y, scene[0].z)
-	Camera.setRotation(scene[1].x, scene[1].y, scene[1].z)
+	Camera.setPosition(_scene[0].x, _scene[0].y, _scene[0].z)
+	Camera.setRotation(_scene[1].x, _scene[1].y, _scene[1].z)
 
 	local _ogCamVec = Vec3(
 		13354.502930,
@@ -90,13 +97,34 @@ local function calculateSwordOffset(){
 		_ogCamVec.z - _ogSwordVec.z
 	)
 
+	_Sword.setPosition(_ogSwordVec.x, _ogSwordVec.y, _ogSwordVec.z);
+
+	local atVector = Camera.vobMatrix.getAtVector()
+	local rightVector = Vec3.cross(atVector, Vec3(0, 1, 0))
+	local upVector = Vec3.cross(rightVector, atVector)
+
+	local transformedOffset = _offsetVec * rightVector + _offsetVec * upVector + _offsetVec * atVector
+
 	local _swordPos = Vec3(
-		scene[0].x - _offsetVec.x,
-		scene[0].y - _offsetVec.y,
-		scene[0].z - _offsetVec.z
-	)
+		_scene[0].x + transformedOffset.x,
+		_scene[0].y + transformedOffset.y,
+		_scene[0].z + transformedOffset.z
+	);
 
 	Sword.setPosition(_swordPos.x, _swordPos.y, _swordPos.z);
+
+	Sword.matrix.setRightVector(rightVector);
+	Sword.matrix.setAtVector(atVector);
+	Sword.matrix.setUpVector(upVector);
+
+	Sword.matrix.makeOrthonormal()
+
+	local rotation = _Sword.getRotation()
+	local newYRotation = _scene[1].y + (rotation.y - scenes[0][1].y)
+
+	Sword.setRotation(rotation.x, newYRotation, rotation.z);
+
+	_lastScene = _scene;
 }
 
 function launchMenuScene(toggle){
@@ -153,9 +181,9 @@ JoinMenuMessage.bind(function(message){
 
 	disableMusicSystem(true);
 
-	Music.play();
 	Music.setVolume(100);
 	Music.looping = true;
+	Music.play();
 });
 
 addEventHandler("GUI.onClick", function(self){
