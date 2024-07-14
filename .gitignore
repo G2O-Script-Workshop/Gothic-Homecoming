@@ -19,4 +19,4 @@ server.log
 
 *.vm
 
-G2O_Server.x64.exe
+*.exe
