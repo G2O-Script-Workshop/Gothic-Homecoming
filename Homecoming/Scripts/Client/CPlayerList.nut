@@ -9,10 +9,6 @@ local function clamp(value, min, max)
 	return value
 }
 
-/////////////////////////////////////////
-///	Row types
-/////////////////////////////////////////
-
 local PlayerListDataRow = class
 {
 	constructor(...)
@@ -95,30 +91,22 @@ local PlayerListVisibleRow = class
 	visible = false
 }
 
-/////////////////////////////////////////
-///	Player list
-/////////////////////////////////////////
-
 PlayerList <- {
-	// Private
 	_headers = [],
 	_backgrounds = [],
 	_rowHeightPx = -1,
 
-	// Public
 	visible = false,
 	x = -1,
 	y = 100,
 	width = -1,
 	height = -1,
 
-	// Read only
 	begin = 0,
 	playerDataRows = array(getMaxSlots()),
 	dataRows = [],
 	visibleRows = [],
 
-	// Constans
 	MAX_VISIBLE_ROWS = 30,
 
 	COLUMN_ID = -1,
@@ -127,28 +115,23 @@ PlayerList <- {
 
 function PlayerList::init()
 {
-	// Add columns after this line....
 	COLUMN_ID = registerColumn("ID", 120)
 	COLUMN_NICKNAME = registerColumn("Player", 3000)
 
-	// Add textures after this line...
 	registerTexture("MENU_INGAME.TGA", function()
 	{
 		tex.setPositionPx(PlayerList.x - 25, PlayerList.y - 15)
 		tex.setSizePx(PlayerList.width + 50, PlayerList.height + 30)
 	})
 
-	// Create visible rows
 	for (local i = 0; i < MAX_VISIBLE_ROWS; ++i)
 		visibleRows.push(PlayerListVisibleRow())
 
-	// Init row height in pixels
 	local oldFont = textGetFont()
 	textSetFont("FONT_OLD_10_WHITE_HI.TGA")
 		_rowHeightPx = letterHeightPx()
 	textSetFont(oldFont)
 
-	// Update UI size
 	resize()
 }
 
@@ -295,30 +278,10 @@ function PlayerList::_updateVisibleRows()
 		visibleRow.update(dataRowIdx < dataRowsLen ? dataRows[dataRowIdx++] : null)
 }
 
-/////////////////////////////////////////
-///	Events
-/////////////////////////////////////////
-
-/* addEventHandler("onPlayerCreate", function(pid)
-{
-	PlayerList.insert(pid)
-}) */
-
 addEventHandler("onPlayerDestroy", function(pid)
 {
 	PlayerList.remove(pid)
 })
-
-/* addEventHandler("onPlayerChangeNickname", function(pid, name)
-{
-	local dataRow = PlayerList.playerDataRows[pid]
-	local dataRowIdx = PlayerList.dataRows.find(dataRow)
-
-	dataRow.columns[PlayerList.COLUMN_NICKNAME] = format("%s - %s", name, "Logging In...")
-
-	if (PlayerList.isInView(dataRowIdx))
-		PlayerList.visibleRows[dataRowIdx - PlayerList.begin].columns[PlayerList.COLUMN_NICKNAME].setText(format("%s - %s", name, "Logging In..."));
-}) */
 
 UpdateClassMessage.bind(function(message){
 	PlayerList.insert(message.playerId, message.classId);
