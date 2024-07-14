@@ -1,7 +1,7 @@
 VirtualServersTable <- [
 	{
-		_type = "DM",
-		name = "Irdorath (Classic DeathMatch)",
+		_type = "RP",
+		name = "Irdorath (Classic RolePlay)",
 		zen = "NEWWORLD\\DRAGONISLAND.ZEN",
 		vworld = 0
 	},
@@ -28,7 +28,7 @@ VirtualServersTable <- [
 		name = "Colony (Classic RolePlay)",
 		zen = "COLONY.ZEN",
 		vworld = 4
-	},
+	}/* ,
 	{
 		_type = "DM",
 		name = "Khorinis (Classic DeathMatch)",
@@ -52,5 +52,11 @@ VirtualServersTable <- [
 		name = "Colony (Classic DeathMatch)",
 		zen = "COLONY.ZEN",
 		vworld = 8
-	}
+	},
+	{
+		_type = "DM",
+		name = "Irdorath (Classic DeathMatch)",
+		zen = "NEWWORLD\\DRAGONISLAND.ZEN",
+		vworld = 9
+	}, */
 ]
