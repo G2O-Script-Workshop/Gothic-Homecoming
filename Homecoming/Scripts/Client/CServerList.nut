@@ -94,6 +94,7 @@ function showServerList(toggle){
 
 ServerListMessage.bind(function(message){
 	_srvList.insertRow(message.serverId, {});
+	_srvList.rows[message.serverId].metadata.id <- message.serverId;
 
 	_srvList.rows[message.serverId].insertCell(srvType, {text = message.serverType});
 	_srvList.rows[message.serverId].insertCell(srvName, {text = message.serverName});
@@ -115,7 +116,7 @@ local sortFunc = function(first, second){
 
 function srvListMouseClick(self){
 	if(self instanceof GUI.GridListVisibleCell){
-		local joinVirtualServerPacket = ServerListClickMessage(heroId, self.parent.id,
+		local joinVirtualServerPacket = ServerListClickMessage(heroId, self.getDataCell().parent.metadata.id,
 			LocalStorage.getItem("characterName"),
 			LocalStorage.getItem("bodyModel"),
 			LocalStorage.getItem("bodyTexture"),
