@@ -69,6 +69,13 @@ local function updateClassInfo(class_id){
 		Camera.setRotation(15, info.spawn[3] + 180, 0);
 }
 
+local function onServerWorldEnter(world){
+	Camera.movementEnabled = false;
+	Camera.modeChangeEnabled = false;
+
+	updateClassInfo(0);
+}
+
 local function selectClassKeyDown(key){
 	if(!selectClassCollection.getVisible()) return;
 
@@ -91,10 +98,10 @@ local function selectClassKeyDown(key){
 			selectClassCollection.setVisible(false);
 			setHudMode(HUD_ALL, HUD_MODE_DEFAULT);
 
-			Camera.movementEnabled = true;
-			disableControls(false);
+			updateDiscordState(format("%s (%s)", getPlayerName(heroId), classes[getWorld()][selectedClass].name));
 
-			removeEventHandler("onKeyDown", selectClassKeyDown);
+			removeEventHandler("onWorldEnter", onServerWorldEnter);
+			disableControls(false);
 		break;
 	}
 }
@@ -102,6 +109,6 @@ local function selectClassKeyDown(key){
 ServerJoinMessage.bind(function(message){
 	selectClassCollection.setVisible(true);
 
-	updateClassInfo(0);
 	addEventHandler("onKeyDown", selectClassKeyDown);
+	addEventHandler("onWorldEnter", onServerWorldEnter);
 });
