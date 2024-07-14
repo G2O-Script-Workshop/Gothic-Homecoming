@@ -6,6 +6,14 @@ class ServerListPingMessage extends BPacketMessage {
 class ServerJoinMessage extends BPacketMessage {
 	</ type = BPacketInt32 />
 	playerId = -1
+
+	</ type = BPacketInt32 />
+	serverId = -1
+}
+
+class ServerLeaveMessage extends BPacketMessage {
+	</ type = BPacketInt32 />
+	playerId = -1
 }
 
 class ServerListMessage extends BPacketMessage {

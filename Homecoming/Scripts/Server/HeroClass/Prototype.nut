@@ -493,7 +493,7 @@ class PrototypeHero {
 
 		this.setVisual(this.visual.bm, this.visual.bt, this.visual.hm, this.visual.ht);
 
-		local class_pos = classes[this.class_id].spawn;
+		local class_pos = classes[this.virtual_world][this.class_id].spawn;
 		this.setPosition(class_pos[0], class_pos[1], class_pos[2], class_pos[3]);
 
 		this.setClass(this.class_id);
@@ -524,7 +524,7 @@ class PrototypeHero {
 	function setClass(classId){
 		this.class_id = classId;
 
-		classes[this.world][classId].func(this.id);
+		classes[this.virtual_world][classId].func(this.id);
 	}
 
 	function getClass(){

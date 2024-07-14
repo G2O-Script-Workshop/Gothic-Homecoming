@@ -1,4 +1,4 @@
-classes["OLDWORLD\\OLDWORLD.ZEN"] <- [
+classes[virtualServers.valleyDMClassic] <- [
 		{
 			name = "Men-at-arms",
 			guild = "Castle",

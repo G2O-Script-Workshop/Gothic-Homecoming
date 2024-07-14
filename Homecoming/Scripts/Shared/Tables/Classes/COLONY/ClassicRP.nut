@@ -1,4 +1,4 @@
-classes["COLONY.ZEN"] <- [
+classes[virtualServers.colonyRPClassic] <- [
 		{
 			name = "Citizen",
 			guild = "City of Khorinis",

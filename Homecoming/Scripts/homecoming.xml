@@ -18,11 +18,21 @@
 				<script src="Shared/Tables/Scenes/ADDONWORLD.nut" type="shared" />
 				<script src="Shared/Tables/Scenes/COLONY.nut" type="shared" />
 			<!-- Classes -->
-				<script src="Shared/Tables/Classes/NEWWORLD.nut" type="shared" />
-				<script src="Shared/Tables/Classes/OLDWORLD.nut" type="shared" />
-				<script src="Shared/Tables/Classes/ADDONWORLD.nut" type="shared" />
-				<script src="Shared/Tables/Classes/DRAGONISLAND.nut" type="shared" />
-				<script src="Shared/Tables/Classes/COLONY.nut" type="shared" />
+				<!-- NEWWORLD -->
+					<script src="Shared/Tables/Classes/NEWWORLD/ClassicRP.nut" type="shared" />
+					<script src="Shared/Tables/Classes/NEWWORLD/ClassicDM.nut" type="shared" />
+				<!-- OLDWORLD -->
+					<script src="Shared/Tables/Classes/OLDWORLD/ClassicRP.nut" type="shared" />
+					<script src="Shared/Tables/Classes/OLDWORLD/ClassicDM.nut" type="shared" />
+				<!-- ADDONWORLD -->
+					<script src="Shared/Tables/Classes/ADDONWORLD/ClassicRP.nut" type="shared" />
+					<script src="Shared/Tables/Classes/ADDONWORLD/ClassicDM.nut" type="shared" />
+				<!-- DRAGONISLAND -->
+					<script src="Shared/Tables/Classes/DRAGONISLAND/ClassicRP.nut" type="shared" />
+					<script src="Shared/Tables/Classes/DRAGONISLAND/ClassicDM.nut" type="shared" />
+				<!-- COLONY -->
+					<script src="Shared/Tables/Classes/COLONY/ClassicRP.nut" type="shared" />
+					<script src="Shared/Tables/Classes/COLONY/ClassicDM.nut" type="shared" />
 		<!-- Packet Messages -->
 			<script src="Shared/PacketMessages/Menu.nut" type="shared" />
 			<script src="Shared/PacketMessages/SelectClass.nut" type="shared" />

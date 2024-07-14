@@ -92,6 +92,15 @@ function showServerList(toggle){
 	}
 }
 
+local curColumn = srvPlayers;
+local curDirection = 1;
+local sortFunc = function(first, second){
+	local firstValue = first.cells[curColumn].getText()
+	local secondValue = second.cells[curColumn].getText()
+
+	return (firstValue <=> secondValue) * -curDirection
+}
+
 ServerListMessage.bind(function(message){
 	_srvList.insertRow(message.serverId, {});
 	_srvList.rows[message.serverId].metadata.id <- message.serverId;
@@ -103,16 +112,8 @@ ServerListMessage.bind(function(message){
 	_srvList.rows[message.serverId].insertCell(srvBots, {text = message.serverNPCs});
 
 	serverListScroll.setMaximum(_srvListRows);
+	_srvList.sort(sortFunc);
 });
-
-local curColumn = null;
-local curDirection = 1;
-local sortFunc = function(first, second){
-	local firstValue = first.cells[curColumn].getText()
-	local secondValue = second.cells[curColumn].getText()
-
-	return (firstValue <=> secondValue) * curDirection
-}
 
 function srvListMouseClick(self){
 	if(self instanceof GUI.GridListVisibleCell){

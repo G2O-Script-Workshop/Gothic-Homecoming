@@ -1,4 +1,4 @@
-classes["ADDON\\ADDONWORLD.ZEN"] <- [
+classes[virtualServers.jarkendarDMClassic] <- [
 		{
 			name = "Weak Bandit",
 			guild = "Bandits",

@@ -29,10 +29,11 @@ local selectClassGUI = {
 	})
 }
 
-selectedClass <- 0;
+local virtualServer;
+local selectedClass = 0;
 
 local function updateClassInfo(class_id){
-	local _classWorld = classes[getWorld()];
+	local _classWorld = classes[virtualServer];
 	local _classLen = _classWorld.len();
 
 	if(class_id < 0) class_id = _classLen - 1;
@@ -98,7 +99,7 @@ local function selectClassKeyDown(key){
 			selectClassCollection.setVisible(false);
 			setHudMode(HUD_ALL, HUD_MODE_DEFAULT);
 
-			updateDiscordState(format("%s (%s)", getPlayerName(heroId), classes[getWorld()][selectedClass].name));
+			updateDiscordState(format("%s (%s)", getPlayerName(heroId), classes[virtualServer][selectedClass].name));
 
 			removeEventHandler("onWorldEnter", onServerWorldEnter);
 			disableControls(false);
@@ -108,6 +109,7 @@ local function selectClassKeyDown(key){
 
 ServerJoinMessage.bind(function(message){
 	selectClassCollection.setVisible(true);
+	virtualServer = message.serverId;
 
 	addEventHandler("onKeyDown", selectClassKeyDown);
 	addEventHandler("onWorldEnter", onServerWorldEnter);

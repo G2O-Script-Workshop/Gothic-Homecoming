@@ -1,4 +1,4 @@
-classes["NEWWORLD\\NEWWORLD.ZEN"] <- [
+classes[virtualServers.khorinisRPClassic] <- [
 		{
 			name = "Wanderer",
 			guild = "None",

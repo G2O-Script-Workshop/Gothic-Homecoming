@@ -195,7 +195,7 @@ function PlayerList::insert(pid, classId)
 {
 	if(dataRows.find(playerDataRows[pid]) != null) return;
 
-	local dataRow = PlayerListDataRow(pid, format("%s (%s)", getPlayerName(pid), classes[getWorld()][classId].name))
+	local dataRow = PlayerListDataRow(pid, Discord.activity.state)
 
 	local playerColor = heroId != pid ? getPlayerColor(pid) : {r = 255, g = 150, b = 0}
 	dataRow.setColor(playerColor.r, playerColor.g, playerColor.b)

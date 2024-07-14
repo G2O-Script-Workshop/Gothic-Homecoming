@@ -22,3 +22,16 @@ enum animations {
 	REACTION,
 	IDLE
 }
+
+enum virtualServers {
+	khorinisRPClassic,
+	khorinisDMClassic,
+	valleyRPClassic,
+	valleyDMClassic,
+	jarkendarRPClassic,
+	jarkendarDMClassic,
+	irdorathRPClassic,
+	irdorathDMClassic,
+	colonyRPClassic,
+	colonyDMClassic
+}

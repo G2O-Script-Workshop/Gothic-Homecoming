@@ -1,4 +1,4 @@
-classes["NEWWORLD\\DRAGONISLAND.ZEN"] <- [
+classes[virtualServers.irdorathDMClassic] <- [
 		{
 			name = "Citizen",
 			guild = "City of Khorinis",
