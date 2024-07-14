@@ -3,6 +3,7 @@ const defaultlang = "en"
 const buildVersion = "v0.2b Build 3336"
 
 classes <- {};
+scenes <- {};
 
 enum creator_gender {
 	MALE,

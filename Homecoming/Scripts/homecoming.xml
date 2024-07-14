@@ -8,10 +8,15 @@
 		<!-- Localization -->
 			<script src="Shared/String/Animations.nut" type="shared" />
 		<!-- Tables -->
-			<script src="Shared/Tables/Scenes.nut" type="shared" />
 			<script src="Shared/Tables/VirtualServers.nut" type="shared" />
 			<script src="Shared/Tables/Creator.nut" type="shared" />
 			<script src="Shared/Tables/Animations.nut" type="shared" />
+			<!-- Scenes -->
+				<!-- <script src="Shared/Tables/Scenes.nut" type="shared" /> -->
+				<script src="Shared/Tables/Scenes/NEWWORLD.nut" type="shared" />
+				<script src="Shared/Tables/Scenes/OLDWORLD.nut" type="shared" />
+				<script src="Shared/Tables/Scenes/ADDONWORLD.nut" type="shared" />
+				<script src="Shared/Tables/Scenes/COLONY.nut" type="shared" />
 			<!-- Classes -->
 				<script src="Shared/Tables/Classes/NEWWORLD.nut" type="shared" />
 				<script src="Shared/Tables/Classes/OLDWORLD.nut" type="shared" />
