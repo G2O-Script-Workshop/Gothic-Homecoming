@@ -1,12 +1,14 @@
 addEventHandler("onInit", function(){
 	clearMultiplayerMessages();
-	enableEvent_Render(true)
 
 	setHudMode(HUD_ALL, HUD_MODE_HIDDEN);
 	setDayLength(10000);
 
 	disableControls(true);
 	disableMusicSystem(true);
+
+    Camera.movementEnabled = false;
+	Camera.modeChangeEnabled = false;
 
 	disableKey(KEY_F1, true);
 	disableKey(KEY_F2, true);
@@ -38,4 +40,7 @@ SynchronizeTimeMessage.bind(function(message){
 	timeCollection.setVisible(true);
 
 	setTime(message._hour, message._min);
+
+    Camera.movementEnabled = true;
+	Camera.modeChangeEnabled = true;
 });
