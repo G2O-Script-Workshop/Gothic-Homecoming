@@ -11,7 +11,7 @@ local menuGUI = {
 		file = "GMP_LOGO_MENU.TGA"
 		/* file = "GMP_LOGO.TGA" */
 		scaling = true
-		disabled = true
+		/* disabled = true */
 		collection = menuCollection
 	}),
 
@@ -69,22 +69,22 @@ local function menuSwordScene(){
 
 local function rotateVectorAroundAxisAngle(axis, angle, vec)
 {
-    angle *= PI / 180.0
-    return vec * cos(angle) + (axis * Vec3.dot(vec, axis) * (1 - cos(angle))) + (Vec3.cross(axis, vec) * sin(angle))
+	angle *= PI / 180.0
+	return vec * cos(angle) + (axis * Vec3.dot(vec, axis) * (1 - cos(angle))) + (Vec3.cross(axis, vec) * sin(angle))
 }
 
-local _lastScene;
+local _lastScene = 0;
 local _scene;
 local function calculateSwordOffset(){
 	do {
-		_scene = scenes[rand() % scenes.len()]
+		_scene = scenes[getWorld()][rand() % scenes.len()]
 	} while (_scene == _lastScene);
 
 	Camera.setPosition(_scene[0].x, _scene[0].y, _scene[0].z)
 	Camera.setRotation(_scene[1].x, _scene[1].y, _scene[1].z)
 
-    local vobDistance = 104.981
-    local vobYOffset = -34
+	local vobDistance = 104.981
+	local vobYOffset = -34
 	local angleOffset = -25
 	local originalYRotation = 210
 
@@ -92,10 +92,50 @@ local function calculateSwordOffset(){
 	local rotatedVec = rotateVectorAroundAxisAngle(Vec3(0, 1, 0), angleOffset, atVector) * vobDistance
 
 	Sword.setPosition(_scene[0].x + rotatedVec.x, _scene[0].y + vobYOffset, _scene[0].z + rotatedVec.z)
-    Sword.setRotation(0, _scene[1].y - originalYRotation, 0)
+	Sword.setRotation(0, _scene[1].y - originalYRotation, 0)
 
 	_lastScene = _scene;
 }
+/*
+local Skull = Vob("SKULL.3DS");
+	Skull.addToWorld();
+
+local function calculateSwordOffset(){
+	if(_lastScene > scenes.len() - 1) _lastScene = 0;
+	_scene = scenes[_lastScene];
+
+
+	Skull.matrix.setRightVector(Vec3(_scene[0][0], _scene[0][1], _scene[0][2]))
+	Skull.matrix.setAtVector(Vec3(_scene[1][0], _scene[1][1], _scene[1][2]))
+	Skull.matrix.setUpVector(Vec3(_scene[2][0], _scene[2][1], _scene[2][2]))
+	Skull.matrix.setTranslation(Vec3(_scene[3][0], _scene[3][1], _scene[3][2]))
+	Skull.matrix.makeOrthonormal();
+
+	local skullPos = Skull.getPosition();
+	local skullRot = Skull.getRotation();
+	Camera.setPosition(skullPos.x, skullPos.y, skullPos.z);
+	Camera.setRotation(skullRot.x, skullRot.y, skullRot.z);
+
+	local _camPos = Camera.getPosition()
+	local _camRot = Camera.getRotation()
+
+	local _posForScene = format("scene %d \n[\n {x = %f, y = %f, z = %f},\n {x = %f, y = %f, z = %f}\n],", _lastScene, _camPos.x, _camPos.y, _camPos.z, _camRot.x, _camRot.y, _camRot.z)
+	setClipboardText(_posForScene);
+	print(_posForScene);
+
+	local vobDistance = 104.981
+	local vobYOffset = -34
+	local angleOffset = -25
+	local originalYRotation = 210
+
+	local atVector = Camera.vobMatrix.getAtVector()
+	local rotatedVec = rotateVectorAroundAxisAngle(Vec3(0, 1, 0), angleOffset, atVector) * vobDistance
+
+	Sword.setPosition(_camPos.x + rotatedVec.x, _camPos.y + vobYOffset, _camPos.z + rotatedVec.z)
+	Sword.setRotation(0, _camRot.y - originalYRotation, 0)
+
+	_lastScene++
+} */
 
 function launchMenuScene(toggle){
 	setCursorVisible(toggle);
@@ -170,5 +210,8 @@ addEventHandler("GUI.onClick", function(self){
 				exitGame();
 			break;
 		}
+	}
+	if(self == menuGUI.logo){
+		calculateSwordOffset()
 	}
 });
