@@ -20,3 +20,6 @@ server.log
 *.vm
 
 *.exe
+
+*.rar
+*.zip
