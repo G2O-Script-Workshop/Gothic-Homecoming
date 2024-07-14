@@ -111,6 +111,11 @@ ServerJoinMessage.bind(function(message){
 	selectClassCollection.setVisible(true);
 	virtualServer = message.serverId;
 
+	Camera.movementEnabled = false;
+	Camera.modeChangeEnabled = false;
+
+	updateClassInfo(0);
+
 	addEventHandler("onKeyDown", selectClassKeyDown);
 	addEventHandler("onWorldEnter", onServerWorldEnter);
 });
