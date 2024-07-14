@@ -54,8 +54,6 @@ class VirtualServer {
 		Players[pid].setVirtualWorld(101);
 
 		this.players--;
-		local leaveServerPacket = ServerLeaveMessage(pid).serialize();
-		leaveServerPacket.send(pid, RELIABLE);
 	}
 }
 
@@ -79,4 +77,8 @@ ServerListPingMessage.bind(function(pid, message){
 
 ServerListClickMessage.bind(function(pid, message){
 	_virtualServers[message.serverId].connect(pid, message);
+});
+
+ServerLeaveMessage.bind(function(pid, message){
+	_virtualServers[message.serverId].disconnect(pid);
 });

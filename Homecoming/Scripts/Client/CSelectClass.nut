@@ -119,3 +119,8 @@ ServerJoinMessage.bind(function(message){
 	addEventHandler("onKeyDown", selectClassKeyDown);
 	addEventHandler("onWorldEnter", onServerWorldEnter);
 });
+
+addEventHandler("onExit", function(){
+	local disconnectFromVirtual = ServerLeaveMessage(heroId, virtualServer).serialize();
+	disconnectFromVirtual.send(RELIABLE);
+});

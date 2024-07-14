@@ -14,6 +14,9 @@ class ServerJoinMessage extends BPacketMessage {
 class ServerLeaveMessage extends BPacketMessage {
 	</ type = BPacketInt32 />
 	playerId = -1
+
+	</ type = BPacketInt32 />
+	serverId = -1
 }
 
 class ServerListMessage extends BPacketMessage {
