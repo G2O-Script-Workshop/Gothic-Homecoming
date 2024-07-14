@@ -125,7 +125,7 @@ function toggleMap(toggle){
 			setLevelCoords(world, -47783, 36300, 43949, -32300);
 		break;
 		case "COLONY.ZEN":
-			_texture.setFile("MAP_COLONY.TGA");
+			_texture.setFile("MAP_WORLD_ORC.TGA");
 			setLevelCoords(world, -78500, 47500, 54000, -53000);
 		break;
 	}
