@@ -111,6 +111,8 @@ class PrototypeHero {
 
 	function setInstance(instance){
 		this.instance = convert(instance, "string");
+
+		if(this.instance == "PC_HERO") this.setVisual(this.visual.bm, this.visual.bt, this.visual.hm, this.visual.ht);
 	}
 
 	function getInstance(){
