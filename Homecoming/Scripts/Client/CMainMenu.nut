@@ -77,7 +77,7 @@ local _lastScene = 0;
 local _scene;
 local function calculateSwordOffset(){
 	do {
-		_scene = scenes[getWorld()][rand() % scenes.len()]
+		_scene = scenes[getWorld()][rand() % scenes[getWorld()].len()]
 	} while (_scene == _lastScene);
 
 	Camera.setPosition(_scene[0].x, _scene[0].y, _scene[0].z)
@@ -170,6 +170,16 @@ function launchMenuScene(toggle){
 
 function menuChangeVisibility(toggle){
 	menuCollection.setVisible(toggle);
+
+	if(LocalStorage.len() <= 0){
+		menuGUI.play.setDisabled(true);
+		menuGUI.play.setFont("FONT_OLD_20_WHITE_HI.TGA");
+		menuGUI.play.setColor({r = 180, g = 128, b = 128, a = 128});
+	} else {
+		menuGUI.play.setDisabled(false);
+		menuGUI.play.setFont("FONT_OLD_20_WHITE.TGA");
+		menuGUI.play.setColor({r = 255, g = 255, b = 255, a = 255});
+	}
 
 	if(toggle) calculateSwordOffset();
 }
