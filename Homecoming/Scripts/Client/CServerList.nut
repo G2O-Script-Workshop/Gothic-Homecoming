@@ -94,11 +94,19 @@ function showServerList(toggle){
 
 local curColumn = srvPlayers;
 local curDirection = 1;
+
+local sortStart = function(first, second){
+	local firstValue = first.cells[srvPlayers].getText()
+	local secondValue = second.cells[srvPlayers].getText()
+
+	return (firstValue <=> secondValue) * -curDirection
+}
+
 local sortFunc = function(first, second){
 	local firstValue = first.cells[curColumn].getText()
 	local secondValue = second.cells[curColumn].getText()
 
-	return (firstValue <=> secondValue) * -curDirection
+	return (firstValue <=> secondValue) * curDirection
 }
 
 ServerListMessage.bind(function(message){
@@ -112,7 +120,7 @@ ServerListMessage.bind(function(message){
 	_srvList.rows[message.serverId].insertCell(srvBots, {text = message.serverNPCs});
 
 	serverListScroll.setMaximum(_srvListRows);
-	_srvList.sort(sortFunc);
+	_srvList.sort(sortStart);
 });
 
 function srvListMouseClick(self){
