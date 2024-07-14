@@ -1,10 +1,9 @@
-classes <- {
-	"OLDWORLD\\OLDWORLD.ZEN" : [
+classes["OLDWORLD\\OLDWORLD.ZEN"] <- [
 		{
-			name = "Bollard",
-			guild = "Paladin Castle",
+			name = "Men-at-arms",
+			guild = "Castle",
 			description = "Become the help of great warriors protecting themselves from the evil orcs.",
-			spawn = [6251.07, 553.635, 4349.36, 0],
+			spawn = [2373.8, 199.73, -1592.02, 0],
 			func = function(id) {
 				Players[id].setHealth(400);
 				Players[id].setMaxHealth(400);
@@ -44,9 +43,9 @@ classes <- {
 		},
 		{
 			name = "Knight",
-			guild = "Paladin Castle",
+			guild = "Castle",
 			description = "Fight or die with the orcs. Become a legend, defeat the dragon and win the hand of the princess.",
-			spawn = [6251.07, 553.635, 4349.36, 0],
+			spawn = [-767.525, 199.507, 2.63988, 0],
 			func = function(id) {
 				Players[id].setHealth(400);
 				Players[id].setMaxHealth(400);
@@ -88,9 +87,9 @@ classes <- {
 		},
 		{
 			name = "Paladin",
-			guild = "Paladin Castle",
+			guild = "Castle",
 			description = "The most dignified of the most dignified. The brightest of the bright. The purest of the purest.",
-			spawn = [6251.07, 553.635, 4349.36, 0],
+			spawn = [-1993.89, 0.0368767, -2798.82, 0],
 			func = function(id) {
 				Players[id].setHealth(400);
 				Players[id].setMaxHealth(400);
@@ -132,4 +131,3 @@ classes <- {
 			}
 		}
 	]
-}

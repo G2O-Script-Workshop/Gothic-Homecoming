@@ -1,5 +1,4 @@
-classes <- {
-	"NEWWORLD\\DRAGONISLAND.ZEN" : [
+classes["NEWWORLD\\DRAGONISLAND.ZEN"] <- [
 		{
 			name = "Citizen",
 			guild = "City of Khorinis",
@@ -86,4 +85,3 @@ classes <- {
 			}
 		}
 	]
-}

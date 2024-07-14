@@ -1,5 +1,4 @@
-classes <- {
-	"COLONY.ZEN" : [
+classes["COLONY.ZEN"] <- [
 		{
 			name = "Citizen",
 			guild = "City of Khorinis",
@@ -86,4 +85,3 @@ classes <- {
 			}
 		}
 	]
-}
