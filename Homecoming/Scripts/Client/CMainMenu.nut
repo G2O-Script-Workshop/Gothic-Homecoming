@@ -1,9 +1,6 @@
 local Music = BASSMusic("GMPMenu.mp3");
 local Sword = Vob("ItMw_030_1h_PAL_sword_bastard_RAW_01.3DS");
 
-local _Sword = Vob("ItMw_030_1h_sword_long_01.3DS");
-_Sword.addToWorld();
-
 menuCollection <- GUI.Collection({
 	position = {x = 0, y = 0}
 });
@@ -70,6 +67,12 @@ local function menuSwordScene(){
 	}
 }
 
+local function rotateVectorAroundAxisAngle(axis, angle, vec)
+{
+    angle *= PI / 180.0
+    return vec * cos(angle) + (axis * Vec3.dot(vec, axis) * (1 - cos(angle))) + (Vec3.cross(axis, vec) * sin(angle))
+}
+
 local _lastScene;
 local _scene;
 local function calculateSwordOffset(){
@@ -80,53 +83,16 @@ local function calculateSwordOffset(){
 	Camera.setPosition(_scene[0].x, _scene[0].y, _scene[0].z)
 	Camera.setRotation(_scene[1].x, _scene[1].y, _scene[1].z)
 
-	local _ogCamVec = Vec3(
-		13354.502930,
-		2040.0,
-		-1141.678467
-	)
-	local _ogSwordVec = Vec3(
-		13346.502930,
-		2006.0,
-		-1240.678467
-	)
-
-	local _offsetVec = Vec3(
-		_ogCamVec.x - _ogSwordVec.x,
-		_ogCamVec.y - _ogSwordVec.y,
-		_ogCamVec.z - _ogSwordVec.z
-	)
-
-	_Sword.setPosition(_ogSwordVec.x, _ogSwordVec.y, _ogSwordVec.z);
+    local vobDistance = 104.981
+    local vobYOffset = -34
+	local angleOffset = -25
+	local originalYRotation = 210
 
 	local atVector = Camera.vobMatrix.getAtVector()
-	local rightVector = Vec3.cross(atVector, Vec3(0, 1, 0))
-	local upVector = Vec3.cross(rightVector, atVector)
+	local rotatedVec = rotateVectorAroundAxisAngle(Vec3(0, 1, 0), angleOffset, atVector) * vobDistance
 
-	local transformedOffset = Vec3(
-		_offsetVec.x * rightVector.x + _offsetVec.y * upVector.x + _offsetVec.z * atVector.x,
-		_offsetVec.x * rightVector.y + _offsetVec.y * upVector.y + _offsetVec.z * atVector.y,
-		_offsetVec.x * rightVector.z + _offsetVec.y * upVector.z + _offsetVec.z * atVector.z
-	);
-
-	local _swordPos = Vec3(
-		_scene[0].x + transformedOffset.x,
-		_scene[0].y + transformedOffset.y,
-		_scene[0].z + transformedOffset.z
-	);
-
-	Sword.setPosition(_swordPos.x, _swordPos.y, _swordPos.z);
-
-	Sword.matrix.setRightVector(rightVector);
-	Sword.matrix.setAtVector(atVector);
-	Sword.matrix.setUpVector(upVector);
-
-	Sword.matrix.makeOrthonormal()
-
-	local rotation = _Sword.getRotation()
-	local newYRotation = _scene[1].y + (rotation.y - scenes[0][1].y)
-
-	Sword.setRotation(rotation.x, newYRotation, rotation.z);
+	Sword.setPosition(_scene[0].x + rotatedVec.x, _scene[0].y + vobYOffset, _scene[0].z + rotatedVec.z)
+    Sword.setRotation(0, _scene[1].y - originalYRotation, 0)
 
 	_lastScene = _scene;
 }
@@ -179,11 +145,6 @@ JoinMenuMessage.bind(function(message){
 	local versionDrawSize = menuGUI.version.getSizePx();
 	menuGUI.version.setPositionPx(nax(8192 - anx(versionDrawSize.height + versionDrawSize.width)), nay(8192 - versionDrawSize.width));
 	menuGUI.version.setDisabled(true);
-
-	Camera.movementEnabled = false;
-	disableControls(true);
-
-	disableMusicSystem(true);
 
 	Music.setVolume(100);
 	Music.looping = true;
