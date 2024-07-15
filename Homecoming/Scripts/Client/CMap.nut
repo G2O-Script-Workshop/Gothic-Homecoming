@@ -104,10 +104,10 @@ class PlayerMarker extends GUI.Draw{
 function toggleMap(toggle){
 	mapCollection.setVisible(toggle);
 	local world = getWorld();
+	local position = getPlayerPosition(heroId)
 
 	switch(world){
 		case "NEWWORLD\\NEWWORLD.ZEN":
-			local position = getPlayerPosition(heroId)
 			if (position.x > -6900 && position.x < 21600 && position.z < 11800 && position.z > -9400) {
 				_texture.setFile("MAP_NWCITY.TGA");
 				setLevelCoords(world, -6900, 11800, 21600, -9400);
@@ -125,8 +125,8 @@ function toggleMap(toggle){
 			setLevelCoords(world, -47783, 36300, 43949, -32300);
 		break;
 		case "COLONY.ZEN":
-			_texture.setFile("MAP_WORLD_ORC.TGA");
-			setLevelCoords(world, -78500, 47500, 54000, -53000);
+			_texture.setFile("MAP_COLONY.TGA");
+			setLevelCoords(world, -78500, 47500, 86000, -53000);
 		break;
 	}
 
