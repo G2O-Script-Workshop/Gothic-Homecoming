@@ -16,15 +16,17 @@ addEventHandler("onInit", function(){
 	disableKey(KEY_F3, true);
 	disableKey(KEY_F4, true);
 
-	setPlayerName(heroId, LocalStorage.getItem("characterName"));
-	setPlayerVisual(heroId,
-		LocalStorage.getItem("bodyModel"),
-		LocalStorage.getItem("bodyTexture"),
-		LocalStorage.getItem("headModel"),
-		LocalStorage.getItem("headTexture")
-	);
-	/* LocalStorage.getItem("height"), */
-	setPlayerFatness(heroId, LocalStorage.getItem("fatness"));
+	if(LocalStorage.len() > 0){
+		setPlayerName(heroId, LocalStorage.getItem("characterName"));
+		setPlayerVisual(heroId,
+			LocalStorage.getItem("bodyModel"),
+			LocalStorage.getItem("bodyTexture"),
+			LocalStorage.getItem("headModel"),
+			LocalStorage.getItem("headTexture")
+		);
+		/* LocalStorage.getItem("height"), */
+		setPlayerFatness(heroId, LocalStorage.getItem("fatness"));
+	}
 
 	NetStats.init();
 	PlayerList.init();
