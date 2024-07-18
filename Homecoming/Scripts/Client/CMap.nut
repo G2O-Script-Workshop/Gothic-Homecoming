@@ -125,8 +125,19 @@ function toggleMap(toggle){
 			setLevelCoords(world, -47783, 36300, 43949, -32300);
 		break;
 		case "COLONY.ZEN":
-			_texture.setFile("MAP_COLONY.TGA");
-			setLevelCoords(world, -78500, 47500, 86000, -53000);
+			if (position.x > -12500 && position.x < 11500 && position.z < 8400 && position.z > -9600) {
+				_texture.setFile("MAP_OLDCAMP.TGA");
+				setLevelCoords(world, -12500, 8400, 11500, -9600);
+			} else if (position.x > -64851 && position.x < -41219 && position.z < 16791 && position.z > -3075) {
+				_texture.setFile("MAP_NEWCAMP.TGA");
+				setLevelCoords(world, -64851, 16791, -41219, -3075);
+			} else if (position.x > 32939 && position.x < 67107 && position.z < 3116 && position.z > -21224) {
+				_texture.setFile("MAP_PSICAMP.TGA");
+				setLevelCoords(world, 32939, 3116, 67107, -21224);
+			} else {
+				_texture.setFile("MAP_COLONY.TGA");
+				setLevelCoords(world, -75642, 55012, 74528, -54472);
+			}
 		break;
 	}
 
