@@ -19,3 +19,7 @@ addEventHandler("onPlayerJoin", function(pid){
 		log.write(format("(%s) %s %s %s %s", datas, getPlayerName(pid), getPlayerSerial(pid), getPlayerIP(pid), getPlayerMacAddr(pid)) + "\n");
 		log.close();
 })
+
+addEventHandler("onPlayerDisconnect", function(pid, reason){
+	sendMessageToAll(0, 255, 0, format("%s left the game.", Players[pid].getName()));
+})
