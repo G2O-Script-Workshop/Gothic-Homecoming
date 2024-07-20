@@ -1,6 +1,5 @@
 addEventHandler("onInit", function(){
 	clearMultiplayerMessages();
-	enableEvent_Render(true);
 
 	setHudMode(HUD_ALL, HUD_MODE_HIDDEN);
 	setDayLength(10000);
