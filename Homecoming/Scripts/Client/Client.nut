@@ -43,6 +43,7 @@ SynchronizeTimeMessage.bind(function(message){
 	timeCollection.setVisible(true);
 
 	setTime(message._hour, message._min);
+	Chat.setVisible(true);
 
     Camera.movementEnabled = true;
 	Camera.modeChangeEnabled = true;
