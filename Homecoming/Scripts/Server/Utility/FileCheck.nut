@@ -1,4 +1,4 @@
-function doesFileExist(filename, mode){
+function tryOpenFile(filename, mode){
 	try {
 		return file(filename, mode);
 	} catch(e) {
