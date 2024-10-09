@@ -87,7 +87,7 @@ class Player extends PrototypeHero {
 addEventHandler("onPlayerDisconnect", function(pid, reason){
 	if(isNpc(pid)) return;
 
-	Players.rawdelete(pid);
+	if(pid in Players) delete Players[pid];
 });
 
 addEventHandler("onPlayerDead", function(pid, kid){
