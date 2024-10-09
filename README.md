@@ -26,7 +26,7 @@ Put 0.3.0 server files in the repo and import the gamemode in `config.xml` file
 <import src="Homecoming/import.xml" />
 ```
 
-Download the [BASS](https://gitlab.com/GothicMultiplayerTeam/modules/bass) and [LocalStorage](https://gitlab.com/GothicMultiplayerTeam/modules/LocalStorage) modules, adding them to the `config.xml` file of your server.
+Add the [BASS](https://gitlab.com/GothicMultiplayerTeam/modules/bass) and [LocalStorage](https://gitlab.com/GothicMultiplayerTeam/modules/LocalStorage) modules to the `config.xml` file of your server. Downloading them is not needed.
 ```xml
 <module src="LocalStorage.dll" type="client" />
 <module src="sq_bass.dll" type="client" />
