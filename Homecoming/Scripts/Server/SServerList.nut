@@ -1,4 +1,4 @@
-_virtualServers <- {};
+local _virtualServers = {};
 
 class VirtualServer {
 	id = -1
