@@ -1,5 +1,3 @@
-local serverId;
-
 local function clamp(value, min, max)
 {
 	if (value < min)
@@ -193,13 +191,16 @@ function PlayerList::refresh(value)
 	_updateVisibleRows()
 }
 
-function PlayerList::insert(pid, classId)
+function PlayerList::insert(pid)
 {
 	if(dataRows.find(playerDataRows[pid]) != null) return;
 
-	local dataRow = PlayerListDataRow(pid, format("%s (%s)", getPlayerName(pid), classes[serverId][classId].name))
+	local _serverId = Player[pid].getVirtualWorld();
+	local _classId = Player[pid].getClass()
 
-	local playerColor = heroId != pid ? getPlayerColor(pid) : {r = 255, g = 150, b = 0}
+	local dataRow = PlayerListDataRow(pid, format("%s (%s)", Player[pid].getName(), classes[_serverId][_classId].name))
+
+	local playerColor = heroId != pid ? Player[pid].getColor() : {r = 255, g = 150, b = 0}
 	dataRow.setColor(playerColor.r, playerColor.g, playerColor.b)
 
 	dataRows.push(dataRow)
@@ -286,11 +287,7 @@ addEventHandler("onPlayerDestroy", function(pid)
 })
 
 UpdateClassMessage.bind(function(message){
-	PlayerList.insert(message.playerId, message.classId);
-});
-
-ServerJoinMessage.bind(function(message){
-	serverId = message.serverId;
+	PlayerList.insert(message.playerId);
 });
 
 addEventHandler("onKeyDown", function(key)

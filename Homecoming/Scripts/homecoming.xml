@@ -4,7 +4,6 @@
 		<script src="Shared/Config.nut" type="shared" />
 		<!-- Utility -->
 			<script src="Shared/Utility/Convert.nut" type="shared" />
-			<script src="Shared/Utility/FileCheck.nut" type="server" />
 		<!-- Localization -->
 			<script src="Shared/String/Animations.nut" type="shared" />
 		<!-- Tables -->
@@ -39,6 +38,9 @@
 			<script src="Shared/PacketMessages/ServerList.nut" type="shared" />
 
 	<!-- Server-Side -->
+		<!-- Utility -->
+			<script src="Server/Utility/FileCheck.nut" type="server" />
+			<script src="Server/Utility/Log.nut" type="server" />
 		<!-- Hero -->
 			<!-- Class -->
 				<script src="Server/HeroClass/Prototype.nut" type="server" />
@@ -54,10 +56,9 @@
 	<!-- Client-Side -->
 		<!-- Menu -->
 			<script src="Client/CMainMenu.nut" type="client" />
-			<!-- <script src="Client/CMainMenu/MainMenu.nut" type="client" /> -->
-			<script src="Client/CMainMenu/Appearance.nut" type="client" />
-			<script src="Client/CMainMenu/Options.nut" type="client" />
-			<script src="Client/CMainMenu/Settings.nut" type="client" />
+				<script src="Client/CMainMenu/Appearance.nut" type="client" />
+				<script src="Client/CMainMenu/Options.nut" type="client" />
+				<script src="Client/CMainMenu/Settings.nut" type="client" />
 			<script src="Client/CServerList.nut" type="client" />
 		<!-- Interface -->
 			<script src="Client/Interface.nut" type="client" />
@@ -68,6 +69,7 @@
 			<script src="Client/Net.nut" type="client" />
 		<!-- Game -->
 			<!-- <script src="Client/CIngame.nut" type="client" /> -->
+			<script src="Client/CLocalPlayer.nut" type="client" />
 			<script src="Client/CSelectClass.nut" type="client" />
 			<script src="Client/CChat.nut" type="client" />
 			<script src="Client/DiscordActivity.nut" type="client" />

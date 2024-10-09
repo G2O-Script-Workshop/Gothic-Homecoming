@@ -15,23 +15,14 @@ addEventHandler("onInit", function(){
 	disableKey(KEY_F3, true);
 	disableKey(KEY_F4, true);
 
-	if(LocalStorage.len() > 0){
-		setPlayerName(heroId, LocalStorage.getItem("characterName"));
-		setPlayerVisual(heroId,
-			LocalStorage.getItem("bodyModel"),
-			LocalStorage.getItem("bodyTexture"),
-			LocalStorage.getItem("headModel"),
-			LocalStorage.getItem("headTexture")
-		);
-		/* LocalStorage.getItem("height"), */
-		setPlayerFatness(heroId, LocalStorage.getItem("fatness"));
-	}
-
 	NetStats.init();
 	PlayerList.init();
 	Chat._calcPosition();
 
 	initDiscordActivity();
+
+	LocalPlayer(heroId);
+	Player[heroId].loadData();
 });
 
 function isMenuOpened(){
@@ -50,4 +41,20 @@ SynchronizeTimeMessage.bind(function(message){
 
 addEventHandler("onWorldChange", function(world, waypoint){
 	cancelEvent();
+})
+
+addEventHandler("onCommand", function(cmd, params)
+{
+	if (cmd == "freecam")
+		enableFreeCam(!isFreeCamEnabled())
+	if (cmd == "pos"){
+		local _camPos = Camera.getPosition()
+		local _posForScene = format("x = %f z = %f", _camPos.x, _camPos.z)
+		setClipboardText(_posForScene);
+		print(_posForScene);
+	}
+	if (cmd == "speed"){
+		giveItem(heroId, "ITPO_SPEED", 10)
+		setPlayerScale(heroId, 1.0, 1.0, 2.5);
+	}
 })

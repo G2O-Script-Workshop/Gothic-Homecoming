@@ -67,8 +67,7 @@ local function menuSwordScene(){
 	}
 }
 
-local function rotateVectorAroundAxisAngle(axis, angle, vec)
-{
+local function rotateVectorAroundAxisAngle(axis, angle, vec){
 	angle *= PI / 180.0
 	return vec * cos(angle) + (axis * Vec3.dot(vec, axis) * (1 - cos(angle))) + (Vec3.cross(axis, vec) * sin(angle))
 }
@@ -198,7 +197,7 @@ JoinMenuMessage.bind(function(message){
 
 	Music.setVolume(100);
 	Music.looping = true;
-	Music.play();
+	//Music.play();
 });
 
 addEventHandler("GUI.onClick", function(self){
@@ -207,8 +206,6 @@ addEventHandler("GUI.onClick", function(self){
 	if(self instanceof GUI.Draw && menuCollection.getVisible() && !self.getDisabled()){
 		switch(self){
 			case menuGUI.play:
-				//launchMenuScene(false);
-				//showSelectClass();
 				menuChangeVisibility(false);
 				showServerList(true);
 			break;

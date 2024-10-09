@@ -42,7 +42,7 @@ local _playerMarker = mapGUI.playerMarker;
 		if (!isPlayerCreated(pid))
 			return false
 
-		if (getWorld() != _world)
+		if (Player[pid].getWorld() != _world)
 			return false
 
 		return true
@@ -64,7 +64,7 @@ local _playerMarker = mapGUI.playerMarker;
 
 				toggleMarkers(isPlayerAt(pid));
 
-			local playerPosition = getPlayerPosition(pid)
+			local playerPosition = Player[pid].getPosition();
 
 			playerPosition.x -= _coordinates.x
 			playerPosition.z -= _coordinates.y
@@ -94,7 +94,7 @@ class PlayerMarker extends GUI.Draw{
 	function update(x, y){
 		setPosition(x, y);
 
-		setText(format("+ %s", getPlayerName(pid)));
+		setText(format("+ %s", Player[pid].getName()));
 
 		if (!getVisible())
 			setVisible(true);
@@ -103,8 +103,8 @@ class PlayerMarker extends GUI.Draw{
 
 function toggleMap(toggle){
 	mapCollection.setVisible(toggle);
-	local world = getWorld();
-	local position = getPlayerPosition(heroId)
+	local world = Player[heroId].getWorld();
+	local position = Player[heroId].getPosition();
 
 	switch(world){
 		case "NEWWORLD\\NEWWORLD.ZEN":

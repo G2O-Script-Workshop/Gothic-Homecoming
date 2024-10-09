@@ -74,6 +74,7 @@ local function onServerWorldEnter(world){
 	Camera.movementEnabled = false;
 	Camera.modeChangeEnabled = false;
 
+	virtualServer = Player[heroId].getVirtualWorld();
 	updateClassInfo(0);
 }
 
@@ -99,7 +100,7 @@ local function selectClassKeyDown(key){
 			selectClassCollection.setVisible(false);
 			setHudMode(HUD_ALL, HUD_MODE_DEFAULT);
 
-			updateDiscordState(format("%s (%s)", getPlayerName(heroId), classes[virtualServer][selectedClass].name));
+			updateDiscordState(format("%s (%s)", Player[heroId].getName(), classes[virtualServer][selectedClass].name));
 
 			removeEventHandler("onWorldEnter", onServerWorldEnter);
 			disableControls(false);
@@ -109,7 +110,6 @@ local function selectClassKeyDown(key){
 
 ServerJoinMessage.bind(function(message){
 	selectClassCollection.setVisible(true);
-	virtualServer = message.serverId;
 
 	Camera.movementEnabled = false;
 	Camera.modeChangeEnabled = false;

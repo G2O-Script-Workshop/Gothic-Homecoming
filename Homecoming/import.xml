@@ -4,6 +4,7 @@
 		<import src="Submodules/bpackets/meta.xml" />
 		<import src="Submodules/gui-framework/gui.xml" />
 		<import src="Submodules/BASSWrapper/import.xml" />
+			<script src="Submodules/FreeCam/freecam.nut" type="client" />
 	
 	<!-- Gamemode -->
 		<import src="Scripts/homecoming.xml" />

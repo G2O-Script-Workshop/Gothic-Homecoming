@@ -116,7 +116,7 @@ local creatorGUI = {
 		decreaseButton = {file = ""}
 		collection = creatorCollection
 	}),
-	/* height = GUI.Draw({
+	height = GUI.Draw({
 		positionPx = {x = nax(2350), y = nay(4325)}
 		text = "Height"
 		font = "FONT_OLD_10_WHITE.TGA"
@@ -133,7 +133,7 @@ local creatorGUI = {
 		increaseButton = {file = ""}
 		decreaseButton = {file = ""}
 		collection = creatorCollection
-	}), */
+	}),
 	walk = GUI.Draw({
 		positionPx = {x = nax(1960), y = nay(4700)}
 		text = "Walking Style: Default"
@@ -197,7 +197,7 @@ function toggleCreator(toggle){
 		a = 213.44
 	}
 
-	if(toggle == true){
+	if(toggle){
 			local playerPos = getPlayerPosition(heroId);
 			local playerAngle = getPlayerAngle(heroId);
 
@@ -243,25 +243,19 @@ function toggleCreator(toggle){
 						creatorGUI.bodiesScroll.range.setValue(localVisVal[2]);
 						creatorGUI.headMScroll.range.setValue(localVisVal[3]);
 						creatorGUI.facesScroll.range.setValue(localVisVal[4]);
+
+						creatorGUI.fatScroll.range.setValue(LocalStorage.getItem("fatness"));
+						creatorGUI.charaName.setText(LocalStorage.getItem("characterName"));
 					}
 
-					setPlayerVisual(heroId,
-						LocalStorage.getItem("bodyModel"),
-						LocalStorage.getItem("bodyTexture"),
-						LocalStorage.getItem("headModel"),
-						LocalStorage.getItem("headTexture")
-						);
+					local _vis = LocalStorage.getItem("visual");
+					Player[heroId].setVisual(_vis.bm, _vis.bt, _vis.hm, _vis.ht);
 
-						local _fatness = LocalStorage.getItem("fatness")
-					setPlayerFatness(heroId, _fatness);
-					creatorGUI.fatScroll.range.setValue(_fatness);
+						local _scale = LocalStorage.getItem("scale");
+						Player[heroId].setScale(heroId, _scale.x, _scale.y, _scale.z, _scale.f);
 
-					/* 	local _height = LocalStorage.getItem("height");
-					setPlayerScale(heroId, _height, _height, _height); */
-
-					creatorGUI.charaName.setText(LocalStorage.getItem("characterName"));
 				}
-		//updateDiscordState("Creating a Character...");
+			updateDiscordState(format("%s (Creating a Character...)", getPlayerName(heroId)));
 	} else {
 		setPlayerAngle(heroId, xardasWaypoint.a);
 	}
@@ -315,11 +309,11 @@ fatScroll.setMaximum(2.00);
 fatScroll.setValue(1.00);
 fatScroll.setStep(0.10);
 
-/* local heightScroll = creatorGUI.heightScroll.range;
+local heightScroll = creatorGUI.heightScroll.range;
 heightScroll.setMinimum(0.75);
 heightScroll.setMaximum(1.15);
 heightScroll.setValue(1.00);
-heightScroll.setStep(0.01); */
+heightScroll.setStep(0.01);
 
 local walkScroll = creatorGUI.walkScroll.range;
 walkScroll.setMinimum(0);
@@ -424,10 +418,8 @@ addEventHandler("GUI.onChange", function(object){
 		local bodyval = bodiesScroll.getValue();
 		local headval = headMScroll.getValue();
 		local fatness = fatScroll.getValue();
-		/* local height = heightScroll.getValue(); */
+		local height = heightScroll.getValue();
 		local walk = walkScroll.getValue();
-
-		//visValue[sex][race] = [bodyval, headval, faceval];
 
 		switch(object){
 			case facesScroll:
@@ -459,15 +451,14 @@ addEventHandler("GUI.onChange", function(object){
 			case fatScroll:
 				setPlayerFatness(heroId, fatness);
 			break;
-			/* case heightScroll:
+			case heightScroll:
 				setPlayerScale(heroId, height, height, height);
-			break; */
+			break;
 			case walkScroll:
 				creatorGUI.walk.setText(format("Walking Style: %s", walking[walk].name));
 				walkvs = walking[walk].style;
 			break;
 		}
-		//print(format("[visValue] \n sex: %d \n race: %d \n bodyval: %d \n headval: %d \n faceval: %d \n %s \n", sex, race, bodyval, headval, faceval, heads[sex][headval]));
 	}
 });
 
@@ -518,25 +509,10 @@ addEventHandler("GUI.onClick", function(self){
 			break;
 			case creatorGUI.btnFinish:
 				if(creatorGUI.charaName.getText() != ""){
-					/* local creatorFinish = PlayerCreatorMessage(heroId,
-						creatorGUI.charaName.getText(),
-						vis[0],
-						vis[1],
-						vis[2],
-						vis[3],
-						walkvs,
-						heightScroll.getValue(),
-						fatScroll.getValue()
-						).serialize();
-					creatorFinish.send(RELIABLE_ORDERED); */
-						LocalStorage.setItem("characterName", creatorGUI.charaName.getText());
-						LocalStorage.setItem("bodyModel", vis[0]);
-						LocalStorage.setItem("bodyTexture", vis[1]);
-						LocalStorage.setItem("headModel", vis[2]);
-						LocalStorage.setItem("headTexture", vis[3]);
-						LocalStorage.setItem("walkstyle", walkvs);
-						/* LocalStorage.setItem("height", heightScroll.getValue()); */
-						LocalStorage.setItem("fatness", fatScroll.getValue());
+						Player[heroId].setName(creatorGUI.charaName.getText());
+						Player[heroId].setVisual(vis[0], vis[1], vis[2], vis[3]);
+						Player[heroId].setWalkstyle(walkvs);
+						Player[heroId].setScale(heightScroll.getValue(), heightScroll.getValue(), heightScroll.getValue(), fatScroll.getValue());
 						LocalStorage.setItem("visValue", [sex, race, _vis[0], _vis[1], _vis[2]]);
 					toggleCreator(false);
 					menuChangeVisibility(true);

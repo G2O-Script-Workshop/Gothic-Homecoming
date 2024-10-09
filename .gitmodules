@@ -11,3 +11,6 @@
 [submodule "Homecoming/Submodules/BASSWrapper"]
 	path = Homecoming/Submodules/BASSWrapper
 	url = https://github.com/G2O-Script-Workshop/BASSWrapper
+[submodule "Homecoming/Submodules/freecam"]
+	path = Homecoming/Submodules/freecam
+	url = https://gitlab.com/g2o/scripts/freecam
