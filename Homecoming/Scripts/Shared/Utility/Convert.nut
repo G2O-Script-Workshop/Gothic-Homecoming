@@ -5,13 +5,13 @@ function toBool(argument){
 			if(argument >= 1) return true;
 		break;
 		case "string":
-			if(argument == "false") return false;
-			if(argument == "true") return true;
+			if(argument.tolower() == "false") return false;
+			if(argument.tolower() == "true") return true;
 		break;
 		case "bool":
 			return argument;
 		break;
-		default: return false;
+		default: return true;
 	}
 }
 
