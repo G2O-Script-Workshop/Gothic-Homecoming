@@ -125,15 +125,16 @@ ServerListMessage.bind(function(message){
 
 function srvListMouseClick(self){
 	if(self instanceof GUI.GridListVisibleCell){
+		local _player = Player[heroId];
 		local joinVirtualServerPacket = ServerListClickMessage(heroId, self.getDataCell().parent.metadata.id,
-			LocalStorage.getItem("characterName"),
-			LocalStorage.getItem("bodyModel"),
-			LocalStorage.getItem("bodyTexture"),
-			LocalStorage.getItem("headModel"),
-			LocalStorage.getItem("headTexture"),
-			LocalStorage.getItem("walkstyle"),
+			_player.getName(), //LocalStorage.getItem("characterName"),
+			_player.getVisual().bm, //LocalStorage.getItem("bodyModel"),
+			_player.getVisual().bt, //LocalStorage.getItem("bodyTexture"),
+			_player.getVisual().hm, //LocalStorage.getItem("headModel"),
+			_player.getVisual().ht, //LocalStorage.getItem("headTexture"),
+			_player.getWalkstyle(), //LocalStorage.getItem("walkstyle"),
 			/* LocalStorage.getItem("height"), */
-			LocalStorage.getItem("fatness")
+			_player.getScale().f //LocalStorage.getItem("fatness")
 			).serialize();
 		joinVirtualServerPacket.send(RELIABLE);
 
