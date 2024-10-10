@@ -371,6 +371,7 @@ class LocalPlayer {
 
 	function setWalkstyle(walk){
 		this.walk = convert(walk, "string");
+			if(this.walk == "HUMANS.MDS") return;
 
 		applyPlayerOverlay(this.id, Mds.id(this.walk));
 	}
