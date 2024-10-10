@@ -74,7 +74,6 @@ local function onServerWorldEnter(world){
 	Camera.movementEnabled = false;
 	Camera.modeChangeEnabled = false;
 
-	virtualServer = Player[heroId].getVirtualWorld();
 	updateClassInfo(0);
 }
 
@@ -114,6 +113,7 @@ ServerJoinMessage.bind(function(message){
 	Camera.movementEnabled = false;
 	Camera.modeChangeEnabled = false;
 
+	virtualServer = message.serverId;
 	updateClassInfo(0);
 
 	addEventHandler("onKeyDown", selectClassKeyDown);
