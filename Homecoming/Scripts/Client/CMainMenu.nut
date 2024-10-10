@@ -197,7 +197,7 @@ JoinMenuMessage.bind(function(message){
 
 	Music.setVolume(100);
 	Music.looping = true;
-	//Music.play();
+	Music.play();
 });
 
 addEventHandler("GUI.onClick", function(self){
