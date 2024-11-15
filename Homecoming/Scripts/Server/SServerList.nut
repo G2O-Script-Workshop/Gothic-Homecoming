@@ -55,11 +55,28 @@ class VirtualServer {
 
 		this.players--;
 	}
+
+
+	function connectNPC(id){
+		if(!isNpc(id)) return;
+
+		this.npcs++;
+	}
+
+	function disconnectNPC(id){
+		if(!isNpc(id)) return;
+			NPCs[id].setVirtualWorld(101);
+
+		this.npcs--;
+	}
 }
 
-foreach(vServ in VirtualServersTable){
-	VirtualServer(vServ);
-}
+
+addEventHandler("onInit", function(){
+	foreach(vServ in VirtualServersTable){
+		VirtualServer(vServ);
+	}
+});
 
 ServerListPingMessage.bind(function(pid, message){
 	foreach(vServer in _virtualServers){
@@ -82,3 +99,13 @@ ServerListClickMessage.bind(function(pid, message){
 ServerLeaveMessage.bind(function(pid, message){
 	_virtualServers[message.serverId].disconnect(pid);
 });
+
+addEventHandler("onNpcCreated", function(id){
+	local serverId = NPCs[id].getVirtualWorld();
+	_virtualServers[serverId].connectNPC(id);
+});
+
+addEventHandler("onNpcDestroyed", function(id){
+	local serverId = NPCs[id].getVirtualWorld();
+	_virtualServers[serverId].disconnectNPC(id);
+})
