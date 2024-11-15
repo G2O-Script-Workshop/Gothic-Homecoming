@@ -1,4 +1,4 @@
-scenes["OLDWORLD\\OLDWORLD.ZEN"] <- [
+scenes["ADDON\\ADDONWORLD.ZEN"] <- [
 	[
 		{x = -20.945717, y = 1710.377686, z = -3141.679932},
 		{x = 89.999992, y = 183.365753, z = 0.000000}
