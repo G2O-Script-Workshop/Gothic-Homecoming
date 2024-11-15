@@ -90,6 +90,8 @@ local function selectClassKeyDown(key){
 
 		case KEY_RETURN:
 			clearInventory();
+			Player[heroId].setVirtualWorld(virtualServer);
+			Player[heroId].setClass(selectedClass);
 
 			local selectClassPacket = SelectClassMessage(heroId,
 				selectedClass

@@ -99,6 +99,14 @@ class LocalPlayer {
 		return this.name;
 	}
 
+	function setClass(cid){
+		this.class_id = convert(cid, "integer");
+	}
+
+	function getClass(){
+		return this.class_id;
+	}
+
 
 	function setInstance(instance){
 		this.instance = convert(instance, "string");
