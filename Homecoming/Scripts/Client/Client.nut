@@ -25,6 +25,10 @@ addEventHandler("onInit", function(){
 	Player[heroId].loadData();
 });
 
+addEventHandler("onExit", function(){
+	Player[heroId].saveData();
+});
+
 function isMenuOpened(){
 	return menuCollection.getVisible() || creatorCollection.getVisible() || selectClassCollection.getVisible() || serverCollection.getVisible()
 }
