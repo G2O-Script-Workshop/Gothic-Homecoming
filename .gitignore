@@ -4,6 +4,8 @@ waypoints/*
 Addon/*
 Addon_Scripts/*
 
+.sentry-native/*
+
 bans.xml
 config.xml
 mds.xml
