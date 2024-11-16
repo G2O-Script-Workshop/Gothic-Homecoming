@@ -1,0 +1,2 @@
+addEvent("onCreateNPC");
+addEvent("onDestroyNPC");
