@@ -11,7 +11,6 @@
 			<script src="Shared/Tables/Creator.nut" type="shared" />
 			<script src="Shared/Tables/Animations.nut" type="shared" />
 			<!-- Scenes -->
-				<!-- <script src="Shared/Tables/Scenes.nut" type="shared" /> -->
 				<script src="Shared/Tables/Scenes/NEWWORLD.nut" type="shared" />
 				<script src="Shared/Tables/Scenes/OLDWORLD.nut" type="shared" />
 				<script src="Shared/Tables/Scenes/ADDONWORLD.nut" type="shared" />
@@ -41,11 +40,19 @@
 		<!-- Utility -->
 			<script src="Server/Utility/FileCheck.nut" type="server" />
 			<script src="Server/Utility/Log.nut" type="server" />
+			<script src="Server/Utility/Events.nut" type="server" />
 		<!-- Hero -->
 			<!-- Class -->
 				<script src="Server/HeroClass/Prototype.nut" type="server" />
 				<script src="Server/HeroClass/Player.nut" type="server" />
 				<script src="Server/HeroClass/NPC.nut" type="server" />
+		<!-- Tables -->
+			<!-- NPCs -->
+				<script src="Server/NPCs/NEWWORLD.nut" type="server" />
+				<script src="Server/NPCs/OLDWORLD.nut" type="server" />
+				<script src="Server/NPCs/ADDONWORLD.nut" type="server" />
+				<script src="Server/NPCs/DRAGONISLAND.nut" type="server" />
+				<script src="Server/NPCs/COLONY.nut" type="server" />
 		<!-- Game -->
 			<script src="Server/SServerList.nut" type="server" />
 			<script src="Server/Server.nut" type="server" />
