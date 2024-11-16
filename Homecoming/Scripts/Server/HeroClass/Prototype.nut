@@ -294,7 +294,7 @@ class PrototypeHero {
 		if (level > 6) level = 6;
 		this.magic_circle = convert(level, "integer");
 
-		setPlayerMagicLevel(this.id, this.magic_circle);
+		setPlayerTalent(this.id, TALENT_MAGE, this.magic_circle);
 	}
 
 	function getMagicCircle(){
@@ -303,7 +303,7 @@ class PrototypeHero {
 
 
 	function setSneakTalent(arg){
-		this.sneaking = convert(arg, "bool");
+		this.sneaking = convert(arg, "integer");
 
 		setPlayerTalent(this.id, TALENT_SNEAK, this.sneaking);
 	}
@@ -314,7 +314,7 @@ class PrototypeHero {
 
 
 	function setPicklockTalent(arg){
-		this.picklock = convert(arg, "bool");
+		this.picklock = convert(arg, "integer");
 
 		setPlayerTalent(this.id, TALENT_PICK_LOCKS, this.picklock);
 	}
@@ -325,7 +325,7 @@ class PrototypeHero {
 
 
 	function setPickpocketTalent(arg){
-		this.pickpocket = convert(arg, "bool");
+		this.pickpocket = convert(arg, "integer");
 
 		setPlayerTalent(this.id, TALENT_PICKPOCKET, this.pickpocket);
 	}
@@ -336,7 +336,7 @@ class PrototypeHero {
 
 
 	function setRunemakingTalent(arg){
-		this.runemaking = convert(arg, "bool");
+		this.runemaking = convert(arg, "integer");
 
 		setPlayerTalent(this.id, TALENT_RUNES, this.runemaking);
 	}
@@ -347,7 +347,7 @@ class PrototypeHero {
 
 
 	function setAlchemyTalent(arg){
-		this.alchemy = convert(arg, "bool");
+		this.alchemy = convert(arg, "integer");
 
 		setPlayerTalent(this.id, TALENT_ALCHEMY, this.alchemy);
 	}
@@ -358,7 +358,7 @@ class PrototypeHero {
 
 
 	function setSmithingTalent(arg){
-		this.smithing = convert(arg, "bool");
+		this.smithing = convert(arg, "integer");
 
 		setPlayerTalent(this.id, TALENT_SMITH, this.smithing);
 	}
@@ -369,7 +369,7 @@ class PrototypeHero {
 
 
 	function setTrophiesTalent(arg){
-		this.trophies = convert(arg, "bool");
+		this.trophies = convert(arg, "integer");
 
 		setPlayerTalent(this.id, TALENT_THROPHY, this.trophies);
 	}
@@ -380,7 +380,7 @@ class PrototypeHero {
 
 
 	function setAcrobaticTalent(arg){
-		this.acrobatic = convert(arg, "bool");
+		this.acrobatic = convert(arg, "integer");
 
 		setPlayerTalent(this.id, TALENT_ACROBATIC, this.acrobatic);
 	}
@@ -490,6 +490,17 @@ class PrototypeHero {
 		return this.pos;
 	}
 
+	function setWaypoint(wp){
+		local wp_pos = getWaypoint(this.world, convert(wp, "string"));
+
+		this.setPosition(
+			wp_pos.x,
+			wp_pos.y,
+			wp_pos.z,
+			0
+		);
+	}
+
 	function respawn(){
 		spawnPlayer(this.id);
 
@@ -549,46 +560,57 @@ class PrototypeHero {
 		this.setExperience(250 * pow(this.getLevel(), 2))
 		this.setLearnPoints(10 * this.getLevel());
 
-		/* this.setHealth(9999);
-		this.setMaxHealth(9999);
-		this.setMana(9999);
-		this.setMaxMana(9999);
-		this.setStrength(9999);
-		this.setDexterity(9999);
+		if(isNpc(id)){
+			this.setHealth(9999);
+			this.setMaxHealth(9999);
+			this.setMana(9999);
+			this.setMaxMana(9999);
+			this.setStrength(9999);
+			this.setDexterity(9999);
 
-		this.setOneHandSkill(10);
-		this.setTwoHandSkill(10);
-		this.setBowSkill(10);
-		this.setCrossbowSkill(10);
+			this.setOneHandSkill(100);
+			this.setTwoHandSkill(100);
+			this.setBowSkill(100);
+			this.setCrossbowSkill(100);
 
-		this.setMagicCircle(0);
+			this.setMagicCircle(6);
 
-		this.setSneakTalent(true);
-		this.setPicklockTalent(true);
-		this.setPickpocketTalent(true);
-		this.setRunemakingTalent(true);
-		this.setAlchemyTalent(true);
-		this.setSmithingTalent(true);
-		this.setTrophiesTalent(true);
-		this.setAcrobaticTalent(true); */
+			this.setSneakTalent(true);
+			this.setPicklockTalent(true);
+			this.setPickpocketTalent(true);
+			this.setRunemakingTalent(true);
+			this.setAlchemyTalent(true);
+			this.setSmithingTalent(true);
+			this.setTrophiesTalent(true);
+			this.setAcrobaticTalent(true);
+		}
 
 		this.setVisual(
-			"visual" in params ? params.visual[0] : "HUM_BODY_NAKED0",
-			"visual" in params ? params.visual[1] : 8,
-			"visual" in params ? params.visual[2] : "HUM_HEAD_PONY",
-			"visual" in params ? params.visual[3] : 18
+			"visual" in params ? params.visual[0] : getPlayerVisual(id).bodyModel, //"HUM_BODY_NAKED0",
+			"visual" in params ? params.visual[1] : getPlayerVisual(id).bodyTxt, //8,
+			"visual" in params ? params.visual[2] : getPlayerVisual(id).headModel, //"HUM_HEAD_PONY",
+			"visual" in params ? params.visual[3] : getPlayerVisual(id).headTxt //18
 		);
 		this.setWalkstyle("walk" in params ? params.walk : "HUMANS.MDS");
-			local scale = "scale" in params ? params.scale : 1.0;
-		this.setScale(scale, scale, scale, "fatness" in params ? params.fatness : 1.0);
+		this.setScale(
+			"scale" in params ? params.scale : getPlayerScale(id).x,
+			"scale" in params ? params.scale : getPlayerScale(id).y,
+			"scale" in params ? params.scale : getPlayerScale(id).z,
+			"fatness" in params ? params.fatness : getPlayerFatness(id)
+		);
 
 		this.setWorld("world" in params ? params.world : "NEWWORLD\\NEWWORLD.ZEN");
 		this.setVirtualWorld("vworld" in params ? params.vworld : 0);
+
 		/* this.setPosition(
 			"pos" in params ? params.pos[0] : 0.0,
 			"pos" in params ? params.pos[1] : 0.0,
 			"pos" in params ? params.pos[2] : 0.0,
 			"pos" in params ? params.pos[3] : 0.0
 		); */
+
+		if(isNpc(id)){
+			this.setWaypoint("wp" in params ? params.wp : "TOT");
+		}
 	}
 }
