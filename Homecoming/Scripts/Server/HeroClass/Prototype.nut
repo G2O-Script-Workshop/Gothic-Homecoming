@@ -585,32 +585,34 @@ class PrototypeHero {
 			this.setAcrobaticTalent(true);
 		}
 
-		this.setVisual(
-			"visual" in params ? params.visual[0] : getPlayerVisual(id).bodyModel, //"HUM_BODY_NAKED0",
-			"visual" in params ? params.visual[1] : getPlayerVisual(id).bodyTxt, //8,
-			"visual" in params ? params.visual[2] : getPlayerVisual(id).headModel, //"HUM_HEAD_PONY",
-			"visual" in params ? params.visual[3] : getPlayerVisual(id).headTxt //18
-		);
-		this.setWalkstyle("walk" in params ? params.walk : "HUMANS.MDS");
-		this.setScale(
-			"scale" in params ? params.scale : getPlayerScale(id).x,
-			"scale" in params ? params.scale : getPlayerScale(id).y,
-			"scale" in params ? params.scale : getPlayerScale(id).z,
-			"fatness" in params ? params.fatness : getPlayerFatness(id)
-		);
+		if(!isNpc(id)){
+			this.setVisual(
+				"visual" in params ? params.visual[0] : getPlayerVisual(id).bodyModel, //"HUM_BODY_NAKED0",
+				"visual" in params ? params.visual[1] : getPlayerVisual(id).bodyTxt, //8,
+				"visual" in params ? params.visual[2] : getPlayerVisual(id).headModel, //"HUM_HEAD_PONY",
+				"visual" in params ? params.visual[3] : getPlayerVisual(id).headTxt //18
+			);
+			this.setWalkstyle("walk" in params ? params.walk : "HUMANS.MDS");
+			this.setScale(
+				"scale" in params ? params.scale : getPlayerScale(id).x,
+				"scale" in params ? params.scale : getPlayerScale(id).y,
+				"scale" in params ? params.scale : getPlayerScale(id).z,
+				"fatness" in params ? params.fatness : getPlayerFatness(id)
+			);
+		}
 
 		this.setWorld("world" in params ? params.world : "NEWWORLD\\NEWWORLD.ZEN");
 		this.setVirtualWorld("vworld" in params ? params.vworld : 0);
 
-		/* this.setPosition(
-			"pos" in params ? params.pos[0] : 0.0,
-			"pos" in params ? params.pos[1] : 0.0,
-			"pos" in params ? params.pos[2] : 0.0,
-			"pos" in params ? params.pos[3] : 0.0
-		); */
-
 		if(isNpc(id)){
 			this.setWaypoint("wp" in params ? params.wp : "TOT");
+		} else {
+			this.setPosition(
+				"pos" in params ? params.pos[0] : 0.0,
+				"pos" in params ? params.pos[1] : 0.0,
+				"pos" in params ? params.pos[2] : 0.0,
+				"pos" in params ? params.pos[3] : 0.0
+			);
 		}
 	}
 }
