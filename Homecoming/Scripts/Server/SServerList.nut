@@ -76,6 +76,11 @@ addEventHandler("onInit", function(){
 	foreach(vServ in VirtualServersTable){
 		VirtualServer(vServ);
 	}
+
+	foreach(npc in NPCs){
+		local serverId = npc.getVirtualWorld();
+		_virtualServers[serverId].connectNPC(npc.id);
+	}
 });
 
 ServerListPingMessage.bind(function(pid, message){
@@ -100,12 +105,12 @@ ServerLeaveMessage.bind(function(pid, message){
 	_virtualServers[message.serverId].disconnect(pid);
 });
 
-addEventHandler("onNpcCreated", function(id){
+/* addEventHandler("onCreateNPC", function(id){
 	local serverId = NPCs[id].getVirtualWorld();
 	_virtualServers[serverId].connectNPC(id);
 });
 
-addEventHandler("onNpcDestroyed", function(id){
+addEventHandler("onDestroyNPC", function(id){
 	local serverId = NPCs[id].getVirtualWorld();
 	_virtualServers[serverId].disconnectNPC(id);
-})
+}); */
