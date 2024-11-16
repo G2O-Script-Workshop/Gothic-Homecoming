@@ -30,6 +30,7 @@ local selectClassGUI = {
 }
 
 local virtualServer;
+local virtualServerZen;
 local selectedClass = 0;
 
 local function updateClassInfo(class_id){
@@ -75,6 +76,7 @@ local function onServerWorldEnter(world){
 	Camera.modeChangeEnabled = false;
 
 	updateClassInfo(0);
+	virtualServerZen = world;
 }
 
 local function selectClassKeyDown(key){
@@ -90,6 +92,7 @@ local function selectClassKeyDown(key){
 
 		case KEY_RETURN:
 			clearInventory();
+			Player[heroId].setWorld(virtualServerZen);
 			Player[heroId].setVirtualWorld(virtualServer);
 			Player[heroId].setClass(selectedClass);
 
@@ -123,6 +126,8 @@ ServerJoinMessage.bind(function(message){
 });
 
 addEventHandler("onExit", function(){
+	if(virtualServer == null) return;
+
 	local disconnectFromVirtual = ServerLeaveMessage(heroId, virtualServer).serialize();
 	disconnectFromVirtual.send(RELIABLE);
 });

@@ -428,12 +428,8 @@ class LocalPlayer {
 	}
 
 
-	function setWorld(world){
-		if (this.world != world){
-			this.world = convert(world, "string");
-
-			changeWorld(this.world);
-		}
+	function setWorld(newworld){
+		this.world = convert(newworld, "string")
 	}
 
 	function getWorld(){
