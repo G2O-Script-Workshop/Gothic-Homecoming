@@ -189,6 +189,7 @@ local creatorGUI = {
 
 function toggleCreator(toggle){
 	creatorCollection.setVisible(toggle);
+	updateDiscordState(format("Creating a character..."));
 
 	local xardasWaypoint = {
 		x = 29628.5
@@ -255,7 +256,6 @@ function toggleCreator(toggle){
 						Player[heroId].setScale(heroId, _scale.x, _scale.y, _scale.z, _scale.f);
 
 				}
-			updateDiscordState(format("%s (Creating a Character...)", getPlayerName(heroId)));
 	} else {
 		setPlayerAngle(heroId, xardasWaypoint.a);
 	}

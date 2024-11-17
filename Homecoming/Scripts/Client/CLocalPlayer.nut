@@ -472,6 +472,26 @@ class LocalPlayer {
 		return this.pos;
 	}
 
+	function setWaypoint(wp){
+		local wp_pos = getWaypoint(convert(wp, "string"))
+
+		if(wp_pos != null){
+			this.setPosition(
+				wp_pos.x,
+				wp_pos.y,
+				wp_pos.z,
+				0
+			);
+		} else {
+			this.setPosition(
+				0.0,
+				0.0,
+				0.0,
+				0
+			);
+		}
+	}
+
 
 	function giveItem(instance, amount){
 		_giveItem(this.id, instance, amount);

@@ -13,12 +13,20 @@ addEventHandler("onKeyDown", function(key){
 		break;
 
 		case KEY_F3:
-			toggleAnim(!animCollection.getVisible());
+				toggleAnim(!animCollection.getVisible());
 		break;
 
 		case KEY_F4:
 			if(animCollection.getVisible()) return;
 				NetStats.setVisible(!NetStats.visible)
+		break;
+
+		case KEY_F9:
+			if(animCollection.getVisible()) return;
+				local disconnectFromVirtual = ServerLeaveMessage(heroId, Player[heroId].getVirtualWorld()).serialize();
+				disconnectFromVirtual.send(RELIABLE);
+
+				launchMenuScene(true);
 		break;
 
 		case KEY_ESCAPE:

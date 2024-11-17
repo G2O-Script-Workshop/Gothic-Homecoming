@@ -1,14 +1,14 @@
 addEventHandler("onInit", function(){
 	clearMultiplayerMessages();
 
-	setHudMode(HUD_ALL, HUD_MODE_HIDDEN);
+/* 	setHudMode(HUD_ALL, HUD_MODE_HIDDEN);
 	setDayLength(10000);
 
 	disableControls(true);
 	disableMusicSystem(true);
 
     Camera.movementEnabled = false;
-	Camera.modeChangeEnabled = false;
+	Camera.modeChangeEnabled = false; */
 
 	disableKey(KEY_F1, true);
 	disableKey(KEY_F2, true);

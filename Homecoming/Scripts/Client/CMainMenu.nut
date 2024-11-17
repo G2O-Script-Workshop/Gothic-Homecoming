@@ -143,6 +143,21 @@ function launchMenuScene(toggle){
 	menuCollection.setVisible(toggle);
 
 	if(toggle){
+		Chat.setVisible(false);
+		Chat.clear();
+		timeCollection.setVisible(false);
+
+		if(getPlayerPosition(heroId) != getWaypoint("TOT")) Player[heroId].setWaypoint("TOT");
+
+		setHudMode(HUD_ALL, HUD_MODE_HIDDEN);
+		setDayLength(10000);
+
+		disableControls(true);
+		disableMusicSystem(true);
+
+		Camera.movementEnabled = false;
+		Camera.modeChangeEnabled = false;
+
 		Sword.addToWorld();
 		calculateSwordOffset();
 		addEventHandler("onRender", menuSwordScene);
@@ -180,11 +195,18 @@ function menuChangeVisibility(toggle){
 		menuGUI.play.setColor({r = 255, g = 255, b = 255, a = 255});
 	}
 
-	if(toggle) calculateSwordOffset();
+	if(toggle) {
+		updateDiscordState(format("In Main Menu"));
+		calculateSwordOffset();
+	}
 }
 
 JoinMenuMessage.bind(function(message){
 	launchMenuScene(true);
+
+	Music.setVolume(100);
+	Music.looping = true;
+	Music.play();
 
 	menuGUI.settings.setDisabled(true);
 	menuGUI.options.setDisabled(true);
@@ -194,10 +216,6 @@ JoinMenuMessage.bind(function(message){
 	local versionDrawSize = menuGUI.version.getSizePx();
 	menuGUI.version.setPositionPx(nax(8192 - anx(versionDrawSize.height + versionDrawSize.width)), nay(8192 - versionDrawSize.width));
 	menuGUI.version.setDisabled(true);
-
-	Music.setVolume(100);
-	Music.looping = true;
-	Music.play();
 });
 
 addEventHandler("GUI.onClick", function(self){

@@ -40,6 +40,7 @@ local function updateClassInfo(class_id){
 	if(class_id > _classLen - 1) class_id = 0;
 
 	selectedClass = class_id;
+	updateDiscordState(format("Picking a class..."));
 
 	local ui = selectClassGUI;
 	local info = _classWorld[selectedClass];

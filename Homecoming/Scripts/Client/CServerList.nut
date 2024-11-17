@@ -73,6 +73,7 @@ local serverListScroll = serverGUI.list.scrollbar.range;
 
 function showServerList(toggle){
 	serverCollection.setVisible(toggle);
+	updateDiscordState(format("Choosing a server..."));
 
 	if(toggle){
 		addEventHandler("GUI.onMouseIn", srvListMouseIn);
