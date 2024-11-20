@@ -40,7 +40,7 @@ classes[virtualServers.irdorathDMClassic] <- [
 			Players[id].giveItem("ITMI_JOINT", 100);
 		},
 		_func = function(id){
-			setPlayerInstance(id, "PC_Hero");
+			/* setPlayerInstance(id, "PC_Hero");
 
 				setPlayerVisual(heroId,
 					LocalStorage.getItem("bodyModel"),
@@ -48,14 +48,14 @@ classes[virtualServers.irdorathDMClassic] <- [
 					LocalStorage.getItem("headModel"),
 					LocalStorage.getItem("headTexture")
 				);
-				setPlayerFatness(heroId, LocalStorage.getItem("fatness"));
+				setPlayerFatness(heroId, LocalStorage.getItem("fatness")); */
 
 			giveItem(id, "ItAr_Pal_H", 1);
 			giveItem(id, "ITMW_HELLEBARDE", 1);
 			equipItem(id, "ItAr_Pal_H");
 			equipItem(id, "ITMW_HELLEBARDE");
 		}
-	},
+	}/* ,
 	{
 		name = "Orc General",
 		guild = "Orcs",
@@ -95,5 +95,5 @@ classes[virtualServers.irdorathDMClassic] <- [
 			giveItem(id, "itmw_2h_orcsword_02", 1);
 			equipItem(id, "itmw_2h_orcsword_02");
 		}
-	}
+	} */
 ]
