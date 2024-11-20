@@ -2,7 +2,12 @@ addEventHandler("onPlayerMessage", function(pid, message){
 	local _prefix = (message.slice(0, 1) == "!");
 	local _msg = message.slice(1);
 	if(_prefix && _msg != ""){
-		sendMessageToAll(255, 222, 222, format("%s: %s", Players[pid].getName(), _msg));
+		local currVirtualServer = Players[pid].getVirtualWorld();
+		foreach(player in Players){
+			if(currVirtualServer == player.getVirtualWorld()){
+				sendMessageToPlayer(player.id, 255, 222, 222, format("%s: %s", Players[pid].getName(), message))
+			}
+		}
 	} else {
 		local nearPlayers = findNearbyPlayers(
 			getPlayerPosition(pid),
