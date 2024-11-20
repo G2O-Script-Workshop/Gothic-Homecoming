@@ -120,6 +120,10 @@ function toggleMap(toggle){
 			_texture.setFile("MAP_OLDWORLD.TGA");
 			setLevelCoords(world, -78500, 47500, 54000, -53000);
 		break;
+		case "OLDWORLD_WASTELAND.ZEN":
+			_texture.setFile("MAP_OLDWORLD_WASTELAND.TGA");
+			setLevelCoords(world, -78500, 47500, 54000, -53000);
+		break;
 		case "ADDON\\ADDONWORLD.ZEN":
 			_texture.setFile("MAP_ADDONWORLD.TGA");
 			setLevelCoords(world, -47783, 36300, 43949, -32300);
