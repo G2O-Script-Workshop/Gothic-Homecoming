@@ -4,6 +4,7 @@
 		<script src="Shared/Config.nut" type="shared" />
 		<!-- Utility -->
 			<script src="Shared/Utility/Convert.nut" type="shared" />
+			<script src="Shared/Utility/ExtractInteger.nut" type="shared" />
 		<!-- Localization -->
 			<script src="Shared/String/Animations.nut" type="shared" />
 		<!-- Tables -->
@@ -13,6 +14,8 @@
 			<!-- Scenes -->
 				<script src="Shared/Tables/Scenes/NEWWORLD.nut" type="shared" />
 				<script src="Shared/Tables/Scenes/OLDWORLD.nut" type="shared" />
+				<script src="Shared/Tables/Scenes/DRAGONISLAND.nut" type="shared" />
+				<script src="Shared/Tables/Scenes/WASTELAND.nut" type="shared" />
 				<script src="Shared/Tables/Scenes/ADDONWORLD.nut" type="shared" />
 				<script src="Shared/Tables/Scenes/COLONY.nut" type="shared" />
 			<!-- Classes -->
@@ -22,6 +25,9 @@
 				<!-- OLDWORLD -->
 					<script src="Shared/Tables/Classes/OLDWORLD/ClassicRP.nut" type="shared" />
 					<script src="Shared/Tables/Classes/OLDWORLD/ClassicDM.nut" type="shared" />
+				<!-- OLDWORLD WASTELAND -->
+					<script src="Shared/Tables/Classes/WASTELAND/ClassicRP.nut" type="shared" />
+					<script src="Shared/Tables/Classes/WASTELAND/ClassicDM.nut" type="shared" />
 				<!-- ADDONWORLD -->
 					<script src="Shared/Tables/Classes/ADDONWORLD/ClassicRP.nut" type="shared" />
 					<script src="Shared/Tables/Classes/ADDONWORLD/ClassicDM.nut" type="shared" />
