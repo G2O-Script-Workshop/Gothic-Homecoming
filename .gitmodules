@@ -1,7 +1,6 @@
 [submodule "Homecoming/Submodules/gui-framework"]
 	path = Homecoming/Submodules/gui-framework
 	url = https://gitlab.com/g2o/scripts/gui-framework
-	branch = 0.3.0
 [submodule "Homecoming/Submodules/bpackets"]
 	path = Homecoming/Submodules/bpackets
 	url = https://gitlab.com/bcore1/bpackets
