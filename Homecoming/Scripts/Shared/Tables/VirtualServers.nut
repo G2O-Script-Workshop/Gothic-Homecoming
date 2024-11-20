@@ -1,4 +1,5 @@
 VirtualServersTable <- [
+	// ---------------------- ROLE-PLAY
 	{
 		_type = "RP",
 		name = "Irdorath (Classic RolePlay)",
@@ -19,6 +20,12 @@ VirtualServersTable <- [
 	},
 	{
 		_type = "RP",
+		name = "Extended Valley of Mines (Classic RolePlay)",
+		zen = "OLDWORLD_WASTELAND.ZEN",
+		vworld = virtualServers.wastelandRPClassic
+	},
+	{
+		_type = "RP",
 		name = "Jharkendar (Classic RolePlay)",
 		zen = "ADDON\\ADDONWORLD.ZEN",
 		vworld = virtualServers.jarkendarRPClassic
@@ -29,6 +36,7 @@ VirtualServersTable <- [
 		zen = "COLONY.ZEN",
 		vworld = virtualServers.colonyRPClassic
 	},
+	// ---------------------- DEATH MATCH
 	{
 		_type = "DM",
 		name = "Khorinis (Classic DeathMatch)",
@@ -40,6 +48,12 @@ VirtualServersTable <- [
 		name = "Valley of Mines (Classic DeathMatch)",
 		zen = "OLDWORLD\\OLDWORLD.ZEN",
 		vworld = virtualServers.valleyDMClassic
+	},
+	{
+		_type = "DM",
+		name = "Extended Valley of Mines (Classic DeathMatch)",
+		zen = "OLDWORLD_WASTELAND.ZEN",
+		vworld = virtualServers.wastelandDMClassic
 	},
 	{
 		_type = "DM",
