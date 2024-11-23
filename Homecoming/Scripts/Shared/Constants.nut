@@ -28,6 +28,8 @@ enum virtualServers {
 	khorinisDMClassic,
 	valleyRPClassic,
 	valleyDMClassic,
+	wastelandRPClassic,
+	wastelandDMClassic,
 	jarkendarRPClassic,
 	jarkendarDMClassic,
 	irdorathRPClassic,
