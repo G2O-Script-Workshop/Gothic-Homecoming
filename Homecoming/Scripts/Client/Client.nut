@@ -1,19 +1,11 @@
 addEventHandler("onInit", function(){
 	clearMultiplayerMessages();
 
-/* 	setHudMode(HUD_ALL, HUD_MODE_HIDDEN);
-	setDayLength(10000);
-
-	disableControls(true);
-	disableMusicSystem(true);
-
-    Camera.movementEnabled = false;
-	Camera.modeChangeEnabled = false; */
-
 	disableKey(KEY_F1, true);
 	disableKey(KEY_F2, true);
 	disableKey(KEY_F3, true);
 	disableKey(KEY_F4, true);
+	disableKey(KEY_F9, true);
 
 	NetStats.init();
 	PlayerList.init();
@@ -45,7 +37,8 @@ SynchronizeTimeMessage.bind(function(message){
 
 addEventHandler("onWorldChange", function(world, waypoint){
 	cancelEvent();
-})
+});
+
 
 addEventHandler("onCommand", function(cmd, params)
 {
@@ -53,7 +46,10 @@ addEventHandler("onCommand", function(cmd, params)
 		enableFreeCam(!isFreeCamEnabled())
 	if (cmd == "pos"){
 		local _camPos = Camera.getPosition()
-		local _posForScene = format("x = %f z = %f", _camPos.x, _camPos.z)
+		local _camRot = Camera.getRotation()
+		local _posForScene = format("		{x = %f, y = %f, z = %f},\n		{x = %f, y = %f, z = %f}",
+									_camPos.x, _camPos.y, _camPos.z,
+									_camRot.x, _camRot.y, _camRot.z);
 		setClipboardText(_posForScene);
 		print(_posForScene);
 	}
@@ -61,4 +57,4 @@ addEventHandler("onCommand", function(cmd, params)
 		giveItem(heroId, "ITPO_SPEED", 10)
 		setPlayerScale(heroId, 1.0, 1.0, 2.5);
 	}
-})
+});
