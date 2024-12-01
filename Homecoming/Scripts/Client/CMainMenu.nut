@@ -74,9 +74,11 @@ local function rotateVectorAroundAxisAngle(axis, angle, vec){
 
 local _lastScene = 0;
 local _scene;
+local currScene;
 local function calculateSwordOffset(){
 	do {
-		_scene = scenes[getWorld()][rand() % scenes[getWorld()].len()]
+		currScene = (rand() % scenes[getWorld()].len());
+		_scene = scenes[getWorld()][currScene];
 	} while (_scene == _lastScene);
 
 	Camera.setPosition(_scene[0].x, _scene[0].y, _scene[0].z)
@@ -95,46 +97,6 @@ local function calculateSwordOffset(){
 
 	_lastScene = _scene;
 }
-/*
-local Skull = Vob("SKULL.3DS");
-	Skull.addToWorld();
-
-local function calculateSwordOffset(){
-	if(_lastScene > scenes.len() - 1) _lastScene = 0;
-	_scene = scenes[_lastScene];
-
-
-	Skull.matrix.setRightVector(Vec3(_scene[0][0], _scene[0][1], _scene[0][2]))
-	Skull.matrix.setAtVector(Vec3(_scene[1][0], _scene[1][1], _scene[1][2]))
-	Skull.matrix.setUpVector(Vec3(_scene[2][0], _scene[2][1], _scene[2][2]))
-	Skull.matrix.setTranslation(Vec3(_scene[3][0], _scene[3][1], _scene[3][2]))
-	Skull.matrix.makeOrthonormal();
-
-	local skullPos = Skull.getPosition();
-	local skullRot = Skull.getRotation();
-	Camera.setPosition(skullPos.x, skullPos.y, skullPos.z);
-	Camera.setRotation(skullRot.x, skullRot.y, skullRot.z);
-
-	local _camPos = Camera.getPosition()
-	local _camRot = Camera.getRotation()
-
-	local _posForScene = format("scene %d \n[\n {x = %f, y = %f, z = %f},\n {x = %f, y = %f, z = %f}\n],", _lastScene, _camPos.x, _camPos.y, _camPos.z, _camRot.x, _camRot.y, _camRot.z)
-	setClipboardText(_posForScene);
-	print(_posForScene);
-
-	local vobDistance = 104.981
-	local vobYOffset = -34
-	local angleOffset = -25
-	local originalYRotation = 210
-
-	local atVector = Camera.vobMatrix.getAtVector()
-	local rotatedVec = rotateVectorAroundAxisAngle(Vec3(0, 1, 0), angleOffset, atVector) * vobDistance
-
-	Sword.setPosition(_camPos.x + rotatedVec.x, _camPos.y + vobYOffset, _camPos.z + rotatedVec.z)
-	Sword.setRotation(0, _camRot.y - originalYRotation, 0)
-
-	_lastScene++
-} */
 
 function launchMenuScene(toggle){
 	setCursorVisible(toggle);
@@ -157,6 +119,10 @@ function launchMenuScene(toggle){
 
 		Camera.movementEnabled = false;
 		Camera.modeChangeEnabled = false;
+
+		Music.setVolume(75);
+		Music.looping = true;
+		Music.play();
 
 		Sword.addToWorld();
 		calculateSwordOffset();
@@ -204,10 +170,6 @@ function menuChangeVisibility(toggle){
 JoinMenuMessage.bind(function(message){
 	launchMenuScene(true);
 
-	Music.setVolume(100);
-	Music.looping = true;
-	Music.play();
-
 	menuGUI.settings.setDisabled(true);
 	menuGUI.options.setDisabled(true);
 
@@ -237,6 +199,6 @@ addEventHandler("GUI.onClick", function(self){
 		}
 	}
 	if(self == menuGUI.logo){
-		calculateSwordOffset()
+		calculateSwordOffset();
 	}
 });
