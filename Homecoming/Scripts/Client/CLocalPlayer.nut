@@ -99,8 +99,10 @@ class LocalPlayer {
 		return this.name;
 	}
 
-	function setClass(cid){
-		this.class_id = convert(cid, "integer");
+	function setClass(classId){
+		this.class_id = convert(classId, "integer");
+
+		//classes[this.virtual_world][classId].func(this.id);
 	}
 
 	function getClass(){
@@ -506,7 +508,7 @@ class LocalPlayer {
 
 	function saveData(){
 		LocalStorage.setItem("color", this.getColor());
-		LocalStorage.setItem("name", this.getName());
+		LocalStorage.setItem("characterName", this.getName());
 		LocalStorage.setItem("walk", this.getWalkstyle());
 		LocalStorage.setItem("visual", this.getVisual());
 		LocalStorage.setItem("scale", this.getScale());
@@ -516,7 +518,7 @@ class LocalPlayer {
 		if(LocalStorage.len() <= 0) return;
 
 		local _color = LocalStorage.getItem("color") ? LocalStorage.getItem("color") : {r = 255, g = 255, b = 255};
-		local _name = LocalStorage.getItem("name") ? LocalStorage.getItem("name") : "Nameless";
+		local _name = LocalStorage.getItem("characterName") ? LocalStorage.getItem("characterName") : "Nameless";
 		local _walk = LocalStorage.getItem("walk") ? LocalStorage.getItem("walk") : "HUMANS.MDS";
 		local _visual = LocalStorage.getItem("visual") ? LocalStorage.getItem("visual") : {bm = "HUM_BODY_NAKED0", bt = 8, hm = "HUM_HEAD_PONY", ht = 18};
 		local _scale = LocalStorage.getItem("scale") ? LocalStorage.getItem("scale") : {x = 1.0, y = 1.0, z = 1.0, f = 1.0};
