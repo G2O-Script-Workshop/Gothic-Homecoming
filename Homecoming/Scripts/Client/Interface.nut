@@ -26,6 +26,7 @@ addEventHandler("onKeyDown", function(key){
 				local disconnectFromVirtual = ServerLeaveMessage(heroId, Player[heroId].getVirtualWorld()).serialize();
 				disconnectFromVirtual.send(RELIABLE);
 
+				clearInventory();
 				launchMenuScene(true);
 		break;
 
