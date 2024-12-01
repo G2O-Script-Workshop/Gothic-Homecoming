@@ -544,7 +544,7 @@ class PrototypeHero {
 
 
 	function setClass(classId){
-		this.class_id = classId;
+		this.class_id = convert(classId, "integer");
 
 		classes[this.virtual_world][classId].func(this.id);
 	}
@@ -560,7 +560,7 @@ class PrototypeHero {
 
 		spawnPlayer(this.id);
 
-		this.setName("name" in params ? params.name : getPlayerName(id));
+		this.setName("characterName" in params ? params.name : getPlayerName(id));
 
 		this.setInstance("instance" in params ? params.instance : getPlayerInstance(id));
 		this.setGuild("guild" in params ? params.guild : 0)
