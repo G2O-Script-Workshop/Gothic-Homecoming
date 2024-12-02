@@ -71,15 +71,12 @@ local _srvList = serverGUI.list
 local _srvListRows = _srvList.rows.len()
 local serverListScroll = serverGUI.list.scrollbar.range;
 
-local _activeTab;
+local _activeServerTab;
 local curColumn = srvPlayers;
-local curDirection = 1;
+local curDirection = -1;
 
-local _favoriteServers;
-local tempFavoriteServers;
-
-local checkActiveTab = function(){
-	switch(_activeTab){
+local checkActiveServerTab = function(){
+	switch(_activeServerTab){
 		case serverGUI.button_all:
 			serverGUI.button_all.setFile("LOG_PAPER.TGA");
 			serverGUI.button_fav.setFile("INV_BACK_PLUNDER.TGA");
@@ -104,8 +101,8 @@ function showServerList(toggle){
 		local askForServersPacket = ServerListPingMessage(heroId).serialize();
 		askForServersPacket.send(RELIABLE);
 
-		_activeTab = serverGUI.button_all;
-		checkActiveTab();
+		_activeServerTab = serverGUI.button_all;
+		checkActiveServerTab();
 	} else {
 		removeEventHandler("GUI.onMouseIn", srvListMouseIn);
 		removeEventHandler("GUI.onMouseOut", srvListMouseOut);
@@ -116,13 +113,6 @@ function showServerList(toggle){
 	}
 }
 
-local sortStart = function(first, second){
-	local firstValue = first.cells[srvPlayers].getText()
-	local secondValue = second.cells[srvPlayers].getText()
-
-	return (firstValue <=> secondValue) * -curDirection
-}
-
 local sortFunc = function(first, second){
 	local firstValue = first.cells[curColumn].getText()
 	local secondValue = second.cells[curColumn].getText()
@@ -131,34 +121,60 @@ local sortFunc = function(first, second){
 }
 
 ServerListMessage.bind(function(message){
-	if(_activeTab == serverGUI.button_fav){
-		if(LocalStorage.getItem("favoriteServers").find(message.serverId) != null){
-			_srvList.insertRow(_srvListRows, {});
-			_srvList.rows[_srvListRows].metadata.id <- message.serverId;
+	if(_activeServerTab == serverGUI.button_fav && LocalStorage.getItem("favoriteServers").find(message.serverId) == null) return;
 
-			_srvList.rows[_srvListRows].insertCell(srvType, {text = message.serverType});
-			_srvList.rows[_srvListRows].insertCell(srvName, {text = message.serverName});
-			_srvList.rows[_srvListRows].insertCell(srvMap, {text = message.serverZen});
-			_srvList.rows[_srvListRows].insertCell(srvPlayers, {text = message.serverPlayers});
-			_srvList.rows[_srvListRows].insertCell(srvBots, {text = message.serverNPCs});
-		}
-	} else {
-		_srvList.insertRow(message.serverId, {});
-		_srvList.rows[message.serverId].metadata.id <- message.serverId;
+		_srvList.insertRow(_srvListRows, {});
+		_srvList.rows[_srvListRows].metadata.id <- message.serverId;
 
-		_srvList.rows[message.serverId].insertCell(srvType, {text = message.serverType});
-		_srvList.rows[message.serverId].insertCell(srvName, {text = message.serverName});
-		_srvList.rows[message.serverId].insertCell(srvMap, {text = message.serverZen});
-		_srvList.rows[message.serverId].insertCell(srvPlayers, {text = message.serverPlayers});
-		_srvList.rows[message.serverId].insertCell(srvBots, {text = message.serverNPCs});
-	}
+		_srvList.rows[_srvListRows].insertCell(srvType, {text = message.serverType});
+		_srvList.rows[_srvListRows].insertCell(srvName, {text = message.serverName});
+		_srvList.rows[_srvListRows].insertCell(srvMap, {text = message.serverZen});
+		_srvList.rows[_srvListRows].insertCell(srvPlayers, {text = message.serverPlayers});
+		_srvList.rows[_srvListRows].insertCell(srvBots, {text = message.serverNPCs});
 
 	serverListScroll.setMaximum(_srvListRows);
-	_srvList.sort(sortStart);
+	_srvList.sort(sortFunc);
 });
 
 function srvListMouseClick(self, buttn){
 	if(!serverCollection.getVisible()) return;
+
+	switch(self){
+		case serverGUI.button_all:
+		case serverGUI.button_fav:
+			_srvList.clear();
+			_activeServerTab = self;
+
+			local askForServersPacket = ServerListPingMessage(heroId).serialize();
+			askForServersPacket.send(RELIABLE);
+
+			checkActiveServerTab();
+		break;
+
+		case srvType:
+		case srvName:
+		case srvMap:
+		case srvPlayers:
+		case srvBots:
+			if(curColumn != self){
+				curColumn = self
+				curDirection = 1
+			} else curDirection = -curDirection
+
+			_srvList.sort(sortFunc);
+		break;
+
+		default:
+			if(!(self instanceof GUI.GridListVisibleCell)){
+				print("element: " + getElementPointedByCursor() + "\n" +
+					"visible: " + self.getVisible() + "\n" +
+					"disabled: " + self.getDisabled() + "\n" +
+					"collection: " + self.collection);
+
+				self.setVisible(!self.getVisible());
+			}
+		break;
+	}
 
 	if(self instanceof GUI.GridListVisibleCell){
 		local _serverId = self.getDataCell().parent.metadata.id;
@@ -166,23 +182,24 @@ function srvListMouseClick(self, buttn){
 			case MOUSE_BUTTONLEFT:
 				local _player = Player[heroId];
 				local joinVirtualServerPacket = ServerListClickMessage(heroId, _serverId,
-					_player.getName(), //LocalStorage.getItem("characterName"),
-					_player.getVisual().bm, //LocalStorage.getItem("bodyModel"),
-					_player.getVisual().bt, //LocalStorage.getItem("bodyTexture"),
-					_player.getVisual().hm, //LocalStorage.getItem("headModel"),
-					_player.getVisual().ht, //LocalStorage.getItem("headTexture"),
-					_player.getWalkstyle(), //LocalStorage.getItem("walkstyle"),
+					_player.getName(),
+					_player.getVisual().bm,
+					_player.getVisual().bt,
+					_player.getVisual().hm,
+					_player.getVisual().ht,
+					_player.getWalkstyle(),
 					/* LocalStorage.getItem("height"), */
-					_player.getScale().f //LocalStorage.getItem("fatness")
+					_player.getScale().f
 					).serialize();
 				joinVirtualServerPacket.send(RELIABLE);
 
 				launchMenuScene(false);
 				showServerList(false);
 			break;
+
 			case MOUSE_BUTTONRIGHT:
-					_favoriteServers = LocalStorage.getItem("favoriteServers");
-					tempFavoriteServers = array(100);
+					local _favoriteServers = LocalStorage.getItem("favoriteServers");
+					local tempFavoriteServers = array(100);
 
 					foreach(id, entry in _favoriteServers){
 						if(entry != null) tempFavoriteServers[id] = entry;
@@ -195,7 +212,7 @@ function srvListMouseClick(self, buttn){
 
 					if(_favoriteServers.find(_serverId) != null){
 						tempFavoriteServers.remove(_serverId);
-							if(_activeTab == serverGUI.button_fav){
+							if(_activeServerTab == serverGUI.button_fav){
 								_srvList.removeRow(self.getDataCell().parent.id);
 								_srvList.sort(sortFunc);
 							}
@@ -209,36 +226,7 @@ function srvListMouseClick(self, buttn){
 				}
 			break;
 		}
-	} else {
-		switch(self){
-			case serverGUI.button_all:
-			case serverGUI.button_fav:
-				_srvList.clear();
-				_activeTab = self;
-
-				local askForServersPacket = ServerListPingMessage(heroId).serialize();
-				askForServersPacket.send(RELIABLE);
-
-				checkActiveTab();
-			break;
-
-			case srvType:
-			case srvName:
-			case srvMap:
-			case srvPlayers:
-			case srvBots:
-				if(curColumn != self){
-					curColumn = self
-					curDirection = 1
-				} else curDirection = -curDirection
-
-				_srvList.sort(sortFunc);
-			break;
-		}
 	}
-
-	print(serverGUI.button_all.getDisabled());
-	print(serverGUI.button_fav.getDisabled());
 }
 
 function srvListMouseIn(self){
@@ -265,8 +253,6 @@ function srvListMouseIn(self){
 
 		foreach (cell in visibleRow.cells)
 			cell.draw.setColor({r = 0, g = 255, b = 0})
-
-		return;
 	}
 }
 
@@ -294,8 +280,6 @@ function srvListMouseOut(self){
 
 		foreach (cell in visibleRow.cells)
 			cell.draw.setColor({r = 255, g = 255, b = 255})
-
-		return;
 	}
 }
 
