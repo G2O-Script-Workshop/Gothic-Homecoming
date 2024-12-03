@@ -253,7 +253,7 @@ function toggleCreator(toggle){
 					Player[heroId].setVisual(_vis.bm, _vis.bt, _vis.hm, _vis.ht);
 
 						local _scale = LocalStorage.getItem("scale");
-						Player[heroId].setScale(heroId, _scale.x, _scale.y, _scale.z, _scale.f);
+						Player[heroId].setScale(_scale.x, _scale.y, _scale.z, _scale.f);
 
 				}
 	} else {
