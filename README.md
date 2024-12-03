@@ -1,19 +1,27 @@
 # Gothic-Homecoming
-The Gothic Homecoming gamemode is based on how the 2011's Gothic Multiplayer worked, where you simply join a server and choose a class. 
+The Gothic Homecoming gamemode is based on the Gothic Multiplayer 2011, where you simply join a server, choose a class and play. 
 
 # Features
 - Multiple scenes in Menu (depending on present ZEN)
 - Server List mockup (based on Virtual Worlds)
 - Class Select on Join
-- Global Chat under prefix (!) for everyone and distance chat by default
+- Global Chat under prefix (!) and distance chat by default
 - Playerlist with Class Names (F1)
 - World Map (F2)
 - Animation Window (F3)
 - Net Stats (F4)
 - Ability to reconnect to a different Virtual Server by pressing (F9) while in-game
 - Player Visual change in Menu
-- Client Settings in Menu (WIP)
-- Game Options in Menu (WIP)
+
+# To-do
+- Finalize Server List with Favorite Tab
+- LocalStorage wrapper for easier data-handling
+- Client Settings in Menu
+- Game Options in Menu
+
+# Expand? Maybe?
+- Add servers imitating GMPA gameplay, which would utilize some basic "scripting", storing information, etc.
+- World Builder I guess
 
 # How to Run
 Clone the code repo:
