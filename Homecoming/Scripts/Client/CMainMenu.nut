@@ -1,5 +1,6 @@
 local Music = BASSMusic("GMPMenu.mp3");
 local Sword = Vob("ItMw_030_1h_PAL_sword_bastard_RAW_01.3DS");
+local CameraVob = Vob("");
 
 menuCollection <- GUI.Collection({
 	position = {x = 0, y = 0}
@@ -67,15 +68,10 @@ local function menuSwordScene(){
 	}
 }
 
-local function rotateVectorAroundAxisAngle(axis, angle, vec){
-	angle *= PI / 180.0
-	return vec * cos(angle) + (axis * Vec3.dot(vec, axis) * (1 - cos(angle))) + (Vec3.cross(axis, vec) * sin(angle))
-}
-
 local _lastScene = 0;
 local _scene;
 local currScene;
-local function calculateSwordOffset(){
+local function updateScene(){
 	do {
 		currScene = (rand() % scenes[getWorld()].len());
 		_scene = scenes[getWorld()][currScene];
@@ -84,18 +80,23 @@ local function calculateSwordOffset(){
 	Camera.setPosition(_scene[0].x, _scene[0].y, _scene[0].z)
 	Camera.setRotation(_scene[1].x, _scene[1].y, _scene[1].z)
 
-	local vobDistance = 104.981
-	local vobYOffset = -34
-	local angleOffset = -25
-	local originalYRotation = 210
+	CameraVob.setPosition(_scene[0].x, _scene[0].y, _scene[0].z)
+	CameraVob.setRotation(_scene[1].x, _scene[1].y, _scene[1].z)
 
-	local atVector = Camera.vobMatrix.getAtVector()
-	local rotatedVec = rotateVectorAroundAxisAngle(Vec3(0, 1, 0), angleOffset, atVector) * vobDistance
-
-	Sword.setPosition(_scene[0].x + rotatedVec.x, _scene[0].y + vobYOffset, _scene[0].z + rotatedVec.z)
-	Sword.setRotation(0, _scene[1].y - originalYRotation, 0)
+	local rotation = Sword.getRotation()
+	Sword.setRotation(rotation.x, _scene[1].y - 210, rotation.z)
 
 	_lastScene = _scene;
+}
+
+local function calculateSwordOffset(){
+	CameraVob.setPosition(13354.502930, 2040.0, -1141.678467);
+	CameraVob.setRotation(0, 210, 0);
+		CameraVob.addToWorld();
+
+	Sword.setPosition(13346.502930, 2006.0, -1240.678467);
+	CameraVob.attachChild(Sword);
+		Sword.addToWorld();
 }
 
 function launchMenuScene(toggle){
@@ -124,8 +125,9 @@ function launchMenuScene(toggle){
 		Music.looping = true;
 		Music.play();
 
-		Sword.addToWorld();
-		calculateSwordOffset();
+			calculateSwordOffset();
+			updateScene();
+
 		addEventHandler("onRender", menuSwordScene);
 
 		if(LocalStorage.len() <= 0){
@@ -139,7 +141,9 @@ function launchMenuScene(toggle){
 		}
 	} else {
 		removeEventHandler("onRender", menuSwordScene);
+			CameraVob.detachChild(Sword);
 		Sword.removeFromWorld();
+		CameraVob.removeFromWorld();
 
 		setDayLength(6000 * 1000);
 
@@ -163,7 +167,7 @@ function menuChangeVisibility(toggle){
 
 	if(toggle) {
 		updateDiscordState(format("In Main Menu"));
-		calculateSwordOffset();
+		updateScene();
 	}
 }
 
@@ -199,6 +203,6 @@ addEventHandler("GUI.onClick", function(self){
 		}
 	}
 	if(self == menuGUI.logo){
-		calculateSwordOffset();
+		updateScene();
 	}
 });
