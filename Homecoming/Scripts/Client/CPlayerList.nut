@@ -193,8 +193,6 @@ function PlayerList::refresh(value)
 
 function PlayerList::insert(pid)
 {
-	if(dataRows.find(playerDataRows[pid]) != null) return;
-
 	local _serverId = Player[pid].getVirtualWorld();
 	local _classId = Player[pid].getClass()
 
@@ -211,6 +209,12 @@ function PlayerList::insert(pid)
 
 	if (isInView(dataRowIdx))
 		_updateVisibleRows()
+}
+
+function PlayerList::update(pid)
+{
+	PlayerList.remove(pid);
+	PlayerList.insert(pid);
 }
 
 function PlayerList::remove(pid)
@@ -287,7 +291,11 @@ addEventHandler("onPlayerDestroy", function(pid)
 })
 
 UpdateClassMessage.bind(function(message){
-	PlayerList.insert(message.playerId);
+	if(PlayerList.dataRows.find(PlayerList.playerDataRows[message.playerId]) != null){
+		PlayerList.update(message.playerId);
+	} else {
+		PlayerList.insert(message.playerId);
+	}
 });
 
 addEventHandler("onKeyDown", function(key)
