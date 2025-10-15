@@ -25,7 +25,7 @@ class VirtualServer {
 	function connect(pid, message){
 		if(!Players.rawin(pid)) {
 			Player(pid, {
-				name = message.charaName,
+				characterName = message.charaName,
 
 				visual = [
 					message.visBodyM,
