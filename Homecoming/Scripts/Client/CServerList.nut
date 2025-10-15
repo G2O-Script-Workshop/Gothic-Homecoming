@@ -1,119 +1,197 @@
 serverCollection <- GUI.Collection({
-	position = {x = 0, y = 0}
+        position = {x = 0, y = 0}
 });
+
 local serverGUI = {
-	list = GUI.Table({
-		positionPx = {x = 0, y = nay(400)}
-		sizePx = {width = nax(8192), height = nay(7792)}
-		/* marginPx = {top = 10, left = 10}
-		rowHeightPx = 28
-		rowSpacingPx = 5 */
-		file = "INV_BACK_PLUNDER.TGA"
-		scrollbar = {
-			range = {
-				file = "MENU_INGAME.TGA"
-				indicator = {file = "BAR_MISC.TGA"}
-			}
-		}
-		collection = serverCollection
-	})
+        list = GUI.Table({
+                positionPx = {x = 0, y = nay(400)}
+                sizePx = {width = nax(8192), height = nay(7792)}
+                /* marginPx = {top = 10, left = 10}
+                rowHeightPx = 28
+                rowSpacingPx = 5 */
+                file = "INV_BACK_PLUNDER.TGA"
+                scrollbar = {
+                        range = {
+                                file = "MENU_INGAME.TGA"
+                                indicator = {file = "BAR_MISC.TGA"}
+                        }
+                }
+                collection = serverCollection
+        })
 
 
-	button_all = GUI.Button({
-		positionPx = {x = 0, y = 0}
-		sizePx = {width = nax(1000), height = nay(400)}
-		file = "INV_BACK_PLUNDER.TGA"
-		label = {text = "PUBLIC"}
-		collection = serverCollection
-	})
+        button_all = GUI.Button({
+                positionPx = {x = 0, y = 0}
+                sizePx = {width = nax(1000), height = nay(400)}
+                file = "INV_BACK_PLUNDER.TGA"
+                label = {text = "PUBLIC"}
+                collection = serverCollection
+        })
 
-	button_fav = GUI.Button({
-		positionPx = {x = nax(1000), y = 0}
-		sizePx = {width = nax(1000), height = nay(400)}
-		file = "INV_BACK_PLUNDER.TGA"
-		label = {text = "FAVORITE"}
-		collection = serverCollection
-	})
+        button_fav = GUI.Button({
+                positionPx = {x = nax(1000), y = 0}
+                sizePx = {width = nax(1000), height = nay(400)}
+                file = "INV_BACK_PLUNDER.TGA"
+                label = {text = "FAVORITE"}
+                collection = serverCollection
+        })
 }
 
-local srvType = serverGUI.list.addColumn({
-	widthPx = nax(900)
-	align = Align.Left
-	file = "INV_BACK_PLUNDER.TGA"
-	label = {text = "Server Type"}
-})
-local srvName = serverGUI.list.addColumn({
-	widthPx = nax(3000)
-	align = Align.Left
-	file = "INV_BACK_PLUNDER.TGA"
-	label = {text = "Server Name"}
-})
-local srvMap = serverGUI.list.addColumn({
-	widthPx = nax(3000)
-	align = Align.Left
-	file = "INV_BACK_PLUNDER.TGA"
-	label = {text = "World Map"}
-})
-local srvPlayers = serverGUI.list.addColumn({
-	widthPx = nax(800)
-	align = Align.Left
-	file = "INV_BACK_PLUNDER.TGA"
-	label = {text = "Players"}
-})
-local srvBots = serverGUI.list.addColumn({
-	widthPx = nax(800)
-	align = Align.Left
-	file = "INV_BACK_PLUNDER.TGA"
-	label = {text = "NPCs"}
-})
+local columnDefinitions = [
+        { key = "srvType", width = nax(900), label = "Server Type" },
+        { key = "srvName", width = nax(3000), label = "Server Name" },
+        { key = "srvMap", width = nax(3000), label = "World Map" },
+        { key = "srvPlayers", width = nax(800), label = "Players" },
+        { key = "srvBots", width = nax(800), label = "NPCs" }
+];
 
-local _srvList = serverGUI.list
-local _srvListRows = _srvList.rows.len()
+local columns = {};
+foreach (definition in columnDefinitions) {
+        columns[definition.key] <- serverGUI.list.addColumn({
+                widthPx = definition.width
+                align = Align.Left
+                file = "INV_BACK_PLUNDER.TGA"
+                label = {text = definition.label}
+        });
+}
+
+local srvType = columns.srvType;
+local srvName = columns.srvName;
+local srvMap = columns.srvMap;
+local srvPlayers = columns.srvPlayers;
+local srvBots = columns.srvBots;
+
+local _srvList = serverGUI.list;
 local serverListScroll = serverGUI.list.scrollbar.range;
 
-local _favoriteServers = LocalStorage.getItem("favoriteServers");
-local tempFavoriteServers = array(100);
+local favoriteServers = {};
 
 local _activeServerTab;
 local curColumn = srvPlayers;
 local curDirection = -1;
 
-local checkActiveServerTab = function(){
-	switch(_activeServerTab){
-		case serverGUI.button_all:
-			serverGUI.button_all.setFile("LOG_PAPER.TGA");
-			serverGUI.button_fav.setFile("INV_BACK_PLUNDER.TGA");
-		break;
-		case serverGUI.button_fav:
-			serverGUI.button_all.setFile("INV_BACK_PLUNDER.TGA");
-			serverGUI.button_fav.setFile("LOG_PAPER.TGA");
-		break;
-	}
+local function updateScrollBounds(){
+        local maximum = _srvList.getMaxScrollbarValue();
+
+        serverListScroll.setMaximum(maximum);
+
+        local currentValue = serverListScroll.getValue();
+        if(currentValue > maximum) {
+                serverListScroll.setValue(maximum);
+        } else if(currentValue < 0) {
+                serverListScroll.setValue(0);
+        }
+}
+
+local function loadFavoriteServers(){
+        favoriteServers = {};
+
+        local storedFavorites = LocalStorage.getItem("favoriteServers");
+        if(!storedFavorites) return;
+
+        foreach (_, serverId in storedFavorites) {
+                if(serverId != null) favoriteServers[serverId] <- true;
+        }
+}
+
+local function serializeFavoriteServers(){
+        if(favoriteServers.len() == 0) return array(0);
+
+        local serialized = array(0);
+        foreach (serverId, _ in favoriteServers) {
+                serialized.append(serverId);
+        }
+
+        serialized.sort(@(a, b) a <=> b);
+
+        return serialized;
+}
+
+local function saveFavoriteServers(){
+        LocalStorage.setItem("favoriteServers", serializeFavoriteServers());
+}
+
+local function isFavoriteServer(serverId){
+        return serverId in favoriteServers;
+}
+
+local function toggleFavoriteServer(serverId){
+        local becameFavorite = !isFavoriteServer(serverId);
+
+        if(becameFavorite) {
+                favoriteServers[serverId] <- true;
+        } else {
+                delete favoriteServers[serverId];
+        }
+
+        saveFavoriteServers();
+        return becameFavorite;
+}
+
+loadFavoriteServers();
+
+local function requestServerList(){
+        local askForServersPacket = ServerListPingMessage(heroId).serialize();
+        askForServersPacket.send(RELIABLE);
+}
+
+local function updateServerListHeaderState(){
+        switch(_activeServerTab){
+                case serverGUI.button_all:
+                        serverGUI.button_all.setFile("LOG_PAPER.TGA");
+                        serverGUI.button_fav.setFile("INV_BACK_PLUNDER.TGA");
+                break;
+                case serverGUI.button_fav:
+                        serverGUI.button_all.setFile("INV_BACK_PLUNDER.TGA");
+                        serverGUI.button_fav.setFile("LOG_PAPER.TGA");
+                break;
+        }
+}
+
+local function clearServerList(){
+        _srvList.clear();
+        updateScrollBounds();
+}
+
+local function appendServerRow(message){
+        local rowIndex = _srvList.rows.len();
+        _srvList.insertRow(rowIndex, {});
+
+        local newRow = _srvList.rows[rowIndex];
+        newRow.metadata.id <- message.serverId;
+
+        newRow.insertCell(srvType, {text = message.serverType});
+        newRow.insertCell(srvName, {text = message.serverName});
+        newRow.insertCell(srvMap, {text = message.serverZen});
+        newRow.insertCell(srvPlayers, {text = message.serverPlayers});
+        newRow.insertCell(srvBots, {text = message.serverNPCs});
+
+        updateScrollBounds();
 }
 
 function showServerList(toggle){
 	serverCollection.setVisible(toggle);
 	updateDiscordState(format("Choosing a server..."));
 
-	if(toggle){
-		addEventHandler("GUI.onMouseIn", srvListMouseIn);
-		addEventHandler("GUI.onMouseOut", srvListMouseOut);
-		addEventHandler("onKeyDown", srvListKeyDown);
-		addEventHandler("GUI.onMouseDown", srvListMouseClick);
+        if(toggle){
+                addEventHandler("GUI.onMouseIn", srvListMouseIn);
+                addEventHandler("GUI.onMouseOut", srvListMouseOut);
+                addEventHandler("onKeyDown", srvListKeyDown);
+                addEventHandler("GUI.onMouseDown", srvListMouseClick);
 
-		local askForServersPacket = ServerListPingMessage(heroId).serialize();
-		askForServersPacket.send(RELIABLE);
+                loadFavoriteServers();
+                clearServerList();
+                _activeServerTab = serverGUI.button_all;
+                updateServerListHeaderState();
+                requestServerList();
+        } else {
+                removeEventHandler("GUI.onMouseIn", srvListMouseIn);
+                removeEventHandler("GUI.onMouseOut", srvListMouseOut);
+                removeEventHandler("onKeyDown", srvListKeyDown);
+                removeEventHandler("GUI.onMouseDown", srvListMouseClick);
 
-		_activeServerTab = serverGUI.button_all;
-		checkActiveServerTab();
-	} else {
-		removeEventHandler("GUI.onMouseIn", srvListMouseIn);
-		removeEventHandler("GUI.onMouseOut", srvListMouseOut);
-		removeEventHandler("onKeyDown", srvListKeyDown);
-		removeEventHandler("GUI.onMouseDown", srvListMouseClick);
-
-		_srvList.clear();
-	}
+                clearServerList();
+        }
 }
 
 local sortFunc = function(first, second){
@@ -129,35 +207,23 @@ local sortFunc = function(first, second){
 }
 
 ServerListMessage.bind(function(message){
-	if(_activeServerTab == serverGUI.button_fav && _favoriteServers.find(message.serverId) == null) return;
+        if(_activeServerTab == serverGUI.button_fav && !isFavoriteServer(message.serverId)) return;
 
-		_srvList.insertRow(_srvListRows, {});
-		_srvList.rows[_srvListRows].metadata.id <- message.serverId;
-
-		_srvList.rows[_srvListRows].insertCell(srvType, {text = message.serverType});
-		_srvList.rows[_srvListRows].insertCell(srvName, {text = message.serverName});
-		_srvList.rows[_srvListRows].insertCell(srvMap, {text = message.serverZen});
-		_srvList.rows[_srvListRows].insertCell(srvPlayers, {text = message.serverPlayers});
-		_srvList.rows[_srvListRows].insertCell(srvBots, {text = message.serverNPCs});
-
-	serverListScroll.setMaximum(_srvListRows);
-	_srvList.sort(sortFunc);
+        appendServerRow(message);
+        _srvList.sort(sortFunc);
 });
 
 function srvListMouseClick(self, buttn){
 	if(!serverCollection.getVisible()) return;
 
 	switch(self){
-		case serverGUI.button_all:
-		case serverGUI.button_fav:
-			_srvList.clear();
-			_activeServerTab = self;
-
-			local askForServersPacket = ServerListPingMessage(heroId).serialize();
-			askForServersPacket.send(RELIABLE);
-
-			checkActiveServerTab();
-		break;
+                case serverGUI.button_all:
+                case serverGUI.button_fav:
+                        clearServerList();
+                        _activeServerTab = self;
+                        updateServerListHeaderState();
+                        requestServerList();
+                break;
 
 		case srvType:
 		case srvName:
@@ -206,33 +272,17 @@ function srvListMouseClick(self, buttn){
 				showServerList(false);
 			break;
 
-			case MOUSE_BUTTONRIGHT:
-					foreach(id, entry in _favoriteServers){
-						if(entry != null) tempFavoriteServers[id] = entry;
-					}
+                        case MOUSE_BUTTONRIGHT:
+                                local nowFavorite = toggleFavoriteServer(_serverId);
 
-				if(!_favoriteServers){
-					tempFavoriteServers[_serverId] = _serverId;
-					LocalStorage.setItem("favoriteServers", tempFavoriteServers)
-				} else {
-
-					if(_favoriteServers.find(_serverId) != null){
-						tempFavoriteServers.remove(_serverId);
-							if(_activeServerTab == serverGUI.button_fav){
-								_srvList.removeRow(self.getDataCell().parent.id);
-								_srvList.sort(sortFunc);
-							}
-					} else {
-						tempFavoriteServers[_serverId] = _serverId;
-					}
-
-					LocalStorage.setItem("favoriteServers", tempFavoriteServers);
-						_favoriteServers = LocalStorage.getItem("favoriteServers");
-						tempFavoriteServers = array(100);
-				}
-			break;
-		}
-	}
+                                if(_activeServerTab == serverGUI.button_fav && !nowFavorite){
+                                        _srvList.removeRow(self.getDataCell().parent.id);
+                                        updateScrollBounds();
+                                        _srvList.sort(sortFunc);
+                                }
+                        break;
+                }
+        }
 }
 
 function srvListMouseIn(self){

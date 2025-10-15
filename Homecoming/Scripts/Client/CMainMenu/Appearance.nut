@@ -1,6 +1,84 @@
 creatorCollection <- GUI.Collection({
-	positionPx = {x = 0, y = 0}
+        positionPx = {x = 0, y = 0}
 });
+
+const TEXTURE_SLOTS_VISIBLE = 6;
+
+function clampInteger(value, minimum, maximum){
+        if(value < minimum){
+                return minimum;
+        }
+
+        if(value > maximum){
+                return maximum;
+        }
+
+        return value;
+}
+
+function coerceInteger(value, defaultValue = 0){
+        if(value == null){
+                return defaultValue;
+        }
+
+        switch(typeof value){
+                case "integer":
+                        return value;
+                case "float":
+                case "string":
+                        return value.tointeger();
+        }
+
+        return defaultValue;
+}
+
+function clampWindowIndex(value, entries){
+        local maximum = entries.len() - TEXTURE_SLOTS_VISIBLE;
+        if(maximum < 0){
+                maximum = 0;
+        }
+
+        return clampInteger(coerceInteger(value, 0), 0, maximum);
+}
+
+function computeWindowMaximum(entries){
+        local maximum = entries.len() - TEXTURE_SLOTS_VISIBLE;
+        if(maximum < 0){
+                maximum = 0;
+        }
+
+        return maximum;
+}
+
+function getWorldSpawn(worldName){
+        local defaultSpawn = {
+                x = 29628.5,
+                y = 5198.25,
+                z = -15176.8,
+                angle = 213.44
+        };
+
+        if(worldName == null){
+                return defaultSpawn;
+        }
+
+        local spawns = {
+                ["NEWWORLD\\NEWWORLD.ZEN"] = {x = 29912.9, y = 5185.68, z = -15710.0, angle = 213.44},
+                ["ADDON\\ADDONWORLD.ZEN"] = {x = -22.63, y = -75.0, z = -11338.8, angle = 213.44},
+                ["OLDWORLD\\OLDWORLD.ZEN"] = {x = 1001.82, y = 849.693, z = -2756.62, angle = 213.44},
+                ["NEWWORLD\\DRAGONISLAND.ZEN"] = {x = -10029.1, y = 442.548, z = -16785.1, angle = 213.44},
+                ["COLONY.ZEN"] = {x = 1001.82, y = 849.693, z = -2756.62, angle = 213.44}
+        };
+
+        if(worldName in spawns){
+                return spawns[worldName];
+        }
+
+        return defaultSpawn;
+}
+
+local creatorInitializing = false;
+local creatorReturnState = null;
 local creatorGUI = {
 	logo = GUI.Sprite({
 		positionPx = {x = nax(4000), y = nay(200)}
@@ -169,14 +247,14 @@ local creatorGUI = {
 		positionPx = {x = nax(5290), y = nay(5615)}
 		sizePx = {width = nax(2200), height = nay(265)}
 		file = "INV_SLOT_FOCUS.TGA"
-		draw = {text = "Save Character"}
+		label = {text = "Save Character"}
 		collection = creatorCollection
 	}),
 	btnBack = GUI.Button({
 		positionPx = {x = nax(5290), y = nay(5880)}
 		sizePx = {width = nax(2200), height = nay(265)}
 		file = "INV_SLOT_FOCUS.TGA"
-		draw = {text = "Main Menu"}
+		label = {text = "Main Menu"}
 		collection = creatorCollection
 	}),
 	fail = GUI.Label({
@@ -187,105 +265,31 @@ local creatorGUI = {
 	})
 };
 
-function toggleCreator(toggle){
-	creatorCollection.setVisible(toggle);
-	updateDiscordState(format("Creating a character..."));
-
-	local xardasWaypoint = {
-		x = 29628.5
-		y = 5198.25
-		z = -15176.8
-		a = 213.44
-	}
-
-	if(toggle){
-			local playerPos = getPlayerPosition(heroId);
-			local playerAngle = getPlayerAngle(heroId);
-
-			local forwardVector = Vec3(
-				sin(playerAngle * PI / 180.0),
-				0,
-				cos(playerAngle * PI / 180.0)
-			);
-
-			local rightVector = Vec3(
-				cos(playerAngle * PI / 180.0),
-				0,
-				-sin(playerAngle * PI / 180.0)
-			);
-
-			local xOffset = 100.0;
-			local zOffset = 100.0;
-
-			local initialCameraPos = Vec3(
-				playerPos.x + (forwardVector.x * 180),
-				xardasWaypoint.y,
-				playerPos.z + (forwardVector.z * 180)
-			);
-
-			local targetCameraPos = Vec3(
-				initialCameraPos.x + xOffset * rightVector.x,
-				initialCameraPos.y,
-				initialCameraPos.z + zOffset * rightVector.z
-			);
-
-			Camera.setRotation(0, playerAngle - 155, 0);
-			Camera.setPosition(targetCameraPos.x, targetCameraPos.y + 80, targetCameraPos.z);
-
-			setPlayerAngle(heroId, xardasWaypoint.a + 30);
-
-				if(LocalStorage.len() <= 0){
-					updateCreatorTextures(0, 0, 0, 2);
-				} else {
-					local localVisVal = LocalStorage.getItem("visValue"); //[sex, race, bodyval, headval, faceval]
-					if(localVisVal != null){
-						updateCreatorTextures(localVisVal[0], localVisVal[1], 0, 2);
-
-						creatorGUI.bodiesScroll.range.setValue(localVisVal[2]);
-						creatorGUI.headMScroll.range.setValue(localVisVal[3]);
-						creatorGUI.facesScroll.range.setValue(localVisVal[4]);
-
-						creatorGUI.fatScroll.range.setValue(LocalStorage.getItem("fatness"));
-						creatorGUI.charaName.setText(LocalStorage.getItem("characterName"));
-					}
-
-					local _vis = LocalStorage.getItem("visual");
-					Player[heroId].setVisual(_vis.bm, _vis.bt, _vis.hm, _vis.ht);
-
-						local _scale = LocalStorage.getItem("scale");
-						Player[heroId].setScale(_scale.x, _scale.y, _scale.z, _scale.f);
-
-				}
-	} else {
-		setPlayerAngle(heroId, xardasWaypoint.a);
-	}
-
-	creatorGUI.fail.setVisible(false);
-}
-
 local facesTex = [];
-for(local i = 0; i <= 5; i++){
-	facesTex.push(GUI.Sprite({
-		positionPx = {x = nax(500), y = nay(2400+(i*600))}
-		sizePx = {width = nax(500), height = nay(500)}
-		file = ""
-		scaling = true
-		collection = creatorCollection
-	}));
+local facesTextureMeta = {};
+for(local i = 0; i < TEXTURE_SLOTS_VISIBLE; i++){
+        facesTex.push(GUI.Sprite({
+                positionPx = {x = nax(500), y = nay(2400+(i*600))}
+                sizePx = {width = nax(500), height = nay(500)}
+                file = ""
+                scaling = true
+                collection = creatorCollection
+        }));
 }
 local facesScroll = creatorGUI.facesScroll.range;
 facesScroll.setMinimum(0);
 facesScroll.setMaximum(faces.len() - 1);
 
 local bodiesTex = [];
-for(local i = 0; i <= 5; i++){
-	bodiesTex.push(GUI.Sprite({
-		positionPx = {x = nax(1100), y = nay(2400+(i*600))}
-		sizePx = {width = nax(500), height = nay(500)}
-		file = ""
-		scaling = true
-		collection = creatorCollection
-	}));
+local bodiesTextureMeta = {};
+for(local i = 0; i < TEXTURE_SLOTS_VISIBLE; i++){
+        bodiesTex.push(GUI.Sprite({
+                positionPx = {x = nax(1100), y = nay(2400+(i*600))}
+                sizePx = {width = nax(500), height = nay(500)}
+                file = ""
+                scaling = true
+                collection = creatorCollection
+        }));
 }
 local bodiesScroll = creatorGUI.bodiesScroll.range;
 bodiesScroll.setMinimum(0);
@@ -359,170 +363,437 @@ local visValue = {
 
 local walkvs = "HUMANS.MDS";
 
+function toggleCreator(toggle){
+        creatorCollection.setVisible(toggle);
+        updateDiscordState(format("Creating a character..."));
+
+        local worldName = Player[heroId].getWorld();
+        local spawn = getWorldSpawn(worldName);
+
+        if(toggle){
+                creatorInitializing = true;
+
+                local previousPos = getPlayerPosition(heroId);
+                local previousAngle = getPlayerAngle(heroId);
+
+                creatorReturnState = {
+                        position = previousPos,
+                        angle = previousAngle,
+                        scale = Player[heroId].getScale(),
+                        fatness = getPlayerFatness(heroId),
+                        visual = Player[heroId].getVisual(),
+                        walk = Player[heroId].getWalkstyle(),
+                        restoreAppearance = true
+                };
+
+                setPlayerPosition(heroId, spawn.x, spawn.y, spawn.z);
+
+                local playerAngle = spawn.angle;
+                local playerPos = Vec3(spawn.x, spawn.y, spawn.z);
+
+                local forwardVector = Vec3(
+                        sin(playerAngle * PI / 180.0),
+                        0,
+                        cos(playerAngle * PI / 180.0)
+                );
+
+                local rightVector = Vec3(
+                        cos(playerAngle * PI / 180.0),
+                        0,
+                        -sin(playerAngle * PI / 180.0)
+                );
+
+                local xOffset = 100.0;
+                local zOffset = 100.0;
+
+                local initialCameraPos = Vec3(
+                        playerPos.x + (forwardVector.x * 180),
+                        spawn.y,
+                        playerPos.z + (forwardVector.z * 180)
+                );
+
+                local targetCameraPos = Vec3(
+                        initialCameraPos.x + xOffset * rightVector.x,
+                        initialCameraPos.y,
+                        initialCameraPos.z + zOffset * rightVector.z
+                );
+
+                Camera.setRotation(0, playerAngle - 155, 0);
+                Camera.setPosition(targetCameraPos.x, targetCameraPos.y + 80, targetCameraPos.z);
+
+                setPlayerAngle(heroId, spawn.angle + 30);
+
+                local defaultSex = creator_gender.MALE;
+                local defaultRace = creator_race.PALE;
+
+                local sex = defaultSex;
+                local race = defaultRace;
+
+                creatorGUI.charaName.setText("");
+                creatorGUI.fail.setVisible(false);
+
+                creatorGUI.fatScroll.range.setValue(1.00);
+                creatorGUI.heightScroll.range.setValue(1.00);
+                creatorGUI.walkScroll.range.setValue(0);
+                creatorGUI.walk.setText(format("Walking Style: %s", walking[0].name));
+                walkvs = walking[0].style;
+
+                creatorGUI.bodyMScroll.range.setValue(sex);
+                creatorGUI.bodyTScroll.range.setValue(race);
+                creatorGUI.headMScroll.range.setValue(0);
+                creatorGUI.bodiesScroll.range.setValue(0);
+                creatorGUI.facesScroll.range.setValue(0);
+
+                setPlayerFatness(heroId, creatorGUI.fatScroll.range.getValue());
+                Player[heroId].setScale(1.00, 1.00, 1.00, creatorGUI.fatScroll.range.getValue());
+
+                if(LocalStorage.len() > 0){
+                        local storedVisValue = LocalStorage.getItem("visValue");
+                        if(storedVisValue != null && storedVisValue.len() >= 5){
+                                local storedSex = clampInteger(coerceInteger(storedVisValue[0], sex), creator_gender.MALE, creator_gender.FEMALE);
+                                if(storedSex in visSetting){
+                                        sex = storedSex;
+                                }
+
+                                local storedRace = clampInteger(coerceInteger(storedVisValue[1], race), creator_race.PALE, creator_race.BLACK);
+                                if(sex in visSetting && storedRace in visSetting[sex]){
+                                        race = storedRace;
+                                }
+
+                                if(sex in bodies && sex in faces && sex in heads && race in bodies[sex] && race in faces[sex]){
+                                        local bodyEntries = bodies[sex][race];
+                                        local faceEntries = faces[sex][race];
+                                        local headEntries = heads[sex];
+
+                                        visValue[sex][race][0] = clampWindowIndex(storedVisValue[2], bodyEntries);
+                                        visValue[sex][race][1] = clampInteger(coerceInteger(storedVisValue[3], 0), 0, headEntries.len() - 1);
+                                        visValue[sex][race][2] = clampWindowIndex(storedVisValue[4], faceEntries);
+                                }
+                        }
+
+                        local storedFatness = LocalStorage.getItem("fatness");
+                        if(storedFatness != null){
+                                creatorGUI.fatScroll.range.setValue(storedFatness);
+                                setPlayerFatness(heroId, creatorGUI.fatScroll.range.getValue());
+                        }
+
+                        local storedScale = LocalStorage.getItem("scale");
+                        if(storedScale != null && "x" in storedScale && "y" in storedScale && "z" in storedScale && "f" in storedScale){
+                                creatorGUI.heightScroll.range.setValue(storedScale.x);
+                                creatorGUI.fatScroll.range.setValue(storedScale.f);
+                                Player[heroId].setScale(storedScale.x, storedScale.y, storedScale.z, storedScale.f);
+                                setPlayerFatness(heroId, creatorGUI.fatScroll.range.getValue());
+                        }
+
+                        local storedName = LocalStorage.getItem("characterName");
+                        if(storedName != null && typeof storedName == "string"){
+                                creatorGUI.charaName.setText(storedName);
+                        }
+
+                        local storedVisual = LocalStorage.getItem("visual");
+                        if(storedVisual != null && "bm" in storedVisual && "bt" in storedVisual && "hm" in storedVisual && "ht" in storedVisual){
+                                Player[heroId].setVisual(storedVisual.bm, storedVisual.bt, storedVisual.hm, storedVisual.ht);
+                        }
+                }
+
+                creatorGUI.bodyMScroll.range.setValue(sex);
+                creatorGUI.bodyTScroll.range.setValue(race);
+
+                updateCreatorTextures(sex, race, 0, 2);
+
+                creatorInitializing = false;
+        } else {
+                if(creatorReturnState != null){
+                        if("position" in creatorReturnState && creatorReturnState.position != null){
+                                local restorePos = creatorReturnState.position;
+                                setPlayerPosition(heroId, restorePos.x, restorePos.y, restorePos.z);
+                        }
+
+                        if("angle" in creatorReturnState && creatorReturnState.angle != null){
+                                setPlayerAngle(heroId, creatorReturnState.angle);
+                        }
+
+                        if("restoreAppearance" in creatorReturnState && creatorReturnState.restoreAppearance){
+                                if("scale" in creatorReturnState && creatorReturnState.scale != null){
+                                        local scale = creatorReturnState.scale;
+                                        Player[heroId].setScale(scale.x, scale.y, scale.z, scale.f);
+                                }
+
+                                if("fatness" in creatorReturnState && creatorReturnState.fatness != null){
+                                        setPlayerFatness(heroId, creatorReturnState.fatness);
+                                }
+
+                                if("visual" in creatorReturnState && creatorReturnState.visual != null){
+                                        local visual = creatorReturnState.visual;
+                                        Player[heroId].setVisual(visual.bm, visual.bt, visual.hm, visual.ht);
+                                }
+
+                                if("walk" in creatorReturnState && creatorReturnState.walk != null){
+                                        Player[heroId].setWalkstyle(creatorReturnState.walk);
+                                }
+                        }
+
+                        creatorReturnState = null;
+                }
+
+                creatorInitializing = false;
+        }
+
+        creatorGUI.fail.setVisible(false);
+}
+
 function updateCreatorTextures(sex, race, val, category){
-	switch(category){
-		case 0:
-			for(local i = val, texture = 0; i < val + 6; ++i, ++texture){
-				if(i in faces[sex][race]){
-					facesTex[texture].setFile(faces[sex][race][i]);
-				} else {
-					facesTex[texture].setFile("");
-				}
-			}
-		break;
+        if(!(sex in visSetting) || !(race in visSetting[sex])){
+                return;
+        }
 
-		case 1:
-			for(local i = val, texture = 0; i < val + 6; ++i, ++texture){
-				if(i in bodies[sex][race]){
-					bodiesTex[texture].setFile(bodies[sex][race][i]);
-				} else {
-					bodiesTex[texture].setFile("");
-				}
-			}
-		break;
+        if(!(sex in faces) || !(race in faces[sex]) || !(sex in bodies) || !(race in bodies[sex]) || !(sex in heads)){
+                return;
+        }
 
-		case 2:
-			for(local i = val, texture = 0; i < val + 6; ++i, ++texture){
-				if(i in faces[sex][race]){
-					facesTex[texture].setFile(faces[sex][race][i]);
-				} else {
-					facesTex[texture].setFile("");
-				}
-				if(i in bodies[sex][race]){
-					bodiesTex[texture].setFile(bodies[sex][race][i]);
-				} else {
-					bodiesTex[texture].setFile("");
-				}
-			}
-		break;
-	}
+        local faceEntries = faces[sex][race];
+        local bodyEntries = bodies[sex][race];
+        local headEntries = heads[sex];
 
-	local vis = visSetting[sex][race];
-		setPlayerVisual(heroId, vis[0], vis[1], vis[2], vis[3]);
+        local bodyStart = visValue[sex][race][0];
+        local headIndex = visValue[sex][race][1];
+        local faceStart = visValue[sex][race][2];
 
-	facesScroll.setMaximum(faces[sex][race].len()-6 < 0 ? 0 : faces[sex][race].len()-6);
-	bodiesScroll.setMaximum(bodies[sex][race].len()-6 < 0 ? 0 : bodies[sex][race].len()-6);
-	headMScroll.setMaximum(heads[sex].len() - 1);
+        switch(category){
+                case 0:
+                        faceStart = clampWindowIndex(val, faceEntries);
+                break;
+                case 1:
+                        bodyStart = clampWindowIndex(val, bodyEntries);
+                break;
+                case 2:
+                        bodyStart = clampWindowIndex(bodyStart, bodyEntries);
+                        faceStart = clampWindowIndex(faceStart, faceEntries);
+                break;
+        }
 
-	bodiesScroll.setValue(visValue[sex][race][0]);
-	headMScroll.setValue(visValue[sex][race][1]);
-	facesScroll.setValue(visValue[sex][race][2]);
+        bodyStart = clampWindowIndex(bodyStart, bodyEntries);
+        faceStart = clampWindowIndex(faceStart, faceEntries);
+
+        local headMaximum = headEntries.len() - 1;
+        if(headMaximum < 0){
+                headMaximum = 0;
+        }
+        headIndex = clampInteger(coerceInteger(headIndex, 0), 0, headMaximum);
+
+        visValue[sex][race][0] = bodyStart;
+        visValue[sex][race][1] = headIndex;
+        visValue[sex][race][2] = faceStart;
+
+        for(local texture = 0; texture < TEXTURE_SLOTS_VISIBLE; ++texture){
+                local faceIndex = faceStart + texture;
+                if(faceIndex < faceEntries.len()){
+                        facesTex[texture].setFile(faceEntries[faceIndex]);
+                } else {
+                        facesTex[texture].setFile("");
+                }
+
+                local bodyIndex = bodyStart + texture;
+                if(bodyIndex < bodyEntries.len()){
+                        bodiesTex[texture].setFile(bodyEntries[bodyIndex]);
+                } else {
+                        bodiesTex[texture].setFile("");
+                }
+        }
+
+        local vis = visSetting[sex][race];
+        vis[2] = heads[sex][headIndex];
+        setPlayerVisual(heroId, vis[0], vis[1], vis[2], vis[3]);
+
+        local previousInitializing = creatorInitializing;
+        creatorInitializing = true;
+
+        facesScroll.setMaximum(computeWindowMaximum(faceEntries));
+        bodiesScroll.setMaximum(computeWindowMaximum(bodyEntries));
+        headMScroll.setMaximum(headMaximum);
+
+        bodiesScroll.setValue(bodyStart);
+        headMScroll.setValue(headIndex);
+        facesScroll.setValue(faceStart);
+
+        creatorInitializing = previousInitializing;
 }
 
 addEventHandler("GUI.onChange", function(object){
-	if(isCursorVisible() && creatorCollection.getVisible()){
-		local sex = bodyMScroll.getValue().tointeger();
-		local race = bodyTScroll.getValue().tointeger();
-		local vis = visSetting[sex][race];
-		local faceval = facesScroll.getValue();
-		local bodyval = bodiesScroll.getValue();
-		local headval = headMScroll.getValue();
-		local fatness = fatScroll.getValue();
-		local height = heightScroll.getValue();
-		local walk = walkScroll.getValue();
+        if(creatorInitializing){
+                return;
+        }
 
-		switch(object){
-			case facesScroll:
-				updateCreatorTextures(sex, race, faceval, 0);
-				visValue[sex][race][2] = faceval;
-			break;
-			case bodiesScroll:
-				vis[2] = heads[sex][headval];
+        if(isCursorVisible() && creatorCollection.getVisible()){
+                local sex = clampInteger(coerceInteger(bodyMScroll.getValue(), MALE), MALE, FEMALE);
+                if(!(sex in visSetting)){
+                        return;
+                }
 
-				updateCreatorTextures(sex, race, bodyval, 1);
-				visValue[sex][race][0] = bodyval;
-			break;
-			case bodyTScroll:
-				updateCreatorTextures(sex, race, bodyval, 2);
-				visValue[sex][race][1] = bodyval;
-			break;
-			case headMScroll:
-				vis[2] = heads[sex][headval];
-				setPlayerVisual(heroId, vis[0], vis[1], vis[2], vis[3]);
+                local race = clampInteger(coerceInteger(bodyTScroll.getValue(), PALE), PALE, BLACK);
+                if(!(race in visSetting[sex])){
+                        race = PALE;
+                }
 
-				visValue[sex][race][1] = headval;
-			break;
-			case bodyMScroll:
-				vis[0] = body[sex];
+                if(!(sex in faces) || !(race in faces[sex]) || !(sex in bodies) || !(race in bodies[sex]) || !(sex in heads)){
+                        return;
+                }
 
-				updateCreatorTextures(sex, race, bodyval, 2);
-				visValue[sex][race][1] = bodyval;
-			break;
-			case fatScroll:
-				setPlayerFatness(heroId, fatness);
-			break;
-			case heightScroll:
-				setPlayerScale(heroId, height, height, height);
-			break;
-			case walkScroll:
-				creatorGUI.walk.setText(format("Walking Style: %s", walking[walk].name));
-				walkvs = walking[walk].style;
-			break;
-		}
-	}
+                local vis = visSetting[sex][race];
+                local faceEntries = faces[sex][race];
+                local bodyEntries = bodies[sex][race];
+                local headEntries = heads[sex];
+
+                local faceval = clampWindowIndex(facesScroll.getValue(), faceEntries);
+                local bodyval = clampWindowIndex(bodiesScroll.getValue(), bodyEntries);
+                local headval = clampInteger(coerceInteger(headMScroll.getValue(), 0), 0, headEntries.len() - 1);
+                local fatness = fatScroll.getValue();
+                local height = heightScroll.getValue();
+                local walk = clampInteger(coerceInteger(walkScroll.getValue(), 0), 0, walking.len() - 1);
+
+                switch(object){
+                        case facesScroll:
+                                visValue[sex][race][2] = faceval;
+                                updateCreatorTextures(sex, race, faceval, 0);
+                        break;
+                        case bodiesScroll:
+                                visValue[sex][race][0] = bodyval;
+                                updateCreatorTextures(sex, race, bodyval, 1);
+                        break;
+                        case bodyTScroll:
+                                visValue[sex][race][0] = clampWindowIndex(visValue[sex][race][0], bodyEntries);
+                                visValue[sex][race][1] = clampInteger(visValue[sex][race][1], 0, headEntries.len() - 1);
+                                visValue[sex][race][2] = clampWindowIndex(visValue[sex][race][2], faceEntries);
+                                updateCreatorTextures(sex, race, 0, 2);
+                        break;
+                        case headMScroll:
+                                visValue[sex][race][1] = headval;
+                                vis[2] = heads[sex][headval];
+                                setPlayerVisual(heroId, vis[0], vis[1], vis[2], vis[3]);
+                        break;
+                        case bodyMScroll:
+                                vis[0] = body[sex];
+                                visValue[sex][race][0] = clampWindowIndex(visValue[sex][race][0], bodyEntries);
+                                visValue[sex][race][2] = clampWindowIndex(visValue[sex][race][2], faceEntries);
+                                updateCreatorTextures(sex, race, 0, 2);
+                        break;
+                        case fatScroll:
+                                setPlayerFatness(heroId, fatness);
+                        break;
+                        case heightScroll:
+                                setPlayerScale(heroId, height, height, height);
+                        break;
+                        case walkScroll:
+                                creatorGUI.walk.setText(format("Walking Style: %s", walking[walk].name));
+                                walkvs = walking[walk].style;
+                        break;
+                }
+        }
 });
 
 addEventHandler("GUI.onClick", function(self){
-	if(isCursorVisible() && creatorCollection.getVisible()){
-		local sex = bodyMScroll.getValue().tointeger();
-		local race = bodyTScroll.getValue().tointeger();
-		local vis = visSetting[sex][race];
-		local _vis = visValue[sex][race];
+        if(creatorInitializing){
+                return;
+        }
 
-		local index = 999;
-		local findHead = "HUM_HEAD_V";
-		local findBody = "HUM_BODY_NAKED_V";
+        if(isCursorVisible() && creatorCollection.getVisible()){
+                local sex = clampInteger(coerceInteger(bodyMScroll.getValue(), MALE), MALE, FEMALE);
+                if(!(sex in visSetting)){
+                        return;
+                }
 
-		foreach(id, tex in facesTex){
-			if(tex == self){
-				local name = facesTex[id].getFile();
-				do {
-					index = name.find(findHead);
+                local race = clampInteger(coerceInteger(bodyTScroll.getValue(), PALE), PALE, BLACK);
+                if(!(race in visSetting[sex])){
+                        race = PALE;
+                }
 
-					if(index != null){
-						name = name.slice(index + findHead.len());
-					}
-				} while(index != null);
-				setPlayerVisual(heroId, vis[0], vis[1], vis[2], name.tointeger());
-				vis[3] = name.tointeger();
-			}
-		}
-		foreach(id, tex in bodiesTex){
-			if(tex == self){
-				local name = bodiesTex[id].getFile();
-				do {
-					index = name.find(findBody);
+                if(!(sex in faces) || !(race in faces[sex]) || !(sex in bodies) || !(race in bodies[sex]) || !(sex in heads)){
+                        return;
+                }
 
-					if(index != null){
-						name = name.slice(index + findBody.len());
-					}
-				} while(index != null);
-				setPlayerVisual(heroId, vis[0], name.tointeger(), vis[2], vis[3]);
-				vis[1] = name.tointeger();
-			}
-		}
+                local vis = visSetting[sex][race];
+                local _vis = visValue[sex][race];
 
-		switch(self){
-			case creatorGUI.btnBack:
-				toggleCreator(false);
-				menuChangeVisibility(true);
-			break;
-			case creatorGUI.btnFinish:
-				if(creatorGUI.charaName.getText() != ""){
-						Player[heroId].setName(creatorGUI.charaName.getText());
-						Player[heroId].setVisual(vis[0], vis[1], vis[2], vis[3]);
-						Player[heroId].setWalkstyle(walkvs);
-						Player[heroId].setScale(heightScroll.getValue(), heightScroll.getValue(), heightScroll.getValue(), fatScroll.getValue());
-						LocalStorage.setItem("visValue", [sex, race, _vis[0], _vis[1], _vis[2]]);
-					toggleCreator(false);
-					menuChangeVisibility(true);
-				} else {
-					creatorGUI.fail.setVisible(true);
-					setTimer(function(){
-						creatorGUI.fail.setVisible(false);
-					}, 5000, 1);
-				}
-			break;
-		}
-	}
+                local index = 999;
+                local findHead = "HUM_HEAD_V";
+                local findBody = "HUM_BODY_NAKED_V";
+
+                foreach(id, tex in facesTex){
+                        if(tex == self){
+                                local name = facesTex[id].getFile();
+                                if(name == ""){
+                                        continue;
+                                }
+                                do {
+                                        index = name.find(findHead);
+
+                                        if(index != null){
+                                                name = name.slice(index + findHead.len());
+                                        }
+                                } while(index != null);
+                                local variant = coerceInteger(name, vis[3]);
+                                setPlayerVisual(heroId, vis[0], vis[1], vis[2], variant);
+                                vis[3] = variant;
+                        }
+                }
+                foreach(id, tex in bodiesTex){
+                        if(tex == self){
+                                local name = bodiesTex[id].getFile();
+                                if(name == ""){
+                                        continue;
+                                }
+                                do {
+                                        index = name.find(findBody);
+
+                                        if(index != null){
+                                                name = name.slice(index + findBody.len());
+                                        }
+                                } while(index != null);
+                                local variant = coerceInteger(name, vis[1]);
+                                setPlayerVisual(heroId, vis[0], variant, vis[2], vis[3]);
+                                vis[1] = variant;
+                        }
+                }
+
+                switch(self){
+                        case creatorGUI.btnBack:
+                                toggleCreator(false);
+                                menuChangeVisibility(true);
+                        break;
+                        case creatorGUI.btnFinish:
+                                local name = creatorGUI.charaName.getText();
+                                if(name != ""){
+                                        Player[heroId].setName(name);
+                                        Player[heroId].setVisual(vis[0], vis[1], vis[2], vis[3]);
+                                        Player[heroId].setWalkstyle(walkvs);
+                                        Player[heroId].setScale(heightScroll.getValue(), heightScroll.getValue(), heightScroll.getValue(), fatScroll.getValue());
+                                        LocalStorage.setItem("visValue", [sex, race, _vis[0], _vis[1], _vis[2]]);
+                                        LocalStorage.setItem("characterName", name);
+                                        LocalStorage.setItem("fatness", fatScroll.getValue());
+                                        LocalStorage.setItem("scale", {
+                                                x = heightScroll.getValue(),
+                                                y = heightScroll.getValue(),
+                                                z = heightScroll.getValue(),
+                                                f = fatScroll.getValue()
+                                        });
+                                        LocalStorage.setItem("visual", {
+                                                bm = vis[0],
+                                                bt = vis[1],
+                                                hm = vis[2],
+                                                ht = vis[3]
+                                        });
+                                        if(creatorReturnState != null){
+                                                creatorReturnState.restoreAppearance = false;
+                                        }
+                                        toggleCreator(false);
+                                        menuChangeVisibility(true);
+                                } else {
+                                        creatorGUI.fail.setVisible(true);
+                                        setTimer(function(){
+                                                creatorGUI.fail.setVisible(false);
+                                        }, 5000, 1);
+                                }
+                        break;
+                }
+        }
 });

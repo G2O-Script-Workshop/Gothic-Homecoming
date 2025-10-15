@@ -127,15 +127,21 @@ function Chat::setVisible(visible)
 
 function Chat::printPlayer(pid, r, g, b, msg)
 {
-	local lines = split(msg.tostring(), "\n")
+        if (pid == null)
+        {
+                Chat.print(r, g, b, msg)
+                return
+        }
 
-	foreach (line in lines)
-	{
-		_printLine(ChatPlayerLine(pid, r, g, b, line))
+        local lines = split(msg.tostring(), "\n")
 
-		if (pid == heroId)
-			pushInputHistoryMessage(line)
-	}
+        foreach (line in lines)
+        {
+                _printLine(ChatPlayerLine(pid, r, g, b, line))
+
+                if (pid == heroId)
+                        pushInputHistoryMessage(line)
+        }
 }
 
 function Chat::print(r, g, b, msg)

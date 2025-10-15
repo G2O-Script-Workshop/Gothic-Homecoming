@@ -37,7 +37,7 @@ local function refreshList(column){
 			local row = animGUI.list.addRow(
 				{text = anims[column][i].name}
 			);
-			row.setDrawColor({r = 145, g = 175, b = 205})
+			row.setColor({r = 145, g = 175, b = 205})
 		}
 
 	animGUI.colName.setText(aniColumnTitle[column]);
