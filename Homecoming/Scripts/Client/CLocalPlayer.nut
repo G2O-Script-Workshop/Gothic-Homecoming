@@ -383,11 +383,11 @@ class LocalPlayer {
 		this.walk = convert(walk, "string");
 			if(this.walk == "HUMANS.MDS") return;
 
-		applyPlayerOverlay(this.id, Mds.id(this.walk));
+		applyPlayerOverlay(this.id, this.walk);
 	}
 
 	function resetWalkstyle(){
-		removePlayerOverlay(this.id, Mds.id(this.walk));
+		removePlayerOverlay(this.id, this.walk);
 
 		this.walk = "HUMANS.MDS"
 	}

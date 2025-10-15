@@ -2,7 +2,7 @@ local ChatLine = class
 {
 	constructor(r, g, b, text)
 	{
-		_line = GUI.Draw({
+		_line = GUI.Label({
 			position = {x = 0, y = 0},
 			text = text
 		})
@@ -45,7 +45,7 @@ local ChatPlayerLine = class extends ChatLine
 		base.constructor(r, g, b, text)
 
 		local color = getPlayerColor(pid)
-		_nickname = GUI.Draw({
+		_nickname = GUI.Label({
 			position = {x = 0, y = 0},
 			text = getPlayerName(pid) + ": "
 		})

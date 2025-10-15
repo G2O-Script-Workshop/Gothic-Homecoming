@@ -41,7 +41,7 @@ addEventHandler("onKeyDown", function(key){
 addEventHandler("GUI.onMouseIn", function(self){
 	if(self.getDisabled()) return;
 
-	if(self instanceof GUI.Draw){
+	if(self instanceof GUI.Label){
 		if(menuCollection.getVisible()){
 			self.setFont("FONT_OLD_20_WHITE_HI.TGA");
 			self.setColor({r = 128, g = 180, b = 128, a = 255});
@@ -69,7 +69,7 @@ addEventHandler("GUI.onMouseIn", function(self){
 addEventHandler("GUI.onMouseOut", function(self){
 	if(self.getDisabled()) return;
 
-	if(self instanceof GUI.Draw){
+	if(self instanceof GUI.Label){
 		if(menuCollection.getVisible()){
 			self.setFont("FONT_OLD_20_WHITE.TGA");
 			self.setColor({r = 255, g = 255, b = 255, a = 255});

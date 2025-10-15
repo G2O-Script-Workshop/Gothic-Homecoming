@@ -19,7 +19,7 @@ local animGUI = {
 		positionPx = {x = nax(50), y = nay(1600)}
 		sizePx = {width = nax(1710), height = nay(265)}
 		file = "INV_SLOT_FOCUS.TGA"
-		draw = {text = "Category"}
+		label = {text = "Category"}
 		collection = animCollection
 	}),
 

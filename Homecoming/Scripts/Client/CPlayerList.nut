@@ -38,7 +38,7 @@ local PlayerListVisibleRow = class
 		columns = []
 
 		foreach (header in PlayerList._headers)
-			columns.push(GUI.Draw({
+			columns.push(GUI.Label({
 				position = {x = 0, y = 0},
 				text = ""
 			}))
@@ -137,7 +137,7 @@ function PlayerList::init()
 
 function PlayerList::registerColumn(name, width)
 {
-	local draw = GUI.Draw({
+	local draw = GUI.Label({
 		position = {x = 0, y = 0},
 		text = name
 	})
@@ -154,7 +154,7 @@ function PlayerList::registerColumn(name, width)
 
 function PlayerList::registerTexture(name, resize)
 {
-	local tex = GUI.Texture({
+	local tex = GUI.Sprite({
 		position = {x = 0, y = 0}
 		size = {width = 0, height = 0}
 		file = name

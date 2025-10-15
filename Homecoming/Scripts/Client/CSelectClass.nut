@@ -2,26 +2,26 @@ selectClassCollection <- GUI.Collection({
 	position = {x = 0, y = 0}
 });
 local selectClassGUI = {
-	controls = GUI.Draw({
+	controls = GUI.Label({
 		positionPx = {x = nax(0), y = nay(0)}
 		text = "Controls: A/D/ENTER"
 		font = "FONT_DEFAULT.TGA"
 		color = {r = 200, g = 180, b = 140}
 		collection = selectClassCollection
 	}),
-	class_name = GUI.Draw({
+	class_name = GUI.Label({
 		positionPx = {x = nax(0), y = nay(150)}
 		text = "Class Name: ---"
 		font = "FONT_DEFAULT.TGA"
 		collection = selectClassCollection
 	}),
-	class_desc = GUI.Draw({
+	class_desc = GUI.Label({
 		positionPx = {x = nax(0), y = nay(300)}
 		text = "Class Description: ---"
 		font = "FONT_DEFAULT.TGA"
 		collection = selectClassCollection
 	}),
-	class_guild = GUI.Draw({
+	class_guild = GUI.Label({
 		positionPx = {x = nax(0), y = nay(450)}
 		text = "Class Team: ---"
 		font = "FONT_DEFAULT.TGA"

@@ -1,0 +1,11 @@
+<faceani>
+	<ani name="S_NEUTRAL" layer="1" />
+	<ani name="S_FRIENDLY" layer="1" />
+	<ani name="S_ANGRY" layer="1" />
+	<ani name="S_HOSTILE" layer="1" />
+	<ani name="S_FRIGHTENED" layer="1" />
+	<ani name="S_EYESCLOSED" layer="1" />
+	<ani name="T_EAT" layer="1" />
+	<ani name="T_HURT" layer="1" />
+	<ani name="VISEME" layer="2" />
+</faceani>

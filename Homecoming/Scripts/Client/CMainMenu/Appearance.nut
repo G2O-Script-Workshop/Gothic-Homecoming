@@ -2,7 +2,7 @@ creatorCollection <- GUI.Collection({
 	positionPx = {x = 0, y = 0}
 });
 local creatorGUI = {
-	logo = GUI.Texture({
+	logo = GUI.Sprite({
 		positionPx = {x = nax(4000), y = nay(200)}
 		sizePx = {width = nax(5500), height = nay(2000)}
 		file = "GMP_LOGO_MENU.TGA"
@@ -11,7 +11,7 @@ local creatorGUI = {
 		collection = creatorCollection
 	}),
 
-	visBG = GUI.Texture({
+	visBG = GUI.Sprite({
 		positionPx = {x = nax(300), y = nay(2085)}
 		sizePx = {width = nax(3000), height = nay(4020)}
 		file = "MENU_INGAME.TGA"
@@ -44,7 +44,7 @@ local creatorGUI = {
 		collection = creatorCollection
 	}),
 
-	bodyM = GUI.Draw({
+	bodyM = GUI.Label({
 		positionPx = {x = nax(2350), y = nay(2805)}
 		text = "Gender"
 		font = "FONT_OLD_10_WHITE.TGA"
@@ -62,7 +62,7 @@ local creatorGUI = {
 		decreaseButton = {file = ""}
 		collection = creatorCollection
 	}),
-	headM = GUI.Draw({
+	headM = GUI.Label({
 		positionPx = {x = nax(2220), y = nay(3185)}
 		text = "Head Model"
 		font = "FONT_OLD_10_WHITE.TGA"
@@ -80,7 +80,7 @@ local creatorGUI = {
 		decreaseButton = {file = ""}
 		collection = creatorCollection
 	}),
-	bodyT = GUI.Draw({
+	bodyT = GUI.Label({
 		positionPx = {x = nax(2390), y = nay(3565)}
 		text = "Race"
 		font = "FONT_OLD_10_WHITE.TGA"
@@ -98,7 +98,7 @@ local creatorGUI = {
 		decreaseButton = {file = ""}
 		collection = creatorCollection
 	}),
-	fat = GUI.Draw({
+	fat = GUI.Label({
 		positionPx = {x = nax(2305), y = nay(3945)}
 		text = "Fatness"
 		font = "FONT_OLD_10_WHITE.TGA"
@@ -116,7 +116,7 @@ local creatorGUI = {
 		decreaseButton = {file = ""}
 		collection = creatorCollection
 	}),
-	height = GUI.Draw({
+	height = GUI.Label({
 		positionPx = {x = nax(2350), y = nay(4325)}
 		text = "Height"
 		font = "FONT_OLD_10_WHITE.TGA"
@@ -134,7 +134,7 @@ local creatorGUI = {
 		decreaseButton = {file = ""}
 		collection = creatorCollection
 	}),
-	walk = GUI.Draw({
+	walk = GUI.Label({
 		positionPx = {x = nax(1960), y = nay(4700)}
 		text = "Walking Style: Default"
 		font = "FONT_OLD_10_WHITE.TGA"
@@ -179,7 +179,7 @@ local creatorGUI = {
 		draw = {text = "Main Menu"}
 		collection = creatorCollection
 	}),
-	fail = GUI.Draw({
+	fail = GUI.Label({
 		positionPx = {x = nax(5450), y = nay(6245)}
 		text = "Character Name can't be empty!"
 		font = "FONT_OLD_10_WHITE.TGA"
@@ -265,7 +265,7 @@ function toggleCreator(toggle){
 
 local facesTex = [];
 for(local i = 0; i <= 5; i++){
-	facesTex.push(GUI.Texture({
+	facesTex.push(GUI.Sprite({
 		positionPx = {x = nax(500), y = nay(2400+(i*600))}
 		sizePx = {width = nax(500), height = nay(500)}
 		file = ""
@@ -279,7 +279,7 @@ facesScroll.setMaximum(faces.len() - 1);
 
 local bodiesTex = [];
 for(local i = 0; i <= 5; i++){
-	bodiesTex.push(GUI.Texture({
+	bodiesTex.push(GUI.Sprite({
 		positionPx = {x = nax(1100), y = nay(2400+(i*600))}
 		sizePx = {width = nax(500), height = nay(500)}
 		file = ""

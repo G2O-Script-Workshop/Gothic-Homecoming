@@ -54,11 +54,11 @@
 				<script src="Server/HeroClass/NPC.nut" type="server" />
 		<!-- Tables -->
 			<!-- NPCs -->
-				<script src="Server/NPCs/NEWWORLD.nut" type="server" />
+				<!-- <script src="Server/NPCs/NEWWORLD.nut" type="server" />
 				<script src="Server/NPCs/OLDWORLD.nut" type="server" />
 				<script src="Server/NPCs/ADDONWORLD.nut" type="server" />
 				<script src="Server/NPCs/DRAGONISLAND.nut" type="server" />
-				<script src="Server/NPCs/COLONY.nut" type="server" />
+				<script src="Server/NPCs/COLONY.nut" type="server" /> -->
 		<!-- Game -->
 			<script src="Server/SServerList.nut" type="server" />
 			<script src="Server/Server.nut" type="server" />

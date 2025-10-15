@@ -3,7 +3,7 @@
 /////////////////////////////////////////
 
 NetStats <- {
-	_title = Draw(anx(5), any(5), "Network debug"),
+	_title = Label(anx(5), any(5), "Network debug"),
 	_ping = null,
 	_fps = null,
 	_receivedPackets = null,
@@ -21,15 +21,15 @@ function NetStats::init()
 {
 	local height = _title.heightPx
 
-	_ping = Draw(anx(5), any(7 + height), "")
-	_fps = Draw(anx(5), any(7 + height * 2), "")
-	_receivedPackets = Draw(anx(5), any(7 + height * 3), "")
-	_lostPackets = Draw(anx(5), any(7 + height * 4), "")
-	_lostLastSec = Draw(anx(5), any(7 + height * 5), "")
-	_messageResend = Draw(anx(5), any(7 + height * 6), "")
-	_byteToResend = Draw(anx(5), any(7 + height * 7), "")
-	_messageSend = Draw(anx(5), any(7 + height * 8), "")
-	_byteToSend = Draw(anx(5), any(7 + height * 9), "")
+	_ping = Label(anx(5), any(7 + height), "")
+	_fps = Label(anx(5), any(7 + height * 2), "")
+	_receivedPackets = Label(anx(5), any(7 + height * 3), "")
+	_lostPackets = Label(anx(5), any(7 + height * 4), "")
+	_lostLastSec = Label(anx(5), any(7 + height * 5), "")
+	_messageResend = Label(anx(5), any(7 + height * 6), "")
+	_byteToResend = Label(anx(5), any(7 + height * 7), "")
+	_messageSend = Label(anx(5), any(7 + height * 8), "")
+	_byteToSend = Label(anx(5), any(7 + height * 9), "")
 
 	setTimer(function()
 	{

@@ -6,7 +6,7 @@ menuCollection <- GUI.Collection({
 	position = {x = 0, y = 0}
 });
 local menuGUI = {
-	logo = GUI.Texture({
+	logo = GUI.Sprite({
 		positionPx = {x = nax(4000), y = nay(200)}
 		sizePx = {width = nax(5500), height = nay(2000)}
 		file = "GMP_LOGO_MENU.TGA"
@@ -16,40 +16,40 @@ local menuGUI = {
 		collection = menuCollection
 	}),
 
-	play = GUI.Draw({
+	play = GUI.Label({
 		positionPx = {x = nax(200), y = nay(3200)}
 		text = "Play"
 		font = "FONT_OLD_20_WHITE.TGA"
 		collection = menuCollection
 	}),
-	character = GUI.Draw({
+	character = GUI.Label({
 		positionPx = {x = nax(200), y = nay(3600)}
 		text = "Character"
 		font = "FONT_OLD_20_WHITE.TGA"
 		collection = menuCollection
 	}),
-	settings = GUI.Draw({
+	settings = GUI.Label({
 		positionPx = {x = nax(200), y = nay(4000)}
 		text = "Settings"
 		font = "FONT_OLD_20_WHITE.TGA"
 		color = {r = 180, g = 128, b = 128, a = 64}
 		collection = menuCollection
 	}),
-	options = GUI.Draw({
+	options = GUI.Label({
 		positionPx = {x = nax(200), y = nay(4400)}
 		text = "Options"
 		font = "FONT_OLD_20_WHITE.TGA"
 		color = {r = 180, g = 128, b = 128, a = 64}
 		collection = menuCollection
 	}),
-	exit = GUI.Draw({
+	exit = GUI.Label({
 		positionPx = {x = nax(200), y = nay(4800)}
 		text = "Exit"
 		font = "FONT_OLD_20_WHITE.TGA"
 		collection = menuCollection
 	}),
 
-	version = GUI.Draw({
+	version = GUI.Label({
 		positionPx = {x = 0, y = 0}
 		text = "v0.2b Build 3336"
 		font = "FONT_DEFAULT.TGA"
@@ -187,7 +187,7 @@ JoinMenuMessage.bind(function(message){
 addEventHandler("GUI.onClick", function(self){
 	if(!isCursorVisible()) return;
 
-	if(self instanceof GUI.Draw && menuCollection.getVisible() && !self.getDisabled()){
+	if(self instanceof GUI.Label && menuCollection.getVisible() && !self.getDisabled()){
 		switch(self){
 			case menuGUI.play:
 				menuChangeVisibility(false);

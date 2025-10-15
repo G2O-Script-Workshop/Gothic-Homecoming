@@ -2,25 +2,25 @@ timeCollection <- GUI.Collection({
 	position = {x = 0, y = 0}
 });
 local timeGUI = {
-	realTime = GUI.Draw({
+	realTime = GUI.Label({
 		positionPx = {x = nax(7000), y = nay(2500)}
 		text = "Real Time:"
 		font = "FONT_DEFAULT.TGA"
 		collection = timeCollection
 	}),
-	realTimeClock = GUI.Draw({
+	realTimeClock = GUI.Label({
 		positionPx = {x = nax(7000), y = nay(2700)}
 		text = "00:00:00"
 		font = "FONT_DEFAULT.TGA"
 		collection = timeCollection
 	}),
-	gameTime = GUI.Draw({
+	gameTime = GUI.Label({
 		positionPx = {x = nax(7000), y = nay(2900)}
 		text = "Game Time:"
 		font = "FONT_DEFAULT.TGA"
 		collection = timeCollection
 	}),
-	gameTimeClock = GUI.Draw({
+	gameTimeClock = GUI.Label({
 		positionPx = {x = nax(7000), y = nay(3100)}
 		text = "00:00"
 		font = "FONT_DEFAULT.TGA"

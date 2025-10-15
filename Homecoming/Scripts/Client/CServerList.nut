@@ -23,7 +23,7 @@ local serverGUI = {
 		positionPx = {x = 0, y = 0}
 		sizePx = {width = nax(1000), height = nay(400)}
 		file = "INV_BACK_PLUNDER.TGA"
-		draw = {text = "PUBLIC"}
+		label = {text = "PUBLIC"}
 		collection = serverCollection
 	})
 
@@ -31,7 +31,7 @@ local serverGUI = {
 		positionPx = {x = nax(1000), y = 0}
 		sizePx = {width = nax(1000), height = nay(400)}
 		file = "INV_BACK_PLUNDER.TGA"
-		draw = {text = "FAVORITE"}
+		label = {text = "FAVORITE"}
 		collection = serverCollection
 	})
 }
@@ -40,31 +40,31 @@ local srvType = serverGUI.list.addColumn({
 	widthPx = nax(900)
 	align = Align.Left
 	file = "INV_BACK_PLUNDER.TGA"
-	draw = {text = "Server Type"}
+	label = {text = "Server Type"}
 })
 local srvName = serverGUI.list.addColumn({
 	widthPx = nax(3000)
 	align = Align.Left
 	file = "INV_BACK_PLUNDER.TGA"
-	draw = {text = "Server Name"}
+	label = {text = "Server Name"}
 })
 local srvMap = serverGUI.list.addColumn({
 	widthPx = nax(3000)
 	align = Align.Left
 	file = "INV_BACK_PLUNDER.TGA"
-	draw = {text = "World Map"}
+	label = {text = "World Map"}
 })
 local srvPlayers = serverGUI.list.addColumn({
 	widthPx = nax(800)
 	align = Align.Left
 	file = "INV_BACK_PLUNDER.TGA"
-	draw = {text = "Players"}
+	label = {text = "Players"}
 })
 local srvBots = serverGUI.list.addColumn({
 	widthPx = nax(800)
 	align = Align.Left
 	file = "INV_BACK_PLUNDER.TGA"
-	draw = {text = "NPCs"}
+	label = {text = "NPCs"}
 })
 
 local _srvList = serverGUI.list
@@ -241,7 +241,7 @@ function srvListMouseIn(self){
 	switch(self){
 		case serverGUI.button_all:
 		case serverGUI.button_fav:
-			self.draw.setColor({r = 0, g = 255, b = 0});
+			self.label.setColor({r = 0, g = 255, b = 0});
 		break;
 
 		case srvType:
@@ -249,7 +249,7 @@ function srvListMouseIn(self){
 		case srvMap:
 		case srvPlayers:
 		case srvBots:
-			self.draw.setColor({r = 255, g = 255, b = 0});
+			self.label.setColor({r = 255, g = 255, b = 0});
 		break;
 	}
 
@@ -258,7 +258,7 @@ function srvListMouseIn(self){
 		if (visibleRow.parent != _srvList) return;
 
 		foreach (cell in visibleRow.cells)
-			cell.draw.setColor({r = 0, g = 255, b = 0})
+			cell.label.setColor({r = 0, g = 255, b = 0})
 	}
 }
 
@@ -268,7 +268,7 @@ function srvListMouseOut(self){
 	switch(self){
 		case serverGUI.button_all:
 		case serverGUI.button_fav:
-			self.draw.setColor({r = 255, g = 255, b = 255});
+			self.label.setColor({r = 255, g = 255, b = 255});
 		break;
 
 		case srvType:
@@ -276,7 +276,7 @@ function srvListMouseOut(self){
 		case srvMap:
 		case srvPlayers:
 		case srvBots:
-			self.draw.setColor({r = 255, g = 255, b = 255});
+			self.label.setColor({r = 255, g = 255, b = 255});
 		break;
 	}
 
@@ -285,7 +285,7 @@ function srvListMouseOut(self){
 		if (visibleRow.parent != _srvList) return;
 
 		foreach (cell in visibleRow.cells)
-			cell.draw.setColor({r = 255, g = 255, b = 255})
+			cell.label.setColor({r = 255, g = 255, b = 255})
 	}
 }
 

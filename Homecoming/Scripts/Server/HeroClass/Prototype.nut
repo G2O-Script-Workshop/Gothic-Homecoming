@@ -393,11 +393,11 @@ class PrototypeHero {
 	function setWalkstyle(walk){
 		this.walk = convert(walk, "string");
 
-		applyPlayerOverlay(this.id, Mds.id(this.walk));
+		applyPlayerOverlay(this.id, this.walk);
 	}
 
 	function resetWalkstyle(){
-		removePlayerOverlay(this.id, Mds.id(this.walk));
+		removePlayerOverlay(this.id, this.walk);
 
 		this.walk = "HUMANS.MDS"
 	}

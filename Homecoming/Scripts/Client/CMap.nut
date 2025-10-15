@@ -2,7 +2,7 @@ mapCollection <- GUI.Collection({
 	position = {x = 0, y = 0}
 });
 local mapGUI = {
-	texture = GUI.Texture({
+	texture = GUI.Sprite({
 		positionPx = {x = nax(0), y = nay(0)}
 		sizePx = {width = nax(8192), height = nay(8192)}
 		file = "GMP_LOGO_MENU.TGA"
@@ -80,7 +80,7 @@ local _playerMarker = mapGUI.playerMarker;
 	}
 
 
-class PlayerMarker extends GUI.Draw{
+class PlayerMarker extends GUI.Label{
 	pid = -1
 
 	constructor(pid){
