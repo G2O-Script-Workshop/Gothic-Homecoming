@@ -387,6 +387,7 @@ function toggleCreator(toggle){
                 };
 
                 setPlayerPosition(heroId, spawn.x, spawn.y, spawn.z);
+                setPlayerOnFloor(heroId);
 
                 local playerAngle = spawn.angle;
                 local playerPos = Vec3(spawn.x, spawn.y, spawn.z);
