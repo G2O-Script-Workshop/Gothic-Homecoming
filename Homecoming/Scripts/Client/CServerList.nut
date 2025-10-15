@@ -71,6 +71,9 @@ local _srvList = serverGUI.list
 local _srvListRows = _srvList.rows.len()
 local serverListScroll = serverGUI.list.scrollbar.range;
 
+local _favoriteServers = LocalStorage.getItem("favoriteServers");
+local tempFavoriteServers = array(100);
+
 local _activeServerTab;
 local curColumn = srvPlayers;
 local curDirection = -1;
@@ -117,11 +120,16 @@ local sortFunc = function(first, second){
 	local firstValue = first.cells[curColumn].getText()
 	local secondValue = second.cells[curColumn].getText()
 
+	if(curColumn == srvPlayers || curColumn == srvBots){
+		firstValue = firstValue.tointeger();
+		secondValue = secondValue.tointeger();
+	}
+
 	return (firstValue <=> secondValue) * curDirection
 }
 
 ServerListMessage.bind(function(message){
-	if(_activeServerTab == serverGUI.button_fav && LocalStorage.getItem("favoriteServers").find(message.serverId) == null) return;
+	if(_activeServerTab == serverGUI.button_fav && _favoriteServers.find(message.serverId) == null) return;
 
 		_srvList.insertRow(_srvListRows, {});
 		_srvList.rows[_srvListRows].metadata.id <- message.serverId;
@@ -171,7 +179,8 @@ function srvListMouseClick(self, buttn){
 					"disabled: " + self.getDisabled() + "\n" +
 					"collection: " + self.collection);
 
-				self.setVisible(!self.getVisible());
+				//self.setVisible(!self.getVisible());
+				self.setColor({r = 255, g = 255, b = 0})
 			}
 		break;
 	}
@@ -198,9 +207,6 @@ function srvListMouseClick(self, buttn){
 			break;
 
 			case MOUSE_BUTTONRIGHT:
-					local _favoriteServers = LocalStorage.getItem("favoriteServers");
-					local tempFavoriteServers = array(100);
-
 					foreach(id, entry in _favoriteServers){
 						if(entry != null) tempFavoriteServers[id] = entry;
 					}
@@ -221,8 +227,8 @@ function srvListMouseClick(self, buttn){
 					}
 
 					LocalStorage.setItem("favoriteServers", tempFavoriteServers);
-						_favoriteServers = null;
-						tempFavoriteServers = null;
+						_favoriteServers = LocalStorage.getItem("favoriteServers");
+						tempFavoriteServers = array(100);
 				}
 			break;
 		}
