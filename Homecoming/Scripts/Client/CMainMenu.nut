@@ -1,4 +1,4 @@
-local Music = BASSMusic("GMPMenu.mp3");
+local MusicGMP = BASSMusic("GMPMenu.mp3");
 local Sword = Vob("ItMw_030_1h_PAL_sword_bastard_RAW_01.3DS");
 local CameraVob = Vob("");
 
@@ -116,14 +116,14 @@ function launchMenuScene(toggle){
 		setDayLength(10000);
 
 		disableControls(true);
-		disableMusicSystem(true);
+		Music.disabled = true;
 
 		Camera.movementEnabled = false;
 		Camera.modeChangeEnabled = false;
 
-		Music.setVolume(75);
-		Music.looping = true;
-		Music.play();
+		MusicGMP.setVolume(75);
+		MusicGMP.looping = true;
+		MusicGMP.play();
 
 			calculateSwordOffset();
 			updateScene();
@@ -147,8 +147,8 @@ function launchMenuScene(toggle){
 
 		setDayLength(6000 * 1000);
 
-		disableMusicSystem(false);
-		Music.stop();
+		Music.disabled = false;
+		MusicGMP.stop();
 	}
 }
 
