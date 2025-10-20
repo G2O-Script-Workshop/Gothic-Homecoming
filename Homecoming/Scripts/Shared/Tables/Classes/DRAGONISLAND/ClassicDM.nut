@@ -20,6 +20,8 @@ classes[virtualServers.irdorathDMClassic] <- [
 			Players[id].setBowSkill(100);
 			Players[id].setCrossbowSkill(100);
 
+			Players[id].setMagicCircle(6);
+
 			Players[id].equipItem("ItAr_Pal_H");
 			Players[id].equipItem("itmw_1h_blessed_02");
 			Players[id].giveItem("itmw_1h_blessed_02", 1);
