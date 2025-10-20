@@ -105,6 +105,8 @@ classes[virtualServers.jarkendarDMClassic] <- [
 				Players[id].setBowSkill(80);
 				Players[id].setCrossbowSkill(80);
 
+				Players[id].setMagicCircle(6);
+
 				Players[id].equipItem("ItMW_Addon_Stab04");
 				Players[id].equipItem("ITAR_KDW_H");
 

@@ -339,6 +339,8 @@ classes[virtualServers.jarkendarRPClassic] <- [
 				Players[id].setBowSkill(30);
 				Players[id].setCrossbowSkill(30);
 
+				Players[id].setMagicCircle(2);
+
 				Players[id].equipItem("ITMW_1h_nov_mace");
 				Players[id].equipItem("ITAR_RANGER_Addon");
 
@@ -381,6 +383,8 @@ classes[virtualServers.jarkendarRPClassic] <- [
 				Players[id].setBowSkill(60);
 				Players[id].setCrossbowSkill(60);
 
+				Players[id].setMagicCircle(4);
+
 				Players[id].equipItem("ITMW_1h_nov_mace");
 				Players[id].equipItem("ITAR_KDW_L_Addon");
 
@@ -417,6 +421,8 @@ classes[virtualServers.jarkendarRPClassic] <- [
 				Players[id].setTwoHandSkill(80);
 				Players[id].setBowSkill(75);
 				Players[id].setCrossbowSkill(75);
+
+				Players[id].setMagicCircle(6);
 
 				Players[id].equipItem("ItMW_Addon_Stab01");
 				Players[id].equipItem("ITAR_KDW_H");
@@ -456,6 +462,8 @@ classes[virtualServers.jarkendarRPClassic] <- [
 				Players[id].setTwoHandSkill(100);
 				Players[id].setBowSkill(80);
 				Players[id].setCrossbowSkill(80);
+
+				Players[id].setMagicCircle(6);
 
 				Players[id].equipItem("ItMW_Addon_Stab04");
 				Players[id].equipItem("ITAR_KDW_H");
