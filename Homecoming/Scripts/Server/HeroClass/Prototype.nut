@@ -560,7 +560,7 @@ class PrototypeHero {
 
 		spawnPlayer(this.id);
 
-		this.setName("characterName" in params ? params.name : getPlayerName(id));
+		this.setName("characterName" in params ? params.characterName : getPlayerName(id));
 
 		this.setInstance("instance" in params ? params.instance : getPlayerInstance(id));
 		this.setGuild("guild" in params ? params.guild : 0)
