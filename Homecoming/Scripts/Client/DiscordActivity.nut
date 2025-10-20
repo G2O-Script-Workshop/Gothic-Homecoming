@@ -1,14 +1,49 @@
+local discordActivityEnabled = true;
+local currentDiscordState = "Logging in...";
+
+local function clearDiscordPresence(){
+        if("clearPresence" in Discord){
+                Discord.clearPresence();
+        } else {
+                DiscordRichPresence.details = "";
+                DiscordRichPresence.state = "";
+                Discord.updatePresence();
+        }
+}
+
 function initDiscordActivity(){
-	DiscordRichPresence.details = "Gothic Multiplayer";
-    DiscordRichPresence.state = "Logging in...";
+        if(!discordActivityEnabled) return;
 
-    DiscordRichPresence.largeImageKey = "https://imgur.com/WTyx8W8.png";
-    DiscordRichPresence.largeImageText = "Gothic Multiplayer";
+        DiscordRichPresence.details = "Gothic Multiplayer";
+        DiscordRichPresence.state = currentDiscordState;
 
-    Discord.updatePresence();
+        DiscordRichPresence.largeImageKey = "https://imgur.com/WTyx8W8.png";
+        DiscordRichPresence.largeImageText = "Gothic Multiplayer";
+
+        Discord.updatePresence();
 }
 
 function updateDiscordState(stateText){
-    DiscordRichPresence.state = stateText;
-    Discord.updatePresence();
+        currentDiscordState = stateText;
+
+        if(!discordActivityEnabled) return;
+
+        DiscordRichPresence.state = stateText;
+        Discord.updatePresence();
+}
+
+function setDiscordActivityEnabled(enabled){
+        if(discordActivityEnabled == enabled) return;
+
+        discordActivityEnabled = enabled;
+
+        if(discordActivityEnabled){
+                initDiscordActivity();
+        } else {
+                clearDiscordPresence();
+        }
+}
+
+function isDiscordActivityEnabled(){
+        return discordActivityEnabled;
 }

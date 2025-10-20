@@ -22,11 +22,15 @@ addEventHandler("onExit", function(){
 });
 
 function isMenuOpened(){
-	return menuCollection.getVisible() || creatorCollection.getVisible() || selectClassCollection.getVisible() || serverCollection.getVisible()
+    return menuCollection.getVisible() || creatorCollection.getVisible() || selectClassCollection.getVisible() || serverCollection.getVisible() || optionsCollection.getVisible()
 }
 
 SynchronizeTimeMessage.bind(function(message){
-	timeCollection.setVisible(true);
+        if("setWatchGameVisibility" in getroottable()){
+                setWatchGameVisibility(true);
+        } else {
+                timeCollection.setVisible(true);
+        }
 
 	setTime(message._hour, message._min);
 	Chat.setVisible(true);

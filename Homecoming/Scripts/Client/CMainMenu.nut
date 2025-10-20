@@ -175,7 +175,7 @@ JoinMenuMessage.bind(function(message){
 	launchMenuScene(true);
 
 	menuGUI.settings.setDisabled(true);
-	menuGUI.options.setDisabled(true);
+	menuGUI.options.setDisabled(false);
 
 	menuGUI.version.setText(message.versionDraw);
 
@@ -196,6 +196,10 @@ addEventHandler("GUI.onClick", function(self){
 			case menuGUI.character:
 				menuChangeVisibility(false);
 				toggleCreator(true);
+			break;
+			case menuGUI.options:
+				menuChangeVisibility(false);
+				toggleOptionsMenu(true);
 			break;
 			case menuGUI.exit:
 				exitGame();
