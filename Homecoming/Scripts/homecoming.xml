@@ -5,8 +5,6 @@
 		<!-- Utility -->
 			<script src="Shared/Utility/Convert.nut" type="shared" />
 			<script src="Shared/Utility/ExtractInteger.nut" type="shared" />
-		<!-- Localization -->
-			<script src="Shared/String/Animations.nut" type="shared" />
 		<!-- Tables -->
 			<script src="Shared/Tables/VirtualServers.nut" type="shared" />
 			<script src="Shared/Tables/Creator.nut" type="shared" />
@@ -67,6 +65,14 @@
 			<script src="Server/SChat.nut" type="server" />
 
 	<!-- Client-Side -->
+		<!-- Localization -->
+			<script src="Client/LanguageManager.nut" type="client" />
+			<!-- Language files (Options) -->
+				<script src="Client/Localization/Options.en.nut" type="client" />
+				<script src="Client/Localization/Options.pl.nut" type="client" />
+				<script src="Client/Localization/Options.de.nut" type="client" />
+				<script src="Client/Localization/Options.ru.nut" type="client" />
+				<script src="Client/Localization/Options.cz.nut" type="client" />
 		<!-- Menu -->
 			<script src="Client/CMainMenu.nut" type="client" />
 				<script src="Client/CMainMenu/Appearance.nut" type="client" />

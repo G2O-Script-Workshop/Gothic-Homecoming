@@ -39,7 +39,6 @@ local menuGUI = {
 		positionPx = {x = nax(200), y = nay(4400)}
 		text = "Options"
 		font = "FONT_OLD_20_WHITE.TGA"
-		color = {r = 180, g = 128, b = 128, a = 64}
 		collection = menuCollection
 	}),
 	exit = GUI.Label({
