@@ -8,7 +8,9 @@ local optionsTranslations_PL = {
 	watch = {
 		visibility = "Widocznoœæ zegara",
 		on = "W³¹czony",
-		off = "Wy³¹czony"
+		off = "Wy³¹czony",
+		realTime = "Czas rzeczywisty:",
+		gameTime = "Czas gry:"
 	},
 	discord = {
 		activity = "Aktywnoœæ Discord",

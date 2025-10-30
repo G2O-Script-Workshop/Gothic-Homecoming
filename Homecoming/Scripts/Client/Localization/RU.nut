@@ -8,7 +8,9 @@ local optionsTranslations_RU = {
 	watch = {
 		visibility = "Видимость часов",
 		on = "Вкл",
-		off = "Выкл"
+		off = "Выкл",
+		realTime = "Реальное время:",
+		gameTime = "Игровое время:"
 	},
 	discord = {
 		activity = "Активность Discord",

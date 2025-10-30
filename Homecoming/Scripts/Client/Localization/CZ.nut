@@ -8,7 +8,9 @@ local optionsTranslations_CZ = {
 	watch = {
 		visibility = "Viditelnost sledování",
 		on = "Zapnuto",
-		off = "Vypnuto"
+		off = "Vypnuto",
+		realTime = "Reálný èas:",
+		gameTime = "Herní èas:"
 	},
 	discord = {
 		activity = "Aktivita na Discordu",

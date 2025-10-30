@@ -11,6 +11,8 @@ local optionsTranslations_EN = {
 		visibility = "Watch visibility",
 		on = "On",
 		off = "Off"
+		realTime = "Real Time:",
+		gameTime = "Game Time:"
 	},
 	discord = {
 		activity = "Discord activity",
