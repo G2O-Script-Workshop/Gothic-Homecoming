@@ -43,7 +43,8 @@ addEventHandler("GUI.onMouseIn", function(self){
 
 	if(self instanceof GUI.Label){
 		if(menuCollection.getVisible()){
-			self.setFont("FONT_OLD_20_WHITE_HI.TGA");
+			local locale = getCurrentLanguage().toupper();
+			self.setFont(locale + "_FONT_OLD_20_WHITE_HI.TGA");
 			self.setColor({r = 128, g = 180, b = 128, a = 255});
 		}
 		return;
@@ -52,7 +53,7 @@ addEventHandler("GUI.onMouseIn", function(self){
 	if(self instanceof GUI.ListVisibleRow){
 		if(animCollection.getVisible()){
 			self.setColor({r = 132, g = 0, b = 255});
-			self.setFile("Menu_Choice_Back.TGA");
+			self.setFile("MENU_CHOICE_BACK.TGA");
 		}
 		return;
 	}
@@ -71,7 +72,8 @@ addEventHandler("GUI.onMouseOut", function(self){
 
 	if(self instanceof GUI.Label){
 		if(menuCollection.getVisible()){
-			self.setFont("FONT_OLD_20_WHITE.TGA");
+			local locale = getCurrentLanguage().toupper();
+			self.setFont(locale + "_FONT_OLD_20_WHITE.TGA");
 			self.setColor({r = 255, g = 255, b = 255, a = 255});
 		}
 		return;

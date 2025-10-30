@@ -2,6 +2,9 @@ local MusicGMP = BASSMusic("GMPMenu.mp3");
 local Sword = Vob("ItMw_030_1h_PAL_sword_bastard_RAW_01.3DS");
 local CameraVob = Vob("");
 
+// Get reference to i18n instance for direct use
+local i18n = getLanguageManagerI18n();
+
 menuCollection <- GUI.Collection({
 	position = {x = 0, y = 0}
 });
@@ -18,40 +21,40 @@ local menuGUI = {
 
 	play = GUI.Label({
 		positionPx = {x = nax(200), y = nay(3200)}
-		text = "Play"
-		font = "FONT_OLD_20_WHITE.TGA"
+		text = translate("mainMenu.play")
+		font = getFont("FONT_OLD_20_WHITE.TGA")
 		collection = menuCollection
 	}),
 	character = GUI.Label({
 		positionPx = {x = nax(200), y = nay(3600)}
-		text = "Character"
-		font = "FONT_OLD_20_WHITE.TGA"
+		text = translate("mainMenu.character")
+		font = getFont("FONT_OLD_20_WHITE.TGA")
 		collection = menuCollection
 	}),
 	settings = GUI.Label({
 		positionPx = {x = nax(200), y = nay(4000)}
-		text = "Settings"
-		font = "FONT_OLD_20_WHITE.TGA"
+		text = translate("mainMenu.settings")
+		font = getFont("FONT_OLD_20_WHITE.TGA")
 		color = {r = 180, g = 128, b = 128, a = 64}
 		collection = menuCollection
 	}),
 	options = GUI.Label({
 		positionPx = {x = nax(200), y = nay(4400)}
-		text = "Options"
-		font = "FONT_OLD_20_WHITE.TGA"
+		text = translate("mainMenu.options")
+		font = getFont("FONT_OLD_20_WHITE.TGA")
 		collection = menuCollection
 	}),
 	exit = GUI.Label({
 		positionPx = {x = nax(200), y = nay(4800)}
-		text = "Exit"
-		font = "FONT_OLD_20_WHITE.TGA"
+		text = translate("mainMenu.exit")
+		font = getFont("FONT_OLD_20_WHITE.TGA")
 		collection = menuCollection
 	}),
 
 	version = GUI.Label({
 		positionPx = {x = 0, y = 0}
 		text = "v0.2b Build 3336"
-		font = "FONT_DEFAULT.TGA"
+		font = "EN_FONT_DEFAULT.TGA"
 		disabled = true
 		collection = menuCollection
 	})
@@ -98,6 +101,30 @@ local function calculateSwordOffset(){
 		Sword.addToWorld();
 }
 
+local function refreshAllLabels(){
+	// Get current locale directly from i18n
+	local currentLocale = i18n ? i18n.getLocale() : "en";
+	local fontPrefix = currentLocale.toupper();
+
+	// Refresh all menu labels with current language
+	menuGUI.play.setText(_t("mainMenu.play").tostring());
+	menuGUI.play.setFont(fontPrefix + "_FONT_OLD_20_WHITE.TGA");
+
+	menuGUI.character.setText(_t("mainMenu.character").tostring());
+	menuGUI.character.setFont(fontPrefix + "_FONT_OLD_20_WHITE.TGA");
+
+	menuGUI.settings.setText(_t("mainMenu.settings").tostring());
+	menuGUI.settings.setFont(fontPrefix + "_FONT_OLD_20_WHITE.TGA");
+
+	menuGUI.options.setText(_t("mainMenu.options").tostring());
+	menuGUI.options.setFont(fontPrefix + "_FONT_OLD_20_WHITE.TGA");
+
+	menuGUI.exit.setText(_t("mainMenu.exit").tostring());
+	menuGUI.exit.setFont(fontPrefix + "_FONT_OLD_20_WHITE.TGA");
+
+	print("[MainMenu] Updated fonts to prefix: " + fontPrefix);
+}
+
 function launchMenuScene(toggle){
 	setCursorVisible(toggle);
 	setCursorPosition(4096, 4096);
@@ -131,11 +158,11 @@ function launchMenuScene(toggle){
 
 		if(LocalStorage.len() <= 0){
 			menuGUI.play.setDisabled(true);
-			menuGUI.play.setFont("FONT_OLD_20_WHITE_HI.TGA");
+			menuGUI.play.setFont((i18n ? i18n.getLocale().toupper() : "EN") + "_FONT_OLD_20_WHITE_HI.TGA");
 			menuGUI.play.setColor({r = 180, g = 128, b = 128, a = 128});
 		} else {
 			menuGUI.play.setDisabled(false);
-			menuGUI.play.setFont("FONT_OLD_20_WHITE.TGA");
+			menuGUI.play.setFont((i18n ? i18n.getLocale().toupper() : "EN") + "_FONT_OLD_20_WHITE.TGA");
 			menuGUI.play.setColor({r = 255, g = 255, b = 255, a = 255});
 		}
 	} else {
@@ -156,11 +183,11 @@ function menuChangeVisibility(toggle){
 
 	if(LocalStorage.len() <= 0){
 		menuGUI.play.setDisabled(true);
-		menuGUI.play.setFont("FONT_OLD_20_WHITE_HI.TGA");
+		menuGUI.play.setFont((i18n ? i18n.getLocale().toupper() : "EN") + "_FONT_OLD_20_WHITE_HI.TGA");
 		menuGUI.play.setColor({r = 180, g = 128, b = 128, a = 128});
 	} else {
 		menuGUI.play.setDisabled(false);
-		menuGUI.play.setFont("FONT_OLD_20_WHITE.TGA");
+		menuGUI.play.setFont((i18n ? i18n.getLocale().toupper() : "EN") + "_FONT_OLD_20_WHITE.TGA");
 		menuGUI.play.setColor({r = 255, g = 255, b = 255, a = 255});
 	}
 
@@ -208,4 +235,10 @@ addEventHandler("GUI.onClick", function(self){
 	if(self == menuGUI.logo){
 		updateScene();
 	}
+});
+
+// Bi18n event handler: automatically refresh all labels when locale changes
+addEventHandler("Bi18n:onLocaleChanged", function(locale){
+	print("[MainMenu] Locale changed to: " + locale + ", refreshing UI");
+	refreshAllLabels();
 });
