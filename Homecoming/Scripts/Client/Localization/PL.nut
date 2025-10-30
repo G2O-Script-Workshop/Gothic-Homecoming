@@ -1,6 +1,3 @@
-// Polish (PL) - Options strings
-
-// Using nested structure for bi18n
 local optionsTranslations_PL = {
 	options = {
 		title = "Opcje"
@@ -60,7 +57,19 @@ local mainMenuTranslations_PL = {
 		character = "Postaæ",
 		settings = "Ustawienia",
 		options = "Opcje",
-		exit = "Wyj?cie"
+		exit = "Wyjœcie"
+	}
+};
+
+local serverListTranslations_PL = {
+	serverList = {
+		public = "PUBLICZNE",
+		favorite = "ULUBIONE",
+		serverType = "Typ Serwera",
+		serverName = "Nazwa Serwera",
+		serverMap = "Mapa Serwera",
+		players = "Gracze",
+		npcs = "NPC"
 	}
 };
 
@@ -68,3 +77,4 @@ local mainMenuTranslations_PL = {
 registerTranslations(LANGUAGES.PL, optionsTranslations_PL);
 registerTranslations(LANGUAGES.PL, appearanceTranslations_PL);
 registerTranslations(LANGUAGES.PL, mainMenuTranslations_PL);
+registerTranslations(LANGUAGES.PL, serverListTranslations_PL);

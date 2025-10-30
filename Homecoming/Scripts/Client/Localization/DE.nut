@@ -1,12 +1,9 @@
-// German (DE) - Options strings
-
-// Using nested structure for bi18n
 local optionsTranslations_DE = {
 	options = {
 		title = "Optionen"
 	},
 	chat = {
-		lines = "Chat-Zeilen"
+		lines = "Chatzeilen"
 	},
 	watch = {
 		visibility = "Uhr-Sichtbarkeit",
@@ -36,12 +33,12 @@ local appearanceTranslations_DE = {
 		gender = "Geschlecht",
 		headModel = "Kopfmodell",
 		race = "Rasse",
-		fatness = "K?rperf?lle",
-		height = "Gr??e",
+		fatness = "Fettleibigkeit",
+		height = "Größe",
 		walkingStyle = "Gangstil",
 		characterName = "Name des Charakters",
 		saveCharacter = "Charakter Speichern",
-		mainMenu = "Hauptmen?",
+		mainMenu = "Hauptmenü",
 		errorEmptyName = "Charaktername darf nicht leer sein!"
 	}
 	walkingStyles = {
@@ -64,7 +61,20 @@ local mainMenuTranslations_DE = {
 	}
 };
 
+local serverListTranslations_DE = {
+	serverList = {
+		public = "ÖFFENTLICH",
+		favorite = "FAVORITEN",
+		serverType = "Servertyp",
+		serverName = "Servername",
+		serverMap = "Serverkarte",
+		players = "Spieler",
+		npcs = "NPCs"
+	}
+};
+
 // Register translations with the LanguageManager
 registerTranslations(LANGUAGES.DE, optionsTranslations_DE);
 registerTranslations(LANGUAGES.DE, appearanceTranslations_DE);
 registerTranslations(LANGUAGES.DE, mainMenuTranslations_DE);
+registerTranslations(LANGUAGES.DE, serverListTranslations_DE);

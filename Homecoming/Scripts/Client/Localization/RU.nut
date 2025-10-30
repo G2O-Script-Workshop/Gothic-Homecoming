@@ -1,12 +1,9 @@
-// Russian (RU) - Options strings
-
-// Using nested structure for bi18n
 local optionsTranslations_RU = {
 	options = {
-		title = "Настройки"
+		title = "Параметры"
 	},
 	chat = {
-		lines = "Строки чата"
+		lines = "Линии чата"
 	},
 	watch = {
 		visibility = "Видимость часов",
@@ -64,7 +61,20 @@ local mainMenuTranslations_RU = {
 	}
 };
 
+local serverListTranslations_RU = {
+	serverList = {
+		public = "ОБЩЕСТВЕННОСТЬ",
+		favorite = "ЛЮБИМЫЙ",
+		serverType = "Тип сервера",
+		serverName = "Имя сервера",
+		serverMap = "Карта сервера",
+		players = "Игроки",
+		npcs = "NPC"
+	}
+};
+
 // Register translations with the LanguageManager
 registerTranslations(LANGUAGES.RU, optionsTranslations_RU);
 registerTranslations(LANGUAGES.RU, appearanceTranslations_RU);
 registerTranslations(LANGUAGES.RU, mainMenuTranslations_RU);
+registerTranslations(LANGUAGES.RU, serverListTranslations_RU);

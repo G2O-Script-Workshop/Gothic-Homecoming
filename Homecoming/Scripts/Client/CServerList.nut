@@ -2,6 +2,9 @@ serverCollection <- GUI.Collection({
         position = {x = 0, y = 0}
 });
 
+// Get reference to i18n instance for direct use
+local i18n = getLanguageManagerI18n();
+
 local serverGUI = {
         list = GUI.Table({
                 positionPx = {x = 0, y = nay(400)}
@@ -24,7 +27,10 @@ local serverGUI = {
                 positionPx = {x = 0, y = 0}
                 sizePx = {width = nax(1000), height = nay(400)}
                 file = "INV_BACK_PLUNDER.TGA"
-                label = {text = "PUBLIC"}
+                label = {
+                        text = translate("serverList.public"),
+                        font = getFont("FONT_DEFAULT.TGA")
+                }
                 collection = serverCollection
         })
 
@@ -32,17 +38,20 @@ local serverGUI = {
                 positionPx = {x = nax(1000), y = 0}
                 sizePx = {width = nax(1000), height = nay(400)}
                 file = "INV_BACK_PLUNDER.TGA"
-                label = {text = "FAVORITE"}
+                label = {
+                        text = translate("serverList.favorite"),
+                        font = getFont("FONT_DEFAULT.TGA")
+                }
                 collection = serverCollection
         })
 }
 
 local columnDefinitions = [
-        { key = "srvType", width = nax(900), label = "Server Type" },
-        { key = "srvName", width = nax(3000), label = "Server Name" },
-        { key = "srvMap", width = nax(3000), label = "World Map" },
-        { key = "srvPlayers", width = nax(800), label = "Players" },
-        { key = "srvBots", width = nax(800), label = "NPCs" }
+        { key = "srvType", width = nax(900), label = translate("serverList.serverType") },
+        { key = "srvName", width = nax(3000), label = translate("serverList.serverName") },
+        { key = "srvMap", width = nax(3000), label = translate("serverList.serverMap") },
+        { key = "srvPlayers", width = nax(800), label = translate("serverList.players") },
+        { key = "srvBots", width = nax(800), label = translate("serverList.npcs") }
 ];
 
 local columns = {};
@@ -51,7 +60,10 @@ foreach (definition in columnDefinitions) {
                 widthPx = definition.width
                 align = Align.Left
                 file = "INV_BACK_PLUNDER.TGA"
-                label = {text = definition.label}
+                label = {
+                        text = definition.label,
+                        font = getFont("FONT_DEFAULT.TGA")
+                }
         });
 }
 
@@ -129,6 +141,25 @@ local function toggleFavoriteServer(serverId){
 }
 
 loadFavoriteServers();
+
+local function refreshAllLabels(){
+	// Get current locale directly from i18n
+	local currentLocale = i18n ? i18n.getLocale() : "en";
+	local fontPrefix = currentLocale.toupper();
+
+	// Refresh button labels
+	serverGUI.button_all.label.setText(_t("serverList.public").tostring());
+	serverGUI.button_fav.label.setText(_t("serverList.favorite").tostring());
+
+	// Refresh column headers
+	srvType.label.setText(_t("serverList.serverType").tostring());
+	srvName.label.setText(_t("serverList.serverName").tostring());
+	srvMap.label.setText(_t("serverList.serverMap").tostring());
+	srvPlayers.label.setText(_t("serverList.players").tostring());
+	srvBots.label.setText(_t("serverList.npcs").tostring());
+
+	print("[ServerList] Updated labels to locale: " + currentLocale);
+}
 
 local function requestServerList(){
         local askForServersPacket = ServerListPingMessage(heroId).serialize();
@@ -349,3 +380,9 @@ function srvListKeyDown(key){
 		break;
 	}
 }
+
+// Bi18n event handler: automatically refresh all labels when locale changes
+addEventHandler("Bi18n:onLocaleChanged", function(locale){
+	print("[ServerList] Locale changed to: " + locale + ", refreshing UI");
+	refreshAllLabels();
+});

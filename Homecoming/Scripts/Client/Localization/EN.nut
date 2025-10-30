@@ -1,7 +1,5 @@
-// English (EN) - Options strings
 // Default language
 
-// Using nested structure for bi18n
 local optionsTranslations_EN = {
 	options = {
 		title = "Options"
@@ -65,7 +63,20 @@ local mainMenuTranslations_EN = {
 	}
 };
 
+local serverListTranslations_EN = {
+	serverList = {
+		public = "PUBLIC",
+		favorite = "FAVORITE",
+		serverType = "Server Type",
+		serverName = "Server Name",
+		serverMap = "Server Map",
+		players = "Players",
+		npcs = "NPCs"
+	}
+};
+
 // Register translations with the LanguageManager
 registerTranslations(LANGUAGES.EN, optionsTranslations_EN);
 registerTranslations(LANGUAGES.EN, appearanceTranslations_EN);
 registerTranslations(LANGUAGES.EN, mainMenuTranslations_EN);
+registerTranslations(LANGUAGES.EN, serverListTranslations_EN);

@@ -3,15 +3,15 @@ local optionsTranslations_CZ = {
 		title = "Možnosti"
 	},
 	chat = {
-		lines = "Øádky chatu"
+		lines = "Linky chatu"
 	},
 	watch = {
-		visibility = "Viditelnost hodin",
+		visibility = "Viditelnost sledování",
 		on = "Zapnuto",
 		off = "Vypnuto"
 	},
 	discord = {
-		activity = "Aktivita Discord",
+		activity = "Aktivita na Discordu",
 		on = "Zapnuto",
 		off = "Vypnuto"
 	},
@@ -33,7 +33,7 @@ local appearanceTranslations_CZ = {
 		gender = "Pohlaví",
 		headModel = "Model Hlavy",
 		race = "Rasa",
-		fatness = "Tuhost",
+		fatness = "Tlustost",
 		height = "Výška",
 		walkingStyle = "Styl Chùze",
 		characterName = "Jméno Postavy",
@@ -46,18 +46,30 @@ local appearanceTranslations_CZ = {
 		female = "Žena",
 		militia = "Milice",
 		mage = "Mág",
-		relaxed = "Uvoln?ný",
+		relaxed = "Uvolnìný",
 		arrogant = "Arogantní"
 	}
 };
 
 local mainMenuTranslations_CZ = {
 	mainMenu = {
-		play = "P?ehrát",
+		play = "Pøehrát",
 		character = "Postava",
 		settings = "Nastavení",
 		options = "Možnosti",
-		exit = "Ukon?it"
+		exit = "Ukonèit"
+	}
+};
+
+local serverListTranslations_CZ = {
+	serverList = {
+		public = "VEØEJNOST",
+		favorite = "OBLÍBENÝ",
+		serverType = "Typ Serveru",
+		serverName = "Název Serveru",
+		serverMap = "Mapa Serveru",
+		players = "Hráèi",
+		npcs = "NPC"
 	}
 };
 
@@ -65,3 +77,4 @@ local mainMenuTranslations_CZ = {
 registerTranslations(LANGUAGES.CZ, optionsTranslations_CZ);
 registerTranslations(LANGUAGES.CZ, appearanceTranslations_CZ);
 registerTranslations(LANGUAGES.CZ, mainMenuTranslations_CZ);
+registerTranslations(LANGUAGES.CZ, serverListTranslations_CZ);
