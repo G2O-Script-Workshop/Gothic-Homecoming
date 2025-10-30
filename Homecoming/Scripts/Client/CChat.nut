@@ -5,6 +5,7 @@ local ChatLine = class
 		_line = GUI.Label({
 			position = {x = 0, y = 0},
 			text = text
+			font = format("%s_FONT_DEFAULT.TGA", getCurrentLanguage().toupper())
 		})
 		_line.setColor({r = r, g = g, b = b})
 	}
@@ -48,6 +49,7 @@ local ChatPlayerLine = class extends ChatLine
 		_nickname = GUI.Label({
 			position = {x = 0, y = 0},
 			text = getPlayerName(pid) + ": "
+			font = format("%s_FONT_DEFAULT.TGA", getCurrentLanguage().toupper())
 		})
 		_nickname.setColor({r = color.r, g = color.g, b = color.b})
 	}

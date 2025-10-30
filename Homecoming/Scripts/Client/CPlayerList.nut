@@ -41,6 +41,7 @@ local PlayerListVisibleRow = class
 			columns.push(GUI.Label({
 				position = {x = 0, y = 0},
 				text = ""
+				font = "EN_FONT_DEFAULT.TGA"
 			}))
 	}
 
@@ -140,6 +141,7 @@ function PlayerList::registerColumn(name, width)
 	local draw = GUI.Label({
 		position = {x = 0, y = 0},
 		text = name
+		font = "EN_FONT_DEFAULT.TGA"
 	})
 	draw.setColor({r = 255, g = 255, b = 0})
 

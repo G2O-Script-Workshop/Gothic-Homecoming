@@ -20,16 +20,26 @@ NetStats <- {
 function NetStats::init()
 {
 	local height = _title.heightPx
+	_title.font = "EN_FONT_DEFAULT.TGA";
 
 	_ping = Label(anx(5), any(7 + height), "")
+	_ping.font = "EN_FONT_DEFAULT.TGA";
 	_fps = Label(anx(5), any(7 + height * 2), "")
+	_fps.font = "EN_FONT_DEFAULT.TGA";
 	_receivedPackets = Label(anx(5), any(7 + height * 3), "")
+	_receivedPackets.font = "EN_FONT_DEFAULT.TGA";
 	_lostPackets = Label(anx(5), any(7 + height * 4), "")
+	_lostPackets.font = "EN_FONT_DEFAULT.TGA";
 	_lostLastSec = Label(anx(5), any(7 + height * 5), "")
+	_lostLastSec.font = "EN_FONT_DEFAULT.TGA";
 	_messageResend = Label(anx(5), any(7 + height * 6), "")
+	_messageResend.font = "EN_FONT_DEFAULT.TGA";
 	_byteToResend = Label(anx(5), any(7 + height * 7), "")
+	_byteToResend.font = "EN_FONT_DEFAULT.TGA";
 	_messageSend = Label(anx(5), any(7 + height * 8), "")
+	_messageSend.font = "EN_FONT_DEFAULT.TGA";
 	_byteToSend = Label(anx(5), any(7 + height * 9), "")
+	_byteToSend.font = "EN_FONT_DEFAULT.TGA";
 
 	setTimer(function()
 	{
