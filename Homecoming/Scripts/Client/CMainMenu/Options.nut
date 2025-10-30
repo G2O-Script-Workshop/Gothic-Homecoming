@@ -53,7 +53,7 @@ local optionsState = {
 };
 
 // Language list (CZ is temporarily disabled)
-local availableLanguages = ["en", "pl", "de", "ru"];
+local availableLanguages = ["en", "pl", "de", "ru", "cz"];
 local currentLanguageIndex = 0;
 
 // Get reference to i18n instance for direct use
