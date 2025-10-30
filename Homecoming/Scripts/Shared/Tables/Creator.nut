@@ -7,30 +7,12 @@ local LATINO = creator_race.LATINO;
 local BLACK = creator_race.BLACK;
 
 walking <- [
-	{
-		name = "Default",
-		style = "HUMANS.MDS"
-	},
-	{
-		name = "Female",
-		style = "HUMANS_BABE.MDS"
-	},
-	{
-		name = "Militia",
-		style = "HUMANS_MILITIA.MDS"
-	},
-	{
-		name = "Mage",
-		style = "HUMANS_MAGE.MDS"
-	},
-	{
-		name = "Relaxed",
-		style = "HUMANS_RELAXED.MDS"
-	},
-	{
-		name = "Arrogant",
-		style = "HUMANS_ARROGANCE.MDS"
-	}
+	"HUMANS.MDS",
+	"HUMANS_BABE.MDS",
+	"HUMANS_MILITIA.MDS",
+	"HUMANS_MAGE.MDS",
+	"HUMANS_RELAXED.MDS",
+	"HUMANS_ARROGANCE.MDS"
 ];
 
 body <- [

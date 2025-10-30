@@ -73,6 +73,12 @@
 				<script src="Client/Localization/Options.de.nut" type="client" />
 				<script src="Client/Localization/Options.ru.nut" type="client" />
 				<script src="Client/Localization/Options.cz.nut" type="client" />
+			<!-- Language files (Appearance) -->
+				<script src="Client/Localization/Appearance.en.nut" type="client" />
+				<script src="Client/Localization/Appearance.pl.nut" type="client" />
+				<script src="Client/Localization/Appearance.de.nut" type="client" />
+				<script src="Client/Localization/Appearance.ru.nut" type="client" />
+				<script src="Client/Localization/Appearance.cz.nut" type="client" />
 		<!-- Menu -->
 			<script src="Client/CMainMenu.nut" type="client" />
 				<script src="Client/CMainMenu/Appearance.nut" type="client" />

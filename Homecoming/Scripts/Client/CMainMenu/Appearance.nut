@@ -4,6 +4,9 @@ creatorCollection <- GUI.Collection({
 
 const TEXTURE_SLOTS_VISIBLE = 6;
 
+// Get reference to i18n instance for direct use
+local i18n = getLanguageManagerI18n();
+
 function clampInteger(value, minimum, maximum){
         if(value < minimum){
                 return minimum;
@@ -66,6 +69,7 @@ function getWorldSpawn(worldName){
                 ["NEWWORLD\\NEWWORLD.ZEN"] = {x = 29912.9, y = 5185.68, z = -15710.0, angle = 213.44},
                 ["ADDON\\ADDONWORLD.ZEN"] = {x = -22.63, y = -75.0, z = -11338.8, angle = 213.44},
                 ["OLDWORLD\\OLDWORLD.ZEN"] = {x = 1001.82, y = 849.693, z = -2756.62, angle = 213.44},
+                ["OLDWORLD_WASTELAND.ZEN"] = {x = 1001.82, y = 849.693, z = -2756.62, angle = 213.44},
                 ["NEWWORLD\\DRAGONISLAND.ZEN"] = {x = -10029.1, y = 442.548, z = -16785.1, angle = 213.44},
                 ["COLONY.ZEN"] = {x = 1001.82, y = 849.693, z = -2756.62, angle = 213.44}
         };
@@ -75,6 +79,24 @@ function getWorldSpawn(worldName){
         }
 
         return defaultSpawn;
+}
+
+local function getWalkingStyleName(style){
+	switch(style){
+		case "HUMANS.MDS":
+			return _t("walkingStyles.standard").tostring();
+		case "HUMANS_BABE.MDS":
+			return _t("walkingStyles.female").tostring();
+		case "HUMANS_MILITIA.MDS":
+			return _t("walkingStyles.militia").tostring();
+		case "HUMANS_MAGE.MDS":
+			return _t("walkingStyles.mage").tostring();
+		case "HUMANS_RELAXED.MDS":
+			return _t("walkingStyles.relaxed").tostring();
+		case "HUMANS_ARROGANCE.MDS":
+			return _t("walkingStyles.arrogant").tostring();
+	}
+	return style; // Fallback to style name if not found
 }
 
 local creatorInitializing = false;
@@ -124,8 +146,8 @@ local creatorGUI = {
 
 	bodyM = GUI.Label({
 		positionPx = {x = nax(2350), y = nay(2805)}
-		text = "Gender"
-		font = "FONT_OLD_10_WHITE.TGA"
+		text = translate("appearance.gender")
+		font = getFont("FONT_OLD_10_WHITE.TGA")
 		collection = creatorCollection
 	}),
 	bodyMScroll = GUI.ScrollBar({
@@ -142,8 +164,8 @@ local creatorGUI = {
 	}),
 	headM = GUI.Label({
 		positionPx = {x = nax(2220), y = nay(3185)}
-		text = "Head Model"
-		font = "FONT_OLD_10_WHITE.TGA"
+		text = translate("appearance.headModel")
+		font = getFont("FONT_OLD_10_WHITE.TGA")
 		collection = creatorCollection
 	}),
 	headMScroll = GUI.ScrollBar({
@@ -160,8 +182,8 @@ local creatorGUI = {
 	}),
 	bodyT = GUI.Label({
 		positionPx = {x = nax(2390), y = nay(3565)}
-		text = "Race"
-		font = "FONT_OLD_10_WHITE.TGA"
+		text = translate("appearance.race")
+		font = getFont("FONT_OLD_10_WHITE.TGA")
 		collection = creatorCollection
 	}),
 	bodyTScroll = GUI.ScrollBar({
@@ -178,8 +200,8 @@ local creatorGUI = {
 	}),
 	fat = GUI.Label({
 		positionPx = {x = nax(2305), y = nay(3945)}
-		text = "Fatness"
-		font = "FONT_OLD_10_WHITE.TGA"
+		text = translate("appearance.fatness")
+		font = getFont("FONT_OLD_10_WHITE.TGA")
 		collection = creatorCollection
 	}),
 	fatScroll = GUI.ScrollBar({
@@ -196,8 +218,8 @@ local creatorGUI = {
 	}),
 	height = GUI.Label({
 		positionPx = {x = nax(2350), y = nay(4325)}
-		text = "Height"
-		font = "FONT_OLD_10_WHITE.TGA"
+		text = translate("appearance.height")
+		font = getFont("FONT_OLD_10_WHITE.TGA")
 		collection = creatorCollection
 	}),
 	heightScroll = GUI.ScrollBar({
@@ -214,8 +236,8 @@ local creatorGUI = {
 	}),
 	walk = GUI.Label({
 		positionPx = {x = nax(1960), y = nay(4700)}
-		text = "Walking Style: Default"
-		font = "FONT_OLD_10_WHITE.TGA"
+		text = translate("appearance.walkingStyle") + getWalkingStyleName(walking[0])
+		font = getFont("FONT_OLD_10_WHITE.TGA")
 		collection = creatorCollection
 	}),
 	walkScroll = GUI.ScrollBar({
@@ -235,10 +257,10 @@ local creatorGUI = {
 		positionPx = {x = nax(5290), y = nay(4855)}
 		sizePx = {width = nax(2200), height = nay(265)}
 		file = "DLG_CONVERSATION.TGA"
-		font = "FONT_OLD_10_WHITE.TGA"
+		font = getFont("FONT_OLD_10_WHITE.TGA")
 		align = Align.Center
 		maxLetters = 32
-		placeholder = "Character's Name"
+		placeholder = translate("appearance.characterName")
 		paddingPx = 4
 		collection = creatorCollection
 	}),
@@ -247,20 +269,20 @@ local creatorGUI = {
 		positionPx = {x = nax(5290), y = nay(5615)}
 		sizePx = {width = nax(2200), height = nay(265)}
 		file = "INV_SLOT_FOCUS.TGA"
-		label = {text = "Save Character"}
+		label = {text = translate("appearance.saveCharacter")}
 		collection = creatorCollection
 	}),
 	btnBack = GUI.Button({
 		positionPx = {x = nax(5290), y = nay(5880)}
 		sizePx = {width = nax(2200), height = nay(265)}
 		file = "INV_SLOT_FOCUS.TGA"
-		label = {text = "Main Menu"}
+		label = {text = translate("appearance.mainMenu")}
 		collection = creatorCollection
 	}),
 	fail = GUI.Label({
 		positionPx = {x = nax(5450), y = nay(6245)}
-		text = "Character Name can't be empty!"
-		font = "FONT_OLD_10_WHITE.TGA"
+		text = translate("appearance.errorEmptyName")
+		font = getFont("FONT_OLD_10_WHITE.TGA")
 		collection = creatorCollection
 	})
 };
@@ -363,6 +385,47 @@ local visValue = {
 
 local walkvs = "HUMANS.MDS";
 
+local function refreshAllLabels(){
+	// Get current locale directly from i18n
+	local currentLocale = i18n ? i18n.getLocale() : "en";
+	local fontPrefix = currentLocale.toupper();
+
+	// Refresh all text labels with current language
+	creatorGUI.bodyM.setText(_t("appearance.gender").tostring());
+	creatorGUI.bodyM.setFont(fontPrefix + "_FONT_OLD_10_WHITE.TGA");
+
+	creatorGUI.headM.setText(_t("appearance.headModel").tostring());
+	creatorGUI.headM.setFont(fontPrefix + "_FONT_OLD_10_WHITE.TGA");
+
+	creatorGUI.bodyT.setText(_t("appearance.race").tostring());
+	creatorGUI.bodyT.setFont(fontPrefix + "_FONT_OLD_10_WHITE.TGA");
+
+	creatorGUI.fat.setText(_t("appearance.fatness").tostring());
+	creatorGUI.fat.setFont(fontPrefix + "_FONT_OLD_10_WHITE.TGA");
+
+	creatorGUI.height.setText(_t("appearance.height").tostring());
+	creatorGUI.height.setFont(fontPrefix + "_FONT_OLD_10_WHITE.TGA");
+
+	// Walk label needs special handling since it includes dynamic content
+	local walk = clampInteger(coerceInteger(walkScroll.getValue(), 0), 0, walking.len() - 1);
+	creatorGUI.walk.setText(_t("appearance.walkingStyle").tostring() + ": " + getWalkingStyleName(walking[walk]));
+	creatorGUI.walk.setFont(fontPrefix + "_FONT_OLD_10_WHITE.TGA");
+
+	creatorGUI.charaName.setFont(fontPrefix + "_FONT_OLD_10_WHITE.TGA");
+	creatorGUI.charaName.setPlaceholder(_t("appearance.characterName").tostring());
+
+	creatorGUI.btnFinish.setFont(fontPrefix + "_FONT_OLD_10_WHITE.TGA");
+	creatorGUI.btnFinish.label.setText(_t("appearance.saveCharacter").tostring());
+
+	creatorGUI.btnBack.setFont(fontPrefix + "_FONT_OLD_10_WHITE.TGA");
+	creatorGUI.btnBack.label.setText(_t("appearance.mainMenu").tostring());
+
+	creatorGUI.fail.setText(_t("appearance.errorEmptyName").tostring());
+	creatorGUI.fail.setFont(fontPrefix + "_FONT_OLD_10_WHITE.TGA");
+
+	print("[Appearance] Updated fonts to prefix: " + fontPrefix);
+}
+
 function toggleCreator(toggle){
         creatorCollection.setVisible(toggle);
         updateDiscordState(format("Creating a character..."));
@@ -436,8 +499,8 @@ function toggleCreator(toggle){
                 creatorGUI.fatScroll.range.setValue(1.00);
                 creatorGUI.heightScroll.range.setValue(1.00);
                 creatorGUI.walkScroll.range.setValue(0);
-                creatorGUI.walk.setText(format("Walking Style: %s", walking[0].name));
-                walkvs = walking[0].style;
+                creatorGUI.walk.setText(format("%s: %s", translate("appearance.walkingStyle"), getWalkingStyleName(walking[0])));
+                walkvs = walking[0];
 
                 creatorGUI.bodyMScroll.range.setValue(sex);
                 creatorGUI.bodyTScroll.range.setValue(race);
@@ -620,6 +683,12 @@ function updateCreatorTextures(sex, race, val, category){
         creatorInitializing = previousInitializing;
 }
 
+// Bi18n event handler: automatically refresh all labels when locale changes
+addEventHandler("Bi18n:onLocaleChanged", function(locale){
+	print("[Appearance] Locale changed to: " + locale + ", refreshing UI");
+	refreshAllLabels();
+});
+
 addEventHandler("GUI.onChange", function(object){
         if(creatorInitializing){
                 return;
@@ -685,8 +754,8 @@ addEventHandler("GUI.onChange", function(object){
                                 setPlayerScale(heroId, height, height, height);
                         break;
                         case walkScroll:
-                                creatorGUI.walk.setText(format("Walking Style: %s", walking[walk].name));
-                                walkvs = walking[walk].style;
+                                creatorGUI.walk.setText(format("%s: %s", translate("appearance.walkingStyle"), getWalkingStyleName(walking[walk])));
+                                walkvs = walking[walk];
                         break;
                 }
         }
