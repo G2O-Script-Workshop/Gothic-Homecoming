@@ -63,7 +63,7 @@ function setCurrentLanguage(code){
 	if(i18n){
 		i18n.setLocale(code);
 		LocalStorage.setItem(STORAGE_KEY_LANGUAGE, code);
-		print("[LanguageManager] Language set to: " + code);
+		//print("[LanguageManager] Language set to: " + code);
 	} else {
 		print("[LanguageManager] Warning: bi18n not initialized yet");
 	}
@@ -125,7 +125,7 @@ function registerTranslations(languageCode, messages){
 		translations[languageCode][key] <- value;
 	}
 
-	print("[LanguageManager] Registered translations for: " + languageCode);
+	//print("[LanguageManager] Registered translations for: " + languageCode);
 }
 
 /**
@@ -151,5 +151,5 @@ function initializeBi18n(){
 	i18n = Bi18n(initialLocale, translations);
 	Bi18n_setupGlobal(i18n);
 
-	print("[LanguageManager] Initialized bi18n with locale: " + initialLocale);
+	//print("[LanguageManager] Initialized bi18n with locale: " + initialLocale);
 }
